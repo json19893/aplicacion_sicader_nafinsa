@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/sicader/static/css/main.cfd613ae.css",
+    "main.js": "/sicader/static/js/main.63d7caf0.js",
+    "index.html": "/sicader/index.html",
+    "main.cfd613ae.css.map": "/sicader/static/css/main.cfd613ae.css.map",
+    "main.63d7caf0.js.map": "/sicader/static/js/main.63d7caf0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cfd613ae.css",
+    "static/js/main.63d7caf0.js"
+  ]
+}

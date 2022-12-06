@@ -1,0 +1,22 @@
+.containerPrincipal{
+    transform: translate(80%, 50%);
+    border: 0.5px solid blue;
+    padding: 40px 40px 10px 40px;
+    background-color: white;
+}
+
+.containerSecundario{
+    text-align: right;
+}
+
+tr:nth-child(odd){ 
+    background: #eeeeee;
+}
+tr:nth-child(even){
+    background: #63c9d9;
+}
+
+thead[class*="ant-table-thead"] th{
+    background-color:#c7d9e1;
+    text-align: center;
+  }

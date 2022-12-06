@@ -1,0 +1,56 @@
+.container {
+  position: relative;
+}
+
+.nav-pills .nav-link {
+  border-radius: 1;
+  color: #000000;
+  background-color: #c7d9e1;
+}
+
+.nav-pills .nav-item:not(:nth-last-child(2)) .nav-link {
+  border-right: 1px solid white;
+  background-color: #c7d9e1;
+}
+
+.tab-content {
+  background-color: #f9fafb;
+  border: 1px solid #dddddd;
+}
+
+.nav-pills .nav-link.active,
+.show>.nav-pills .nav-link {
+  background: #39c0c4 !important;
+  color: #000000;
+}
+
+.table-striped>thead>tr>th {
+  background-color: #c7d9e1;
+}
+
+
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+  background-color: #eeeeee;
+}
+
+.table-striped>tbody>tr:nth-child(even)>td,
+.table-striped>tbody>tr:nth-child(even)>th {
+  background-color: #63c9d9;
+}
+
+.card.custom-class {
+  background-color: #39c0c4;
+}
+
+.card.body-class {
+  background-color: white;
+}
+
+.buttonAdd{
+  background-color: #a3c63a;
+}
+
+.buttonSearch{
+  background-color: #454545;
+}

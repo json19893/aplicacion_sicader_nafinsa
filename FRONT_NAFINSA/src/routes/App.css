@@ -1,0 +1,223 @@
+body {
+  background-color: #000;
+  font-family: "Roboto"
+}
+
+.download-table-xls-button {
+  width: 250px;
+  height: 40px;
+  position: relative;
+  right: 0px;
+  background-color: rgb(255, 255, 255);
+  color: #d9d9ee;
+  border: 1px solid #d9d9d9;
+  margin: 10px 0px;
+  cursor: pointer;
+}
+
+.download-table-xls-button:hover {
+  color: #40a9ff;
+  border: 1px solid #40a9ff;
+}
+
+.table-general {
+  width: 100%
+}
+
+.table-general tr {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-hover:hover .action-hover {
+  display: block;
+}
+
+.App-header {
+  background-color: #333333;
+  min-height: 100vh;
+  font-size: calc(10px + 2vmin);
+  color: #FFFFFF;
+}
+
+/*Estilos para la pagina Home*/
+
+
+/* COCKPIT SYSTEM */
+.titulo {
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 50px;
+  align-items: center;
+  position: relative;
+  color: #FFFFFF;
+}
+
+/* Sistema de información financiera y de Portafolios. */
+.subtitulo {
+  font-family: Roboto;
+  font-size: 32px;
+  text-align: left;
+  color: #FFFFFF;
+  position: relative;
+}
+
+.bienvenida {
+  font-family: Roboto;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.listo {
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.problema {
+  font-family: Roboto;
+  font-size: 11px;
+  font-weight: bold;
+  color: #e1dcdc;
+}
+
+.copyRigh {
+  font-family: Roboto;
+  font-size: 11px;
+  position: relative;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+#fondo {
+  background-image: url(https://media.istockphoto.com/photos/technical-financial-graph-on-technology-abstract-background-picture-id639666654?k=20&m=639666654&s=612x612&w=0&h=1xl981xcYy5J4LFQHaWRV50cDp8V1sbERtmfokDqMTw=);
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+#fondo:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #333333;
+  mix-blend-mode: multiply;
+}
+
+.box-shadow {
+  width: 100%;
+  height: 100vh;
+  background: #1624a832;
+  mix-blend-mode: exclusion;
+  box-shadow: -4px 0px 4px rgba(0, 0, 0, 0.25);
+  color: #ece2e2;
+  text-align: left;
+  align-items: left;
+}
+
+.bt1 {
+  background-color: #000000;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  -webkit-transition-duration: 0.4s;
+  /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  width: 150px;
+  height: 40px;
+
+}
+
+.bt {
+  background-color: #424242;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  -webkit-transition-duration: 0.4s;
+  /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  width: 100%;
+  height: 35px;
+  border-radius: 25px 25px 25px 25px;
+
+}
+
+.bt1:hover {
+  background-color: #2c2a2adc;
+
+}
+
+
+.ant-form-item-has-error .ant-input:focus,
+.ant-form-item-has-error .ant-input-affix-wrapper:focus,
+.ant-form-item-has-error .ant-input-focused,
+.ant-form-item-has-error .ant-input-affix-wrapper-focused {
+  background-color: #efe2e2dc !important;
+}
+
+.ant-form-item-has-error .ant-input:focus,
+.ant-form-item-has-error .ant-input-affix-wrapper:focus,
+.ant-form-item-has-error .ant-input-focused,
+.ant-form-item-has-error .ant-input-affix-wrapper-focused {
+  background-color: #f1dbdbdc !important;
+}
+
+.ant-form-vertical .ant-form-item-label>label {
+  height: auto;
+  color: #d4d7da;
+  font-size: 18px;
+}
+
+/*Fin de estilos pagina Home*/
+
+/*Estilos titulos tablas*/
+
+.titulo {
+  font-family: Roboto;
+  font-size: 20px;
+  text-align: left;
+  color: #FFFFFF;
+  position: relative;
+}
+
+#home {
+  background-color: #ffffff;
+  height: 82vh;
+  text-align: center;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+#home:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #b3a9a900;
+  mix-blend-mode: multiply;
+}
+
+.ant-layout-footer {
+  color: rgb(223 221 221 / 85%) !important;
+  font-size: 14px;
+  background: #04152d !important;
+}
+
+.ant-upload-btn {
+  align-items: center !important;
+
+}
