@@ -2,14 +2,13 @@ package com.org.backend_nafinsa.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 @Configuration
 public class DataSourceConfig {
 
-    //configuracion para datasoutce
+    //configuracion para datasource
     @Bean(destroyMethod = "")
     public javax.sql.DataSource dataSource() throws NamingException {
         Context context = new InitialContext();

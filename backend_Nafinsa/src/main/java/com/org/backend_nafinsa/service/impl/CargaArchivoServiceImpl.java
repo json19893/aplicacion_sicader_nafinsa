@@ -191,7 +191,7 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
         try {
             reporteMensualLista = procesaReporteMensual(file, usuario, fechaOperacion);
         } catch (Exception e) {
-            logger.info(e.getMessage());
+            logger.error(e.getMessage());
             throw new ErrorAplicacionControlado(
                     respuestaControlada.getArchivovacio().get("codigo"),
                     this.getClass().getName(),
@@ -298,6 +298,7 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
             guardarReporte01(sicaderReporte01Save, sicaderReporte01Detalles);
             csvReader.close();
         } catch (Exception e) {
+            logger.error(e.getMessage());
             if (numeroReporte != 0) {
                 sicaderReporte01Save.setEstatus(Constants.CARGA_ERROR);
                 sicaderReporte01Repository.saveAndFlush(sicaderReporte01Save);
@@ -350,6 +351,7 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
             guardarReporte03(sicaderReporte03Save, sicaderReporte03Detalles);
             csvReader.close();
         } catch (Exception e) {
+            logger.error(e.getMessage());
             if (numeroReporte != 0) {
                 sicaderReporte03Save.setEstatus(Constants.CARGA_ERROR);
                 sicaderReporte03Repository.saveAndFlush(sicaderReporte03Save);
@@ -400,6 +402,7 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
             }
             guardarReporte06(sicaderReporte06Save, sicaderReporte06Detalles);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             if (numeroReporte != 0) {
                 sicaderReporte06Save.setEstatus(Constants.CARGA_ERROR);
                 sicaderReporte06Repository.saveAndFlush(sicaderReporte06Save);
@@ -449,6 +452,7 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
             }
             guardarReporte40(sicaderReporte40Save, sicaderReporte40Detalles);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             if (numeroReporte != 0) {
                 sicaderReporte40Save.setEstatus(Constants.CARGA_ERROR);
                 sicaderReporte40Repository.saveAndFlush(sicaderReporte40Save);
@@ -498,6 +502,7 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
             }
             guardarReporte42(sicaderReporte42Save, sicaderReporte42Detalles);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             if (numeroReporte != 0) {
                 sicaderReporte42Save.setEstatus(Constants.CARGA_ERROR);
                 sicaderReporte42Repository.saveAndFlush(sicaderReporte42Save);
@@ -616,6 +621,7 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
             }
             guardarReporteIRDT(sicaderReporteIRDTSave, sicaderReporteIRDTDetalles);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             if (numeroReporte != 0) {
                 sicaderReporteIRDTSave.setEstatus(Constants.CARGA_ERROR);
                 sicaderReporteIRDTRepository.saveAndFlush(sicaderReporteIRDTSave);
