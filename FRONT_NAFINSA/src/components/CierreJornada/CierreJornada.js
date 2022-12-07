@@ -159,9 +159,6 @@ function CierreJornada() {
                     <Form.Item
                         label="Divisa: "
                         name="divisa"
-                        rules={[{
-                            required: true,
-                        }]}
                     >
                         <Select >
                             {divisas.map(elemento => (

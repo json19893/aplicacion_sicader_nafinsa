@@ -22,17 +22,32 @@ function CargaArchivo() {
   const [formModal, setformModal] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDetailOpen, setIsModalDetailOpen] = useState(false);
+  const [isModalRepOpen, setIsModalRepOpen] = useState(false);
   const [dataArchivos, setDataArchivos] = useState([]);
   const [dataDetalleArchivo, setDataDetalleArchivo] = useState([]);
   const [columnsDetalle, setColumnsDetalle] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [nombreReporte, setNombreReporte] = useState([]);
   const [nombreArchivo,setNombreArchivo] = useState([]);
+  const [filesRep, setFilesRep] = useState([]);
+  const [filesSelectedRep, setFilesSelectedRep] = useState([]);
+
+  const filesReprocess = [];
 
   const handleInputChange = (event) => {
     setFileUpload(event.target.files[0])
 
   }
+
+  const colRep = [
+    {
+      title: "Archivo",
+      dataIndex: "fileName",
+      key: "fileName",
+      align: "center",
+    },
+
+  ]
 
   const columns = [
     {
@@ -80,9 +95,10 @@ function CargaArchivo() {
       }
     } catch (error) {
 
-      setLoadingBoton({
-        state: false
-      });
+      //setLoadingBoton({
+      //  state: false
+      //});
+      console.log(error)
     }
   }
 
@@ -148,27 +164,23 @@ function CargaArchivo() {
     },
 
     beforeUpload: (file) => {
-      //if (!uploading) {
-        let cadena = file.name.split('.');
-        console.log(cadena[1])
-        if (cadena[1] != 'TXT' && cadena[1] != 'xlsx') {
-          return openNotification('Favor de validar el nombre del archivo ingresado', 2);
-        }
-        let val = cadena[0] + '.' + cadena[1] == '01_REP_FUTUROS_POSICION.TXT' ? 0 :
-          cadena[0] + '.' + cadena[1] == '03_FX_FORWARD_POSITIONS.TXT' ? 0 :
-            cadena[0] + '.' + cadena[1] == '06_SWAP_RESUMEN_POSICION.TXT' ? 0 :
-              cadena[0] + '.' + cadena[1] == '40_JOURNAL_ENTRIES_DETAIL.TXT' ? 0 :
-                cadena[0] + '.' + cadena[1] == '42_GARANTIAS_CONTRAPARTE.TXT' ? 0 :
-                  cadena[0] + '.' + cadena[1] == 'IRDT.xlsx' ? 0 : 1
-        if (val == 1) {
-          return openNotification('Favor de validar el nombre del archivo ingresado', 2);
-        }
-        setFileUpload([...fileUpload, file]);
-        setUploading(true);
-        openNotification('Archivo seleccionado correctamente', 1)
-      //} else {
-      //  openNotification('Debe borrar el archivo para cargar otro', 2)
-      //}
+      let cadena = file.name.split('.');
+      console.log(cadena[1])
+      if (cadena[1] != 'TXT' && cadena[1] != 'xlsx') {
+        return openNotification('Favor de validar el nombre del archivo ingresado', 2);
+      }
+      let val = cadena[0] + '.' + cadena[1] == '01_REP_FUTUROS_POSICION.TXT' ? 0 :
+        cadena[0] + '.' + cadena[1] == '03_FX_FORWARD_POSITIONS.TXT' ? 0 :
+          cadena[0] + '.' + cadena[1] == '06_SWAP_RESUMEN_POSICION.TXT' ? 0 :
+            cadena[0] + '.' + cadena[1] == '40_JOURNAL_ENTRIES_DETAIL.TXT' ? 0 :
+              cadena[0] + '.' + cadena[1] == '42_GARANTIAS_CONTRAPARTE.TXT' ? 0 :
+                cadena[0] + '.' + cadena[1] == 'IRDT.xlsx' ? 0 : 1
+      if (val == 1) {
+        return openNotification('Favor de validar el nombre del archivo ingresado', 2);
+      }
+      setFileUpload(fileUpload => [...fileUpload, file]);
+      setUploading(true);
+      openNotification('Archivo seleccionado correctamente', 1)
       return false;
     },
     fileUpload,
@@ -205,7 +217,7 @@ function CargaArchivo() {
     }
     console.log('total archivos a procesar: ' + fileUpload.length)
 
-    fileUpload.forEach(fileProcess => {
+    for (const fileProcess of fileUpload){
       try {
         const request = {
           fechaOperacion: values.fechaOperacion,
@@ -213,7 +225,8 @@ function CargaArchivo() {
           forzar: false,
           usuario: 'Jose'
         }
-        submitPost(request)
+        await submitPost(request)
+
       } catch (error) {
         message.error('Error en la creación del registro.');
         setLoadingBoton({
@@ -221,12 +234,65 @@ function CargaArchivo() {
         });
       }
     }
-    )
+
+    console.log(filesReprocess.length)
+
+    if (filesReprocess.length > 0) {
+      var dataTemp = [];
+      var idTemp = 0;
+      
+      filesReprocess.forEach(function (file) {
+        let idDataResp = ++idTemp;
+        const dataResp = {
+          key: idDataResp,
+          id: idDataResp,
+          fileName: file.name,
+          file: file,
+          fechaOperacion: values.fechaOperacion
+        }
+        dataTemp.push(dataResp)
+      })
+
+      setFilesRep(dataTemp)
+      setIsModalRepOpen(true);
+    }
+    setLoadingBoton({
+      state: false
+    });
   };
 
+  const handleRepCancel = () => {
+    setIsModalRepOpen(false);
+    setLoadingBoton({
+      state: false
+    });
+
+  };
+
+  const handleRepOk = async () => {
+    console.log(filesSelectedRep);
+
+    for (const fileProcess of filesSelectedRep){
+      const request = {
+        fechaOperacion: fileProcess.fechaOperacion,
+        file: fileProcess.file,
+        forzar: true,
+        usuario: 'Jose'
+      }
+      await submitPost(request)
+    };
+    
+    setIsModalRepOpen(false);
+    setLoadingBoton({
+      state: false
+    });
+
+  }
+
   async function submitPost(request) {
-    try {
+    
       setNombreArchivo(request.file.name)
+      try {
       const response = await cargarArchivo(request)
       if (response.status === 200) {
         if (response.data.respuesta === 'OK') {
@@ -235,14 +301,12 @@ function CargaArchivo() {
           setFileUpload([]);
           setUploading(false);
           message.success('Archivo cargado correctamente.');
-          setLoadingBoton({
-            state: false
-          });
+          //setLoadingBoton({
+          //  state: false
+          //});
         }
         else {
-          setMsjMod(response.data.respuesta);
-          setformModal(request);
-          setIsModalOpen(true);
+          filesReprocess.push(request.file);
         }
       } else {
         message.error(response.data.mensaje);
@@ -407,6 +471,24 @@ function CargaArchivo() {
 
       <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} title={nombreArchivo}>
         <p>{msjMod}</p>
+      </Modal>
+
+      <Modal open={isModalRepOpen} onOk={handleRepOk} onCancel={handleRepCancel} >
+        <p>Los siguientes archivos ya se encuentran procesados.<br></br>Seleccionar los que desea reprocesar.</p>
+        <Table 
+          size="small" 
+          columns={colRep} 
+          dataSource={filesRep} 
+          className="table-striped-rows"          
+          pagination={false}
+          rowSelection={{
+            onChange: (selectedRowKeys, selectedRows) => {
+              console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+              setFilesSelectedRep(selectedRows)
+            },
+          }}
+        >
+        </Table>
       </Modal>
 
       <Modal
