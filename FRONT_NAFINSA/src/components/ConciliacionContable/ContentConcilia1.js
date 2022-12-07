@@ -1,18 +1,50 @@
 import { useState, useEffect } from 'react';
-import { Table, Button, Form, Input, Card, Row, Col, Select, DatePicker,Popover } from 'antd';
+import { Table, Button, Form, Input, Card, Row, Col,message, Select, DatePicker,Popover } from 'antd';
 import { FileExcelOutlined, PlusOutlined, CloseOutlined,QuestionOutlined } from '@ant-design/icons';
 import { CSVLink } from 'react-csv';
+import * as moment from "moment";
 const { Meta } = Card;
 import { getTipoDerivado } from '../../services/catalogosService';
+import { validaConciliacion,ejecutaConciliacion } from '../../services/conciliacionService';
+const stateInitialLoading = {
+    state: false,
+  }
+  const stateInitialLoading2 = {
+    state: false,
+  }
+
+  const stateConciliacion = {};
 function ContentConcilia1() {
     const [deribado, setDeribado] = useState([]);
+    const [tipoConciliacion, settipoConciliacion] = useState([]);
+    const [loadingBoton, setLoadingBoton] = useState(stateInitialLoading);
+    const [loadingBoton2, setLoadingBoton2] = useState(stateInitialLoading2);
+    const [conciliacion, setConciliacion] = useState(stateConciliacion);
+    const [disabledC, setDisabledC] = useState(true);
+    const [disabledV, setDisabledV] = useState(false);
     useEffect(() => {
 
         async function getDerivado() {
             const response = await getTipoDerivado()
 
             if (response.status === 200) {
+                let de= {
+                    "id": 4,
+                    "nombre": "TODOS"
+                  }
+                  let cons=[
+                    {
+                    "id":"D",
+                    "nombre":"Diaria"
+                    },
+                    {
+                        "id":"M",
+                        "nombre":"Mensual"
+                    },
+            ]
+                response.data.push(de);
                 setDeribado(response.data)
+                settipoConciliacion(cons);
             }
         }
         getDerivado()
@@ -69,15 +101,107 @@ function ContentConcilia1() {
         },
     ];
 
-    const data = [
-    ];
+    const data = [];
 
     const onReset = () => {
         form.resetFields();
     };
 
     const [form] = Form.useForm();
+    const submitForm = async (values) => {
+        setLoadingBoton({
+          state: true,
+        }); 
+        const request = {
+            
+                "derivado": values.tipoDerivado,
+                "fechaOperacion":  moment(values.fechaConciliacion).format("YYYY-MM-DD"),
+                "tipoConciliacion": values.tipoConciliacion,
+                "tipoValidacion": 0
+              }
+              const conciliacion = {
+            
+                "inDerivado": values.tipoDerivado,
+                "inFecha":  moment(values.fechaConciliacion).format("YYYY-MM-DD"),
+                "inTipoConcilia": values.tipoConciliacion,
+                "inUsuario": "jsalgado"
+              }
+              
+              setConciliacion (conciliacion)
+        
+        submitPost(request);
+      }
 
+
+      async function submitPost(request) {
+        try {
+          const response = await validaConciliacion(request)
+          if (response.status === 200) {
+            if (response.data.respuesta === 'OK') {
+                setDisabledC(false)
+              message.success('Se ejecuto correctamente la validaciòn');
+              setLoadingBoton({
+                state: false
+              });
+            }
+            
+          } else {
+            message.error(response.data.mensaje);
+            setDisabledC(true)
+            setLoadingBoton({
+              state: false,
+            });
+          }
+        } catch (error) {
+            setDisabledC(true)
+          message.error('Error al ejecutar al validar');
+          setLoadingBoton({
+            state: false,
+          });
+        }
+      }
+
+      async function ejecutaConcliacion(){
+        setLoadingBoton2({
+            state: true,
+          });
+          setDisabledV(true)
+        console.log(conciliacion)
+        try {
+            const response = await ejecutaConciliacion(conciliacion)
+            console.log("estatus:: "+response.status)
+            if (response.status === 200) {
+              if (response.data.respuesta === 'OK') {
+
+                message.success('Se ejecuto correctamente la conciliación ');
+                setLoadingBoton2({
+                    state: false,
+                  });;
+                  setDisabledV(false)
+              }else{
+                setLoadingBoton2({
+                    state: false,
+                  });
+                  setDisabledV(false)
+                  message.error(response.data.mensaje);
+              }
+              
+            } else {
+              message.error(response.data.mensaje);
+              setLoadingBoton2({
+                state: false,
+              });
+              setDisabledV(false)
+            }
+          } catch (error) {
+    
+            message.error('Error al ejecutar la conciliación');
+            setLoadingBoton2({
+                state: false,
+              });
+          }
+
+      }
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     };
@@ -117,30 +241,32 @@ function ContentConcilia1() {
                 extra={content}
                 headStyle={{ backgroundColor: '#39c0c4' }}
             >
-            <Form form={form} size="small"
-                name="formulario"
-                labelCol={{
-                    span: 8,
-                }}
-                wrapperCol={{
-                    span: 12,
-                }}
-                initialValues={{
-                    remember: true,
-                }}>
-                <Form.Item
+             <Form form={form} size="small"
+                    name="formulario"
+                    onFinish={submitForm} 
+                    labelCol={{
+                        span: 8,
+                    }}
+                    wrapperCol={{
+                        span: 12,
+                    }}
+                    initialValues={{
+                        remember: true,
+                    }}>
+                         
+                 <Form.Item
                     label="Fecha de Conciliacion"
                     name="fechaConciliacion"
                     rules={[{
                         required: true,
-                    }]}
-                >
-                    <Row gutter={8}>
-                        <Col span={12}>
+                    }]}>
+                   
                             <DatePicker onChange={onChange} />
-                        </Col>
-                    </Row>
+                     
                 </Form.Item>
+                <Row gutter={8}>
+                <Col span={4}></Col>
+                    <Col span={11}>
                 <Form.Item
                     label="Tipo de Conciliación"
                     name="tipoConciliacion"
@@ -149,38 +275,47 @@ function ContentConcilia1() {
                         message: "Por favor ingresa el Tipo de Conciliación"
                     }]}
                 >
-                    <Row gutter={8}>
-                        <Col span={12}>
-                            <Select />
-                        </Col>
-                        <Col span={12} align="right">
-                        <Button type="primary">Validar Conciliación</Button>
-                        </Col>
-                    </Row>
+                    
+                            <Select >
+                            {tipoConciliacion.map(elemento => (
+                                        <Select.Option value={elemento.id}>{elemento.nombre}</Select.Option>
+                                    ))}
+                            </Select>
+                      
                 </Form.Item>
+                </Col>
+                <Form.Item>
+                <Col span={12} align="right">
+                        <Button htmlType="submit" disabled={disabledV} loading={loadingBoton.state} type="primary">Validar Conciliación</Button>
+                        </Col>
+                        </Form.Item>
+                </Row>
+                <Row gutter={8}>
+                <Col span={4}></Col>
+                    <Col span={11}>
                 <Form.Item
                     label="Tipo de Derivado:"
                     name="tipoDerivado"
                     rules={[{
                         required: true,
                         message: "Por favor ingresa el Tipo de Derivado"
-                    }]}
-                >
-                    <Row gutter={8}>
-                        <Col span={12}>
+                    }]}>
                             <Select >
                             {deribado.map(elemento => (
-                                        <Select.Option key={elemento.id} value={elemento.id}>{elemento.nombre}</Select.Option>
+                                        <Select.Option  value={elemento.id}>{elemento.nombre}</Select.Option>
                                     ))}
                             </Select>
-                        </Col>
-                        <Col span={12} align="right">
-                            <Button type="primary" disabled>Ejecutar Conciliación</Button>
-                        </Col>
-                    </Row>
 
                 </Form.Item>
-
+                </Col>
+                <Form.Item>
+                <Col span={12} align="right">
+                <Button type="primary" onClick={ejecutaConcliacion} loading={loadingBoton2.state} disabled={disabledC}>Ejecutar Conciliación</Button>
+                        </Col>
+                        </Form.Item>
+                </Row>
+                
+                        
             </Form>
             </Card>
             <Card size="small" align="left" title="Detalle de la última Conciliación"
