@@ -39,6 +39,9 @@ public class SicaderSlVsSideca {
     @Column(name = "USU_MODIFICACION")
     private String usuModificacion;
 
+    @Column(name = "ESTATUS")
+    private String estatus;
+
     @OneToMany(
             //mappedBy = "reporteId",
             mappedBy = "sicaderSlVsSideca",

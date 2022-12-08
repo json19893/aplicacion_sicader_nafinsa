@@ -8,28 +8,29 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
 public class DataSourceConfig {
 
     //configuracion para datasource
-
     @Bean(destroyMethod = "")
     public javax.sql.DataSource dataSource() throws NamingException {
         Context context = new InitialContext();
         return (javax.sql.DataSource)context.lookup("jdbc/sicader");
     }
 
-    /*
-     * Configuracion de DS desde clase para prubas locales
-     */
-    
-    /*
+
+
+     /** Configuracion de DS desde clase para prubas locales
+
         @Bean(destroyMethod = "close")
         DataSource dataSource(Environment env) {
             HikariConfig config = new HikariConfig();
@@ -49,8 +50,12 @@ public class DataSourceConfig {
         DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSource) {
             return new DataSourceTransactionManager(dataSource);
         }
-    */
 
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
+        return new JpaTransactionManager(emf);
+    }
+    **/
         
     //configuracion para conexion local o directa sin  ds
 /*

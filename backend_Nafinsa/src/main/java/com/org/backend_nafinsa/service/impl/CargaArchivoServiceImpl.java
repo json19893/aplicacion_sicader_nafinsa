@@ -183,10 +183,13 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
             sicaderSlVsSidecaSave.setFechaModificacion(fechaOperacion);
             sicaderSlVsSidecaSave.setUsuModificacion(usuario);
             sicaderSlVsSidecaSave.getSicaderSlVsSidecaDetalles().clear();
+            sicaderSlVsSidecaSave.setEstatus("E");
         } else {
             sicaderSlVsSidecaSave.setUsuRegistro(usuario);
             sicaderSlVsSidecaSave.setFechaRegistro(fechaOperacion);
             sicaderSlVsSidecaSave.setFechaOperacion(fechaOperacion);
+            sicaderSlVsSidecaSave.setEstatus("E");
+
         }
         List<ReporteMensual> reporteMensualLista = new ArrayList<>();
         try {
@@ -801,7 +804,26 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
             Row columna;
             int numeroColumna = 0;
             while (rowIterator.hasNext()) {
+
                 columna = rowIterator.next();
+                Iterator<Cell> iterarCeldaVacia = columna.cellIterator();
+                Cell celdaVacia;
+                String valorCadenaValidacion="";
+                boolean guardarRegistro= true;
+                while (iterarCeldaVacia.hasNext()) {
+                    celdaVacia = iterarCeldaVacia.next();
+                    try{
+                    valorCadenaValidacion = valorCadenaValidacion + celdaVacia.getStringCellValue();
+                    }catch (Exception e){
+                        valorCadenaValidacion="CONTIENE INFORMACION";
+                    }
+                }
+                if (valorCadenaValidacion.isEmpty()){
+                    guardarRegistro= false;
+                }
+
+                if(guardarRegistro){
+
                 numeroColumna = numeroColumna + 1;
                 System.out.println("numero Columna:"+numeroColumna);
                 System.out.println("columna.getLastCellNum():"+columna.getLastCellNum());
@@ -810,15 +832,6 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
                 System.out.println("Constants.HEADER_REPORTE_MENSUAL.length:"+Constants.HEADER_REPORTE_MENSUAL.length);
                 if (columna.getPhysicalNumberOfCells() != 0) {
                     if (columna.getLastCellNum()  != Constants.HEADER_REPORTE_MENSUAL.length) {
-                        Iterator<Cell> iterarCelda = columna.cellIterator();
-                        Cell celdaVacia;
-                        String valorCadenaValidacion="";
-                        while (iterarCelda.hasNext()) {
-                            celdaVacia = iterarCelda.next();
-                            valorCadenaValidacion = valorCadenaValidacion + celdaVacia.getStringCellValue();
-                        }
-                        System.out.println(valorCadenaValidacion);
-                        if(!valorCadenaValidacion.isEmpty())
                         throw new ErrorAplicacionControlado(
                                 respuestaControlada.getArchivocolumnas().get("codigo"),
                                 this.getClass().getName(),
@@ -881,6 +894,8 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
                     }
                 } else {
                     break;
+                }
+
                 }
             }
         }
