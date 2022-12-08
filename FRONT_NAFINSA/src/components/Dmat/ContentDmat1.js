@@ -132,7 +132,7 @@ function ContentDmat1() {
     
     return (
         <div>
-            <Card size="small" align="left" title="Complemento BAXICO"
+            <Card size="small" align="left" title="Complemento BANXICO"
                 extra={content}
                 headStyle={{ backgroundColor: '#39c0c4' }}
             >
