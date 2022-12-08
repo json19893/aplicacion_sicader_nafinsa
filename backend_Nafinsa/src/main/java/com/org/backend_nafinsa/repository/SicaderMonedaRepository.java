@@ -12,13 +12,13 @@ import java.util.List;
 @Repository
 public interface SicaderMonedaRepository extends JpaRepository<SicaderMoneda, Integer> {
 
-    @Query(value = "SELECT A.PAR_FECHA , A.MON_CLAVE , B.MON_NOMBRE  , B.NEMON_CLAVE   FROM PARIDADES_VALORIZACION A INNER JOIN\n" +
+    @Query(value = "SELECT A.PAR_FECHA , A.MON_CLAVE , B.MON_NOMBRE  , A.PAR_PESO   FROM PARIDADES_VALORIZACION A INNER JOIN\n" +
             "MONEDAS B ON A.MON_CLAVE =B.MON_CLAVE \n" +
             "WHERE A.PAR_FECHA  BETWEEN ?1 AND ?2\n" +
             "AND A.MON_CLAVE =?3", nativeQuery = true)
     public List<Object[]> getSicaderCierreJornada(LocalDate fechaIni, LocalDate FechaFin, Long monClave);
 
-    @Query(value = "SELECT A.PAR_FECHA , A.MON_CLAVE , B.MON_NOMBRE  , B.NEMON_CLAVE   FROM PARIDADES_VALORIZACION A INNER JOIN\n" +
+    @Query(value = "SELECT A.PAR_FECHA , A.MON_CLAVE , B.MON_NOMBRE  , A.PAR_PESO   FROM PARIDADES_VALORIZACION A INNER JOIN\n" +
             "MONEDAS B ON A.MON_CLAVE =B.MON_CLAVE \n" +
             "WHERE A.PAR_FECHA  BETWEEN ?1 AND ?2 " , nativeQuery = true)
     public List<Object[]> getSicaderCierreJornadaFecha(LocalDate fechaIni, LocalDate FechaFin );

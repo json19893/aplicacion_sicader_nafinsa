@@ -17,6 +17,7 @@ public class CodigosRespuestaControlados {
     private Map<String, String> servicionodisponible = new HashMap<>();
 
     private Map<String, String> archivovacio = new HashMap<>();
+    private Map<String, String> archivoinconsistente = new HashMap<>();
     private Map<String, String> nomenclatura = new HashMap<>();
     private Map<String, String> lecturaarchivos = new HashMap<>();
     private Map<String, String> archivocolumnas = new HashMap<>();

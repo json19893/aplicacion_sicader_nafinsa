@@ -13,6 +13,7 @@ import com.org.backend_nafinsa.repository.*;
 import com.org.backend_nafinsa.service.CargaArchivoService;
 import com.org.backend_nafinsa.util.CodigosRespuestaControlados;
 import com.org.backend_nafinsa.util.Constants;
+import lombok.extern.java.Log;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
@@ -191,11 +192,11 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
         try {
             reporteMensualLista = procesaReporteMensual(file, usuario, fechaOperacion);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.toString());
             throw new ErrorAplicacionControlado(
-                    respuestaControlada.getArchivovacio().get("codigo"),
+                    respuestaControlada.getArchivoinconsistente().get("codigo"),
                     this.getClass().getName(),
-                    respuestaControlada.getArchivovacio().get("mensaje")
+                    respuestaControlada.getArchivoinconsistente().get("mensaje")
             );
         }
         List<SicaderSlVsSidecaDetalle> sicaderSlVsSidecaDetalles = new ArrayList<>();
@@ -551,7 +552,7 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
                     throw new ErrorAplicacionControlado(
                             respuestaControlada.getArchivocolumnas().get("codigo"),
                             this.getClass().getName(),
-                            respuestaControlada.getArchivocolumnas().get("mensaje")
+                            respuestaControlada.getArchivocolumnas().get("mensaje"+" en la columna:"+columna)
                     );
                 }
                 ReporteIRDTXlsx reporteIRDTXlsx = new ReporteIRDTXlsx();
@@ -802,12 +803,26 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
             while (rowIterator.hasNext()) {
                 columna = rowIterator.next();
                 numeroColumna = numeroColumna + 1;
+                System.out.println("numero Columna:"+numeroColumna);
+                System.out.println("columna.getLastCellNum():"+columna.getLastCellNum());
+                System.out.println("columna.getPhysicalNumberOfCells():"+numeroColumna);
+                System.out.println("sheet:"+sheet.getSheetName());
+                System.out.println("Constants.HEADER_REPORTE_MENSUAL.length:"+Constants.HEADER_REPORTE_MENSUAL.length);
                 if (columna.getPhysicalNumberOfCells() != 0) {
-                    if (columna.getPhysicalNumberOfCells() != Constants.HEADER_REPORTE_MENSUAL.length) {
+                    if (columna.getLastCellNum()  != Constants.HEADER_REPORTE_MENSUAL.length) {
+                        Iterator<Cell> iterarCelda = columna.cellIterator();
+                        Cell celdaVacia;
+                        String valorCadenaValidacion="";
+                        while (iterarCelda.hasNext()) {
+                            celdaVacia = iterarCelda.next();
+                            valorCadenaValidacion = valorCadenaValidacion + celdaVacia.getStringCellValue();
+                        }
+                        System.out.println(valorCadenaValidacion);
+                        if(!valorCadenaValidacion.isEmpty())
                         throw new ErrorAplicacionControlado(
                                 respuestaControlada.getArchivocolumnas().get("codigo"),
                                 this.getClass().getName(),
-                                respuestaControlada.getArchivocolumnas().get("mensaje")
+                                respuestaControlada.getArchivocolumnas().get("mensaje" +" columna:"+columna)
                         );
                     }
                     ReporteMensual reporteMensual = new ReporteMensual();

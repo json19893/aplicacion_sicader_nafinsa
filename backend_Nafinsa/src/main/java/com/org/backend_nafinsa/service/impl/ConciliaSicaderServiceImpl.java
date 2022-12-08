@@ -1,19 +1,22 @@
 package com.org.backend_nafinsa.service.impl;
 
-import com.org.backend_nafinsa.dto.ConciliaPkg;
-import com.org.backend_nafinsa.dto.SalidaPkg;
-import com.org.backend_nafinsa.dto.ValidacionPkg;
+import com.org.backend_nafinsa.dto.*;
+import com.org.backend_nafinsa.entidad.SicaderConciliaciones;
+import com.org.backend_nafinsa.entidad.SicaderValidacion;
 import com.org.backend_nafinsa.exception.ErrorAplicacionControlado;
 import com.org.backend_nafinsa.repository.CallPkgSicader;
+import com.org.backend_nafinsa.repository.SicaderConciliacionesRepository;
 import com.org.backend_nafinsa.repository.SicaderValidacionRepository;
 import com.org.backend_nafinsa.service.ConciliaSicaderService;
 import com.org.backend_nafinsa.util.CodigosRespuestaControlados;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
@@ -21,6 +24,9 @@ public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
     CallPkgSicader callPkgSicader;
     @Autowired
     SicaderValidacionRepository sicaderValidacionRepository;
+
+    @Autowired
+    SicaderConciliacionesRepository sicaderConciliacionesRepository;
 
     @Override
     public SalidaPkg ejecutarConciliacion(ConciliaPkg conciliaPkg) {
@@ -51,5 +57,22 @@ public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
         }
         return !sicaderValidacionRepository.existsByFechaOperacionAndAndTipoDerivadoInAndAndValidacionIn
                 (validacionPkg.getFechaOperacion(), tipoDerivado, validacion);
+    }
+
+    @Override
+    public List <ConciliacionFechaDto> getConciliacionFecha(LocalDate fechaOperacion) {
+        List <ConciliacionFechaDto> conciliacionFechaDtoList = new ArrayList<>();
+        List<Object[]> objectList = sicaderConciliacionesRepository.getSicaderConciliaciones (fechaOperacion);
+        conciliacionFechaDtoList.addAll(
+                objectList.stream()
+                        .map(ob -> new ConciliacionFechaDto(ob))
+                        .collect(Collectors.toList()));
+        return conciliacionFechaDtoList;
+    }
+
+    @Override
+    public SicaderValidacion getValidacion() {
+        List<Long> exitosos =new ArrayList<Long>(Arrays.asList(1L));
+        return sicaderValidacionRepository.findByValidacionNotIn(exitosos);
     }
 }
