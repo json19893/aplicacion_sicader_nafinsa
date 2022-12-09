@@ -34,7 +34,7 @@ function CuentasConciliar() {
             align: "center"
         },
         {
-            title: "Nemonico",
+            title: "Nombre de cuenta",
             dataIndex: "cueNombre",
             key: "cueNombre",
             align: "center"
