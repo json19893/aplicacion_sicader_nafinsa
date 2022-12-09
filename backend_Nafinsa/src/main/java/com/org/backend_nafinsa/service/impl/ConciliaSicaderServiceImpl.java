@@ -71,8 +71,9 @@ public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
     }
 
     @Override
-    public SicaderValidacion getValidacion() {
+    public List<SicaderValidacion> getValidacion() {
         List<Long> exitosos =new ArrayList<Long>(Arrays.asList(1L));
+
         return sicaderValidacionRepository.findByValidacionNotIn(exitosos);
     }
 }

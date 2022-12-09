@@ -16,6 +16,6 @@ public interface SicaderValidacionRepository extends JpaRepository<SicaderValida
 
     boolean existsByFechaOperacionAndAndTipoDerivadoInAndAndValidacionIn(LocalDate fechaOperacion, List<Long> tipoDerivado, List<Long> Validacion);
 
-    SicaderValidacion findByValidacionNotIn(List<Long> validacion);
+    List<SicaderValidacion> findByValidacionNotIn(List<Long> validacion);
 
 }

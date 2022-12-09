@@ -17,5 +17,5 @@ public interface ConciliaSicaderService {
 
     List <ConciliacionFechaDto> getConciliacionFecha(LocalDate fechaOperacion);
 
-    SicaderValidacion getValidacion();
+    List<SicaderValidacion> getValidacion();
 }

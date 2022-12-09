@@ -45,7 +45,7 @@ public class ConciliaSicaderController {
     }
 
     @GetMapping("getValidacion")
-    public SicaderValidacion getValidacion(
+    public List<SicaderValidacion> getValidacion(
     ){
         return conciliaSicaderService.getValidacion();
     }

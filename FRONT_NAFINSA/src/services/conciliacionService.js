@@ -32,3 +32,29 @@ export async function ejecutaConciliacion (params) {
         console.log(e)
     }
 }
+
+export async function ejecutaValidacion(params) {
+    try{
+      
+        const response = await axios({
+            url: `${baseUrl}/sicader/conciliacion/getValidacion`,
+            method: 'GET'
+        })
+        console.log(response);
+        return response;
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+export async function getListaConciliacion() {
+    try {
+        const response = await axios({
+            url: `${baseUrl}/sicader/conciliacion/getConciliacionFecha`,
+            method: 'GET'
+        })
+        return response;
+    } catch (e) {
+        console.log(e)
+    }
+}

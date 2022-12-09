@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Table, Button, Form, Input, Card, Row, Col,message, Select, DatePicker,Popover } from 'antd';
+import { Table, Button, Form, Input, Card, Row, Col,message, Select, DatePicker,Popover,Modal } from 'antd';
 import { FileExcelOutlined, PlusOutlined, CloseOutlined,QuestionOutlined } from '@ant-design/icons';
 import { CSVLink } from 'react-csv';
 import * as moment from "moment";
 const { Meta } = Card;
 import { getTipoDerivado } from '../../services/catalogosService';
-import { validaConciliacion,ejecutaConciliacion } from '../../services/conciliacionService';
+import { validaConciliacion,ejecutaConciliacion,ejecutaValidacion,getListaConciliacion } from '../../services/conciliacionService';
 const stateInitialLoading = {
     state: false,
   }
@@ -15,6 +15,7 @@ const stateInitialLoading = {
 
   const stateConciliacion = {};
 function ContentConcilia1() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [deribado, setDeribado] = useState([]);
     const [tipoConciliacion, settipoConciliacion] = useState([]);
     const [loadingBoton, setLoadingBoton] = useState(stateInitialLoading);
@@ -22,6 +23,9 @@ function ContentConcilia1() {
     const [conciliacion, setConciliacion] = useState(stateConciliacion);
     const [disabledC, setDisabledC] = useState(true);
     const [disabledV, setDisabledV] = useState(false);
+    const [dataValidacion, SetdataValidacion] = useState([]);
+    const [dataConciliacion, setDataCociliacion] = useState([]);
+    
     useEffect(() => {
 
         async function getDerivado() {
@@ -49,30 +53,36 @@ function ContentConcilia1() {
         }
         getDerivado()
     }, []);
+    async function loadConciliacion(fecha) {
+      const response = await getListaConciliacion(fecha)
 
+      if (response.status === 200) {
+        setDataCociliacion(response.data)
+      }
+  }
     const columns = [
         {
             title: "Fecha de Vencimiento",
-            dataIndex: "fechaVencimiento",
-            key: "fechaVencimiento",
+            dataIndex: "fechaOperacion",
+            key: "fechaOperacion",
             align: "center"
         },
         {
             title: "Tipo de Derivado",
-            dataIndex: "tipoDerivado",
-            key: "valorUdi",
+            dataIndex: "nombre",
+            key: "nombre",
             align: "center"
         },
         {
             title: "Cuenta Contable",
-            dataIndex: "cuentaContable",
-            key: "cuentaContable",
+            dataIndex: "cuenta",
+            key: "cuenta",
             align: "center"
         },
         {
             title: "Moneda Contable",
-            dataIndex: "monedaContable",
-            key: "monedaContable",
+            dataIndex: "moneda",
+            key: "moneda",
             align: "center"
         },
         {
@@ -89,8 +99,8 @@ function ContentConcilia1() {
         },
         {
             title: "Importe Operativo",
-            dataIndex: "importeOperativo",
-            key: "importeOperativo",
+            dataIndex: "importeOp",
+            key: "importeOp",
             align: "center"
         },
         {
@@ -101,8 +111,18 @@ function ContentConcilia1() {
         },
     ];
 
-    const data = [];
+    const colRep = [
+      {
+        title: "Archivo",
+        dataIndex: "insumo",
+        key: "insumo",
+        align: "center",
+      },
+  
+    ]
 
+    const data = dataConciliacion;
+const filesRep=dataValidacion;
     const onReset = () => {
         form.resetFields();
     };
@@ -135,14 +155,32 @@ function ContentConcilia1() {
 
       async function submitPost(request) {
         try {
+         
           const response = await validaConciliacion(request)
           if (response.status === 200) {
-            if (response.data.respuesta === 'OK') {
+            if (response.data.respuesta === true) {
                 setDisabledC(false)
               message.success('Se ejecuto correctamente la validaciòn');
               setLoadingBoton({
                 state: false
               });
+            }else{
+              const validacion = await ejecutaValidacion()
+              if (validacion.status === 200) {
+                if (validacion.data.length<0) {
+                }else{
+                  SetdataValidacion(validacion.data)
+                  setIsModalOpen(true);
+                
+                }
+                
+              } else {
+                message.error(validacion.data.mensaje);
+                setDisabledC(true)
+                setLoadingBoton({
+                  state: false,
+                });
+              }
             }
             
           } else {
@@ -152,6 +190,8 @@ function ContentConcilia1() {
               state: false,
             });
           }
+       
+    
         } catch (error) {
             setDisabledC(true)
           message.error('Error al ejecutar al validar');
@@ -178,6 +218,7 @@ function ContentConcilia1() {
                     state: false,
                   });;
                   setDisabledV(false)
+                  loadConciliacion(conciliacion.inFecha)  
               }else{
                 setLoadingBoton2({
                     state: false,
@@ -202,6 +243,14 @@ function ContentConcilia1() {
           }
 
       }
+
+      const handleRepCancel = () => {
+        setIsModalOpen(false);
+        setLoadingBoton({
+          state: false
+        });
+    
+      };
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     };
@@ -327,7 +376,23 @@ function ContentConcilia1() {
             >
                 <Table size="small" columns={columns} dataSource={data} className="table-striped-rows"></Table>
             </Card>
-
+            <Modal open={isModalOpen}  onCancel={handleRepCancel}
+            okButtonProps={{
+              disabled: true,
+            }}
+            cancelButtonProps={{
+              disabled: true,
+            }} >
+        <p>Falta cargar lo siguiente pra continuar</p>
+        <Table 
+          size="small" 
+          columns={colRep} 
+          dataSource={filesRep} 
+          className="table-striped-rows"          
+          pagination={false}
+        >
+        </Table>
+      </Modal>
         </div>
     );
 }

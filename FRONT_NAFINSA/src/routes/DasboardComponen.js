@@ -29,7 +29,7 @@ const DasboardComponen = () => {
           <Route exact path={"/sicader/GananciaPerdida"}> <Menu componente={<GananciaPerdida />} val={'7'} /></Route>
           <Route exact path={"/sicader/CuentasConciliar"}> <Menu componente={<CuentasConciliar />} val={'8'} /></Route>
           <Route exact path={"/sicader/ConciliacionContable"}> <Menu componente={<ConciliacionContable />} val={'9'} /></Route>
-          <Route ><Menu componente={<NotFound />} val={'404'} /></Route>
+          <Route ><Menu componente={<Home />} val={'1'} /></Route>
 
 
         </Switch>
