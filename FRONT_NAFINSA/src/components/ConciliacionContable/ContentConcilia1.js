@@ -23,35 +23,22 @@ function ContentConcilia1() {
     const [conciliacion, setConciliacion] = useState(stateConciliacion);
     const [disabledC, setDisabledC] = useState(true);
     const [disabledV, setDisabledV] = useState(false);
+    const [disableDerivado, setDisableDeribado] = useState(true);
+    const [tipoDeribado, setTipoDeribado] = useState();
     const [dataValidacion, SetdataValidacion] = useState([]);
     const [dataConciliacion, setDataCociliacion] = useState([]);
     
     useEffect(() => {
-
-        async function getDerivado() {
-            const response = await getTipoDerivado()
-
-            if (response.status === 200) {
-                let de= {
-                    "id": 4,
-                    "nombre": "TODOS"
-                  }
-                  let cons=[
-                    {
-                    "id":"D",
-                    "nombre":"Diaria"
-                    },
-                    {
-                        "id":"M",
-                        "nombre":"Mensual"
-                    },
-            ]
-                response.data.push(de);
-                setDeribado(response.data)
-                settipoConciliacion(cons);
-            }
-        }
-        getDerivado()
+      let cons=[
+        {
+        "id":"D",
+        "nombre":"Diaria"
+        },
+        {
+            "id":"M",
+            "nombre":"Mensual"
+        },]
+settipoConciliacion(cons);        
     }, []);
     async function loadConciliacion(fecha) {
       const response = await getListaConciliacion(fecha)
@@ -139,6 +126,7 @@ const filesRep=dataValidacion;
                 "tipoConciliacion": values.tipoConciliacion,
                 "tipoValidacion": 0
               }
+           
               const conciliacion = {
             
                 "inDerivado": values.tipoDerivado,
@@ -155,7 +143,6 @@ const filesRep=dataValidacion;
 
       async function submitPost(request) {
         try {
-         
           const response = await validaConciliacion(request)
           if (response.status === 200) {
             if (response.data.respuesta === true) {
@@ -168,10 +155,24 @@ const filesRep=dataValidacion;
               const validacion = await ejecutaValidacion()
               if (validacion.status === 200) {
                 if (validacion.data.length<0) {
+                  setDisabledC(false)
                 }else{
-                  SetdataValidacion(validacion.data)
+                  const arch=[];
+                 
+                  if(tipoDeribado==4){
+                    SetdataValidacion(validacion.data)
+                  }else{
+                  validacion.data.forEach((item)=>{
+                    console.log(item);
+                       if(item.tipoDerivado==tipoDeribado){
+                        arch.push(item);
+                     }
+                   })
+                  SetdataValidacion(arch)
+                  }
+                  setDisabledC(true)
                   setIsModalOpen(true);
-                
+                 
                 }
                 
               } else {
@@ -216,7 +217,7 @@ const filesRep=dataValidacion;
                 message.success('Se ejecuto correctamente la conciliación ');
                 setLoadingBoton2({
                     state: false,
-                  });;
+                  });
                   setDisabledV(false)
                   loadConciliacion(conciliacion.inFecha)  
               }else{
@@ -243,9 +244,51 @@ const filesRep=dataValidacion;
           }
 
       }
-
+      const handleChangeSelectDeribado = async value => {
+        console.log("value",value)
+        setDisableDeribado(true)
+        const response = await getTipoDerivado()
+        if (response.status === 200) {
+          if (value=="D"){
+            let de= {
+                "id": 4,
+                "nombre": "TODOS"
+              }
+           
+            response.data.push(de);
+            setDeribado(response.data)
+            setDisableDeribado(false)
+          }else{
+            const result = [];
+            response.data.forEach((item)=>{
+             console.log(item);
+                if(item.nombre=="FORWARDS"){
+                  result.push(item);
+              }
+            })
+            setDeribado(result)
+            setDisableDeribado(false)
+          }
+      }
+     
+      };
+      const handleChangetipoDerivado =  value => {
+        setTipoDeribado(value);
+     
+      };
+    
       const handleRepCancel = () => {
         setIsModalOpen(false);
+        setDisabledC(true)
+        setLoadingBoton({
+          state: false
+        });
+    
+      };
+
+      const handleRepOk = () => {
+        setIsModalOpen(false);
+        setDisabledC(false)
         setLoadingBoton({
           state: false
         });
@@ -325,7 +368,7 @@ const filesRep=dataValidacion;
                     }]}
                 >
                     
-                            <Select >
+                            <Select  onChange={handleChangeSelectDeribado} >
                             {tipoConciliacion.map(elemento => (
                                         <Select.Option value={elemento.id}>{elemento.nombre}</Select.Option>
                                     ))}
@@ -349,10 +392,11 @@ const filesRep=dataValidacion;
                         required: true,
                         message: "Por favor ingresa el Tipo de Derivado"
                     }]}>
-                            <Select >
+                            <Select disabled={disableDerivado} onChange={handleChangetipoDerivado} >
                             {deribado.map(elemento => (
                                         <Select.Option  value={elemento.id}>{elemento.nombre}</Select.Option>
                                     ))}
+                                     
                             </Select>
 
                 </Form.Item>
@@ -376,12 +420,12 @@ const filesRep=dataValidacion;
             >
                 <Table size="small" columns={columns} dataSource={data} className="table-striped-rows"></Table>
             </Card>
-            <Modal open={isModalOpen}  onCancel={handleRepCancel}
+            <Modal open={isModalOpen} onOk={handleRepOk}  onCancel={handleRepCancel}
             okButtonProps={{
-              disabled: true,
+              disabled: false,
             }}
             cancelButtonProps={{
-              disabled: true,
+              disabled: false,
             }} >
         <p>Falta cargar lo siguiente pra continuar</p>
         <Table 
