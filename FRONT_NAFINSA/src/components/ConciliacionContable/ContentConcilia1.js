@@ -368,7 +368,7 @@ const filesRep=dataValidacion;
                     }]}
                 >
                     
-                            <Select  onChange={handleChangeSelectDeribado} >
+                            <Select  onChange={handleChangeSelectDeribado} autoClearSearchValue >
                             {tipoConciliacion.map(elemento => (
                                         <Select.Option value={elemento.id}>{elemento.nombre}</Select.Option>
                                     ))}
