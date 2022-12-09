@@ -27,5 +27,7 @@ public class Constants {
     public static Date diaActual = new Date();
 
     public static String MENSAJE_EXISTE = "Los datos ingresados ya existen, ¿desea sobrescribir la información?";
+    
+    public static String MENSAJE_EXISTE_COBERTURA = "Ya existe una cobertura con el nombre ";
 }
 

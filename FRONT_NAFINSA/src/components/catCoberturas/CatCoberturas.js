@@ -263,7 +263,16 @@ function CatCoberturas() {
                 <Table size="small" columns={columns} dataSource={data} className="table-striped-rows"></Table>
             </Card>
 
-            <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal
+                open={isModalOpen}
+                onOk={handleCancel}
+                closable={false}
+                cancelButtonProps={{
+                    style: {
+                        display: "none",
+                    },
+                }}
+            >
                 <p>{msjMod}</p>
             </Modal>
         </div>
