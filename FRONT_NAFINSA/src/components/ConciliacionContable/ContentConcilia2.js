@@ -15,6 +15,12 @@ function ContentConcilia2() {
             const response = await getTipoDerivado()
 
             if (response.status === 200) {
+                let de= {
+                    "id": 4,
+                    "nombre": "TODOS"
+                  }
+               
+                response.data.push(de);
                 setTipoDerivado(response.data)
             }
         }

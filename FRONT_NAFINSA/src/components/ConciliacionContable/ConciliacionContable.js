@@ -1,9 +1,9 @@
 import React from "react";
-import ContentConcilia1 from './ContentConcilia1';
+import TabsConciliaConta from './TabsConciliaConta';
 
 function ConciliacionContable() {
   return (
-    <ContentConcilia1 />
+    <TabsConciliaConta />
   );
 }
 
