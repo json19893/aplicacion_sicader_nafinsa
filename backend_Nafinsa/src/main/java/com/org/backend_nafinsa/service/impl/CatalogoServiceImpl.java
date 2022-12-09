@@ -4,6 +4,8 @@ import com.org.backend_nafinsa.dto.*;
 import com.org.backend_nafinsa.entidad.*;
 import com.org.backend_nafinsa.repository.*;
 import com.org.backend_nafinsa.service.CatalogoService;
+import com.org.backend_nafinsa.util.Constants;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +55,16 @@ public class CatalogoServiceImpl implements CatalogoService {
         sicaderCatCoberturas.setCuentaActiva(inCuentaActiva);
         sicaderCatCoberturas.setCuentaPasiva(inCuentaPasiva);
         sicaderCatCoberturas.setCuentaCapital(inCuentaCapital);
-        sicaderCatCoberturaRepository.save(sicaderCatCoberturas);
-        return new ResponseDto("OK");
+        
+        List<Object[]> objectLis = sicaderCatCoberturaRepository.findByNombre(sicaderCatCoberturas.getNombre());
+        
+        if(objectLis.size()==0) {
+            sicaderCatCoberturaRepository.save(sicaderCatCoberturas);
+            return new ResponseDto("OK");
+        }else {
+        	return new ResponseDto(Constants.MENSAJE_EXISTE_COBERTURA+sicaderCatCoberturas.getNombre());
+        }
+
     }
 
     @Cacheable("getSocioLiquidador")

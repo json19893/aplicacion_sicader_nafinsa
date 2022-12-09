@@ -16,5 +16,7 @@ public interface SicaderCatCoberturaRepository extends JpaRepository<SicaderCatC
             "  (SELECT CUENTA||'-'||SUBCUENTA1 ||'-'||SUBCUENTA2 ||'-'||SUBCUENTA3 ||'-'|| SUBCUENTA4 ||'-'||SUBCUENTA5 ||'-'||SUBCUENTA6 ||'-'||SUBCUENTA7   FROM SICADER.SICADER_CUENTAS_CONCILIAR CA WHERE CA.ID= A.CUENTA_CAPITAL_ID    ) AS CAPITAL\n" +
             "  FROM SICADER.SICADER_CAT_COBERTURAS A", nativeQuery = true)
     public List<Object[]> getAllCatCoberturaConciliar();
+    
+    public List<Object[]> findByNombre(String nombre);
 
 }
