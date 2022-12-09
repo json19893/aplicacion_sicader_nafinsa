@@ -1,7 +1,10 @@
 import { Carousel,   Typography, } from 'antd';
 import React, { useState } from 'react';
 
-
+import bono from '../../assest/bono.jpg'
+import afiliacion  from '../../assest/afiliacion.jpg'
+import mercados from '../../assest/mercados.jpg'
+import operadora from '../../assest/operadora.jpg'
 
   const { Title } = Typography;
 const Home = () => {
@@ -14,16 +17,16 @@ const Home = () => {
         
         <Carousel dotPosition="left" >
           <div>
-          <img   width= "1719vw" height= "400vh" src="https://www.nafin.com/portalnf/files/secciones/piso_financiero/imagenes/bono_social/bono_social_Contenido.jpg"></img>
+          <img   width= "1719vw" height= "400vh" src={bono}></img>
           </div>
           <div>
-          <img width= "1719vw" height= "400vh" src="https://www.nafin.com/portalnf/files/secciones/piso_financiero/imagenes/mercados.jpg"></img>
+          <img width= "1719vw" height= "400vh" src={afiliacion}></img>
           </div>
           <div>
-          <img  width= "1719vw" height= "400vh" src=" https://www.nafin.com/portalnf/files/secciones/piso_financiero/imagenes/operadora.jpg"></img>
+          <img  width= "1719vw" height= "400vh" src={mercados}></img>
           </div>
           <div>
-          <img  width= "1719vw" height= "400vh" src=" https://www.nafin.com/portalnf/files/secciones/Cadenas/imagenes/afiliacion_gobierno_contenido.jpg"></img>
+          <img  width= "1719vw" height= "400vh" src={operadora}></img>
           </div>
         </Carousel>
       </>

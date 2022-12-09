@@ -12,6 +12,7 @@ import {
 import { Layout, Menu, Icon } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../assest/logo.png'
 
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, route, icon) {
@@ -48,7 +49,7 @@ const MenuLeft = (componente) => {
         }}
       >
         <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-          <div className="logo" > <img width="80px" height="80px" alt="logo" src="https://www.nafin.com/portalnf/images/nafin-logo.png"></img></div>
+          <div className="logo" > <img width="60px" height="60px" alt="logo" src={logo}></img></div>
           <Menu theme="dark" defaultSelectedKeys={[menuSele]} mode="inline"  >
             <> {
               items.map(item => {
