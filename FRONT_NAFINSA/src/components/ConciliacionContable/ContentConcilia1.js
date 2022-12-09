@@ -154,13 +154,13 @@ const filesRep=dataValidacion;
             }else{
               const validacion = await ejecutaValidacion()
               if (validacion.status === 200) {
-                if (validacion.data.length<0) {
-                  setDisabledC(false)
-                }else{
                   const arch=[];
-                 
                   if(tipoDeribado==4){
                     SetdataValidacion(validacion.data)
+                    if(validacion.data.length>0){
+                   
+                      setIsModalOpen(true);
+                    }
                   }else{
                   validacion.data.forEach((item)=>{
                     console.log(item);
@@ -169,12 +169,13 @@ const filesRep=dataValidacion;
                      }
                    })
                   SetdataValidacion(arch)
+                  if(arch.length>0){
+                    setDisabledC(true)
+                    setIsModalOpen(true);
                   }
                   setDisabledC(true)
-                  setIsModalOpen(true);
+                  }
                  
-                }
-                
               } else {
                 message.error(validacion.data.mensaje);
                 setDisabledC(true)
@@ -183,7 +184,11 @@ const filesRep=dataValidacion;
                 });
               }
             }
-            
+            setDisabledC(false)
+            message.success('Se realizo la validacion');
+            setLoadingBoton({
+              state: false
+            });
           } else {
             message.error(response.data.mensaje);
             setDisabledC(true)
