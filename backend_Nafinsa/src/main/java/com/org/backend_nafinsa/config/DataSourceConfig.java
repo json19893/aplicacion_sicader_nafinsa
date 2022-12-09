@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
+
     //configuracion para datasource
     @Bean(destroyMethod = "")
     public javax.sql.DataSource dataSource() throws NamingException {
@@ -29,9 +30,9 @@ public class DataSourceConfig {
 
 
 
-     //Configuracion de DS desde clase para prubas locales
-
-      /*   @Bean(destroyMethod = "close")
+     // Configuracion de DS desde clase para prubas locales
+/*
+        @Bean(destroyMethod = "close")
         DataSource dataSource(Environment env) {
             HikariConfig config = new HikariConfig();
             config.setDriverClassName("oracle.jdbc.driver.OracleDriver");
@@ -55,8 +56,7 @@ public class DataSourceConfig {
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
         return new JpaTransactionManager(emf);
     }
-    
-        */
+*/
     //configuracion para conexion local o directa sin  ds
 /*
     @Bean
