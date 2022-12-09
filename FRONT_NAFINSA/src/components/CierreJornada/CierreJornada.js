@@ -168,6 +168,9 @@ function CierreJornada() {
                     </Form.Item>
                     <Col span={12} align="right">
                         <Button htmlType="submit" className="buttonSearch" type="primary" shape="circle" icon={<SearchOutlined />} size="large" />
+                        &nbsp;&nbsp;&nbsp;
+
+<Button type="danger" shape="circle" icon={<CloseOutlined />} size="large" onClick={onReset} />
                     </Col>
 
                 </Form>

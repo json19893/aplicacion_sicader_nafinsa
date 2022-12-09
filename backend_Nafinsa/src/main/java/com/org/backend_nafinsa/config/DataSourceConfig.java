@@ -22,16 +22,16 @@ public class DataSourceConfig {
 
 
     //configuracion para datasource
-    @Bean(destroyMethod = "")
+ /*  @Bean(destroyMethod = "")
     public javax.sql.DataSource dataSource() throws NamingException {
         Context context = new InitialContext();
         return (javax.sql.DataSource)context.lookup("jdbc/sicader");
-    }
+    }*/  
 
 
 
      // Configuracion de DS desde clase para prubas locales
-/*
+
         @Bean(destroyMethod = "close")
         DataSource dataSource(Environment env) {
             HikariConfig config = new HikariConfig();
@@ -56,7 +56,7 @@ public class DataSourceConfig {
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
         return new JpaTransactionManager(emf);
     }
-*/
+
     //configuracion para conexion local o directa sin  ds
 /*
     @Bean
