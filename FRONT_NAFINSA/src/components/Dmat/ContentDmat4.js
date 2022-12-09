@@ -289,7 +289,7 @@ function ContentDmat4() {
                 </Form>
             </Card>
 
-            <Card size="small" align="left" title="Detalle de ganancia/pérdida Inflacionaria"
+            <Card size="small" align="left" title="Detalle C-10"
                 headStyle={{ backgroundColor: '#39c0c4' }}
                 extra={
                     <CSVLink data={data} filename={"catalogoCoberturas.csv"}>
