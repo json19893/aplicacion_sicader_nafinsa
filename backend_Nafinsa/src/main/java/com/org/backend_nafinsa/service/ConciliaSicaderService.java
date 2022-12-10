@@ -1,9 +1,6 @@
 package com.org.backend_nafinsa.service;
 
-import com.org.backend_nafinsa.dto.ConciliaPkg;
-import com.org.backend_nafinsa.dto.ConciliacionFechaDto;
-import com.org.backend_nafinsa.dto.SalidaPkg;
-import com.org.backend_nafinsa.dto.ValidacionPkg;
+import com.org.backend_nafinsa.dto.*;
 import com.org.backend_nafinsa.entidad.SicaderConciliaciones;
 import com.org.backend_nafinsa.entidad.SicaderValidacion;
 
@@ -18,4 +15,6 @@ public interface ConciliaSicaderService {
     List <ConciliacionFechaDto> getConciliacionFecha(LocalDate fechaOperacion);
 
     List<SicaderValidacion> getValidacion();
+
+    List<EstatusConciliacionDto> getEstatusConciliacion(EstatusConciliacionRequest estatusConciliacionRequest);
 }

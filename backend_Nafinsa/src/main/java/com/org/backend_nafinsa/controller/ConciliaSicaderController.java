@@ -1,9 +1,6 @@
 package com.org.backend_nafinsa.controller;
 
-import com.org.backend_nafinsa.dto.ConciliaPkg;
-import com.org.backend_nafinsa.dto.ConciliacionFechaDto;
-import com.org.backend_nafinsa.dto.SalidaPkg;
-import com.org.backend_nafinsa.dto.ValidacionPkg;
+import com.org.backend_nafinsa.dto.*;
 import com.org.backend_nafinsa.entidad.SicaderConciliaciones;
 import com.org.backend_nafinsa.entidad.SicaderValidacion;
 import com.org.backend_nafinsa.service.ConciliaSicaderService;
@@ -49,6 +46,14 @@ public class ConciliaSicaderController {
     ){
         return conciliaSicaderService.getValidacion();
     }
+
+    @PostMapping("getEstatusConciliacion")
+    public List<EstatusConciliacionDto> getEstatusConciliacion(
+            @RequestBody (required = true) EstatusConciliacionRequest estatusConciliacionRequest
+    ){
+        return conciliaSicaderService.getEstatusConciliacion(estatusConciliacionRequest);
+    }
+
 
 
 }
