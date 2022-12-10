@@ -58,3 +58,18 @@ export async function getListaConciliacion() {
         console.log(e)
     }
 }
+
+export async function getEstatusConciliacion (params) {
+    try{
+      console.log(params)
+        const response = await axios({
+            url: `${baseUrl}/sicader/conciliacion/getEstatusConciliacion`,
+            method: 'POST',
+            data: params
+        })
+        console.log(response);
+        return response;
+    } catch (e) {
+        console.log(e.response)
+    }
+}

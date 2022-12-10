@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Table, Button, Form, Input, Card, Row, Col, Select, DatePicker,Popover, message } from 'antd';
-import { FileExcelOutlined, PlusOutlined, CloseOutlined, SearchOutlined,QuestionOutlined } from '@ant-design/icons';
+import { Table, Button, Form, Input, Card, Row, Col, Select, DatePicker, Popover, message } from 'antd';
+import { FileExcelOutlined, PlusOutlined, CloseOutlined, SearchOutlined, QuestionOutlined } from '@ant-design/icons';
 import { CSVLink } from 'react-csv';
 import { getMoneda } from '../../services/catalogosService'
 import { getResumenDivisa } from '../../services/cierreJornadaService'
@@ -8,7 +8,7 @@ import * as moment from "moment";
 const { Meta } = Card;
 const stateInitialLoading = {
     state: false,
-  }
+}
 function CierreJornada() {
     const [loadingBoton, setLoadingBoton] = useState(stateInitialLoading);
     const [divisas, setDivisas] = useState([]);
@@ -60,8 +60,8 @@ function CierreJornada() {
             setDataResumenDivisa(response.data)
             setLoadingBoton({
                 state: false,
-              });
-        }else{
+            });
+        } else {
             message.error(response.data.mensaje);
             setLoadingBoton({
                 state: false,
@@ -91,7 +91,7 @@ function CierreJornada() {
     const submitForm = (values) => {
         setLoadingBoton({
             state: true,
-          });
+        });
         const request = {
             fechaIni: moment(values.fecha[0]).format("YYYY-MM-DD"),
             fechaFin: moment(values.fecha[1]).format("YYYY-MM-DD"),
@@ -102,35 +102,35 @@ function CierreJornada() {
     const [open, setOpen] = useState(false);
     const handleOpenChange = (newOpen) => {
         setOpen(newOpen);
-      };
-    const desc=(
-      <Card
-      style={{
-        width: 300,
-        marginTop: 16,
-      }}
-     
-    >
-      <Meta
-        description="Pantalla donde se puede consultar los tipos de cambio de Cierre de Jornada determinados por el Banco de México, esta información se obtiene directamente del Sistema de Información Financiera (SIF) y es importante para los procesos de Conciliación contable."
-      />
-    </Card>
-    );
-      const content = (
-       <Popover
-          content={desc}
-          trigger="click"
-          placement="leftTop"
-          open={open}
-          onOpenChange={handleOpenChange}
+    };
+    const desc = (
+        <Card
+            style={{
+                width: 300,
+                marginTop: 16,
+            }}
+
         >
-          <Button type="ghost" shape="circle" loading={loadingBoton.state}  icon={<QuestionOutlined />} size="small" ></Button>
+            <Meta
+                description="Pantalla donde se puede consultar los tipos de cambio de Cierre de Jornada determinados por el Banco de México, esta información se obtiene directamente del Sistema de Información Financiera (SIF) y es importante para los procesos de Conciliación contable."
+            />
+        </Card>
+    );
+    const content = (
+        <Popover
+            content={desc}
+            trigger="click"
+            placement="leftTop"
+            open={open}
+            onOpenChange={handleOpenChange}
+        >
+            <Button type="ghost" shape="circle" loading={loadingBoton.state} icon={<QuestionOutlined />} size="small" ></Button>
         </Popover>
-      );
+    );
     return (
         <div>
             <Card size="small" align="left" title="Cierre de Jornada antes FIX"
-                  extra={content} headStyle={{ backgroundColor: '#39c0c4' }}
+                extra={content} headStyle={{ backgroundColor: '#39c0c4' }}
             >
                 <Form form={form} size="small"
                     onFinish={submitForm}
@@ -170,7 +170,7 @@ function CierreJornada() {
                         <Button htmlType="submit" className="buttonSearch" type="primary" shape="circle" icon={<SearchOutlined />} size="large" />
                         &nbsp;&nbsp;&nbsp;
 
-<Button type="danger" shape="circle" icon={<CloseOutlined />} size="large" onClick={onReset} />
+                        <Button type="danger" shape="circle" icon={<CloseOutlined />} size="large" onClick={onReset} />
                     </Col>
 
                 </Form>
