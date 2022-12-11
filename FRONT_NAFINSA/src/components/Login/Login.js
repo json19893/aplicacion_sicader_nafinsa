@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Row, Col, } from 'antd';
-
+import { getLogin } from '../../services/loginService'
 
 
 
@@ -35,16 +35,26 @@ const Login = ({
     })
   };
 
-  const entra = async () => {
+ 
+  const handleSubmit=  async (values) => {
 
-  };
-  const handleSubmit = event => {
-
-    setLoading({
-      state: true,
-      message: 'cargando...'
-    });
-    entra();
+    const request={
+      "usuario":values.username,
+      "password":values.password
+    }
+    try {
+      const response = await getLogin(request);
+      console.log(response);
+    } catch (error) {
+      console.log("Error:: "+error);
+      setLoading({
+        state: true,
+        message: 'cargando...'
+      });
+    }
+   
+  
+ ;
 
   };
   return (
