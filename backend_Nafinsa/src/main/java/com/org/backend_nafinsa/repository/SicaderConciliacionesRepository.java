@@ -38,6 +38,15 @@ public interface SicaderConciliacionesRepository  extends JpaRepository<SicaderC
                                             String estatus,
                                             String derivado);
 
+    @Query(value = "select a.fecha_op, a.fecha_ejecucion, a.usu_ejecucion, case when a.tipo_conciliacion= 'D' then 'Diaria' else 'Mensual' end  as www, b.nomnbre, \n" +
+            "case when a.estatus ='E' then 'Exitosa' \n" +
+            "when a.estatus ='D' then 'Con diferencias' \n" +
+            "else 'Con Errores' end \n" +
+            "from  sicader.sicader_con_ejecuciones a \n" +
+            "inner join sicader.sicader_cat_tipo_derivados b on a.derivado_id=b.id \n" +
+            "where a.id = (select max(id) from sicader.sicader_con_ejecuciones)", nativeQuery = true)
+    List<Object[]> getEstatusConciliacionesUltima();
+
 
 
 }

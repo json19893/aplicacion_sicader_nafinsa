@@ -80,12 +80,23 @@ public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
     @Override
     public List<EstatusConciliacionDto> getEstatusConciliacion(EstatusConciliacionRequest estatusConciliacionRequest) {
         List <EstatusConciliacionDto> estatusConciliacionDtoList = new ArrayList<>();
-        List<Object[]> objectList = sicaderConciliacionesRepository.getEstatusConciliaciones(estatusConciliacionRequest.getFechaOperacionIni(), estatusConciliacionRequest.getFechaOperacionFin(),estatusConciliacionRequest.getFechaVencimientoIni(), estatusConciliacionRequest.getFechaVencimientoFin(), estatusConciliacionRequest.getUsuario(), estatusConciliacionRequest.getTipoConciliacion(),estatusConciliacionRequest.getEstatus(), estatusConciliacionRequest.getDerivado());
-        estatusConciliacionDtoList.addAll(
-                objectList.stream()
-                        .map(ob -> new EstatusConciliacionDto(ob))
-                        .collect(Collectors.toList()));
-        return estatusConciliacionDtoList;
+        if(estatusConciliacionRequest.isUltimaConciliacion()){
+            List<Object[]> objectList = sicaderConciliacionesRepository.getEstatusConciliacionesUltima();
+            estatusConciliacionDtoList.addAll(
+                    objectList.stream()
+                            .map(ob -> new EstatusConciliacionDto(ob))
+                            .collect(Collectors.toList()));
+            return estatusConciliacionDtoList;
+
+        }else{
+            List<Object[]> objectList = sicaderConciliacionesRepository.getEstatusConciliaciones(estatusConciliacionRequest.getFechaOperacionIni(), estatusConciliacionRequest.getFechaOperacionFin(),estatusConciliacionRequest.getFechaVencimientoIni(), estatusConciliacionRequest.getFechaVencimientoFin(), estatusConciliacionRequest.getUsuario(), estatusConciliacionRequest.getTipoConciliacion(),estatusConciliacionRequest.getEstatus(), estatusConciliacionRequest.getDerivado());
+            estatusConciliacionDtoList.addAll(
+                    objectList.stream()
+                            .map(ob -> new EstatusConciliacionDto(ob))
+                            .collect(Collectors.toList()));
+            return estatusConciliacionDtoList;
+
+        }
 
     }
 }

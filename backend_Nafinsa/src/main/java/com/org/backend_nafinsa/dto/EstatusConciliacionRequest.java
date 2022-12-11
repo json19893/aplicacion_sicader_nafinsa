@@ -22,4 +22,6 @@ public class EstatusConciliacionRequest {
     private String tipoConciliacion;
     private String estatus;
     private String derivado;
+    private boolean ultimaConciliacion;
+
 }
