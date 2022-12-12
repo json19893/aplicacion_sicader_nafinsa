@@ -15,6 +15,8 @@ function ContentConcilia2() {
     const [tipoDerivado, setTipoDerivado] = useState([]);
     const [loadingBoton, setLoadingBoton] = useState(stateInitialLoading);
     const [dataResumenEstatusConcilia, setDataResumenEstatusConcilia] = useState([]);
+    const [checkUltimaConcilia, setCheckUltimaConcilia] = useState(false);
+    const [required, setRequired] = useState(true);
 
     useEffect(() => {
 
@@ -52,7 +54,7 @@ function ContentConcilia2() {
     useEffect(() => {
         loadEstatusConciliacion(null)
     }, []);
-    
+
     const columns = [
         {
             title: "Fecha Operativa",
@@ -100,8 +102,11 @@ function ContentConcilia2() {
     };
     const [form] = Form.useForm();
 
-    const onChange = (date, dateString) => {
-        console.log(date, dateString);
+    const onChange = (e) => {
+        let valueCkeck = e.target.checked;
+        console.log(`checked = ${valueCkeck}`);
+        setCheckUltimaConcilia(valueCkeck)
+        setRequired(valueCkeck==true?false:true)
     };
 
     const { RangePicker } = DatePicker;
@@ -112,17 +117,24 @@ function ContentConcilia2() {
         setLoadingBoton({
             state: true,
         });
-        const request = {
-            fechaOperacionIni: moment(values.fechaOperativa[0]).format("YYYY-MM-DD"),
-            fechaOperacionFin: moment(values.fechaOperativa[1]).format("YYYY-MM-DD"),
-            fechaVencimientoIni: moment(values.fechaEjecucion[0]).format("YYYY-MM-DD"),
-            fechaVencimientoFin: moment(values.fechaEjecucion[1]).format("YYYY-MM-DD"),
-            usuario: values.usuario,
-            tipoConciliacion: values.tipoConciliacion,
-            estatus: values.estatus,
-            derivado: values.tipoDerivado,
+        let request;
+        if(checkUltimaConcilia){
+            request = {
+                ultimaConciliacion: checkUltimaConcilia
+            }
+        }else{
+            request = {
+                fechaOperacionIni: moment(values.fechaOperativa[0]).format("YYYY-MM-DD"),
+                fechaOperacionFin: moment(values.fechaOperativa[1]).format("YYYY-MM-DD"),
+                fechaVencimientoIni: moment(values.fechaEjecucion[0]).format("YYYY-MM-DD"),
+                fechaVencimientoFin: moment(values.fechaEjecucion[1]).format("YYYY-MM-DD"),
+                usuario: values.usuario,
+                tipoConciliacion: values.tipoConciliacion,
+                estatus: values.estatus,
+                derivado: values.tipoDerivado,
+                ultimaConciliacion: checkUltimaConcilia
+            }
         }
-        console.log(request);
         loadEstatusConciliacion(request)
     };
 
@@ -130,7 +142,6 @@ function ContentConcilia2() {
         <div>
             <Card size="small" align="left"
             >
-
                 <Form form={form} size="small"
                     onFinish={submitForm}
                     name="formulario"
@@ -147,108 +158,133 @@ function ContentConcilia2() {
                         label="Fecha Operativa:"
                         name="fechaOperativa"
                         rules={[{
-                            required: true,
+                            required: required,
                         }]}
                     >
-                        <RangePicker />
+                        <RangePicker disabled={checkUltimaConcilia} />
                     </Form.Item>
                     <Form.Item
                         label="Fecha Ejecucion:"
                         name="fechaEjecucion"
                         rules={[{
-                            required: true,
+                            required: required,
                         }]}
                     >
-                        <RangePicker />
+                        <RangePicker disabled={checkUltimaConcilia} />
                     </Form.Item>
+                    <Row>
+                        <Col span={12} align="center">
+                            <Form.Item
+                                label="Usuario"
+                                name="usuario"
+                                rules={[{
+                                    required: required,
+                                    message: "Por favor ingresa el Usuario"
+                                }]}
+                            >
+                                <Input disabled={checkUltimaConcilia} />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12} align="left">
+                            <Form.Item
+                                label="Tipo de Conciliación: "
+                                name="tipoConciliacion"
+                                rules={[{
+                                    required: required,
+                                    message: "Por favor ingresa el Tipo de Conciliación"
+                                }]}
+                                wrapperCol={{
+                                    span: 10,
+                                }}
+                            >
+                                <Select disabled={checkUltimaConcilia}
+                                    options={[
+                                        {
+                                            value: 'D',
+                                            label: 'Diaria'
+                                        },
+                                        {
+                                            value: 'M',
+                                            label: 'Mensual'
+                                        },
+                                    ]}
+                                />
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
-                    <Form.Item
-                        label="Usuario"
-                        name="usuario"
-                        rules={[{
-                            required: true,
-                            message: "Por favor ingresa el Usuario"
-                        }]}
-                    >
-                        <Row gutter={8}>
-                            <Col span={12}>
-                                <Input />
-                            </Col>
-                        </Row>
-                    </Form.Item>
+                    <Row>
+                        <Col span={12} align="left">
+                            <Form.Item
+                                label="Estatus"
+                                name="estatus"
+                                rules={[{
+                                    required: required,
+                                    message: "Por favor ingresa el Estatus"
+                                }]}
+                                wrapperCol={{
+                                    span: 10,
+                                }}
+                            >
+                                <Select disabled={checkUltimaConcilia}
+                                    options={[
+                                        {
+                                            value: 'E',
+                                            label: 'Exitosa'
+                                        },
+                                        {
+                                            value: 'D',
+                                            label: 'Con Diferencias'
+                                        },
+                                        {
+                                            value: 'X',
+                                            label: 'Con Errores'
+                                        },
+                                    ]}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12} align="left">
+                            <Form.Item
+                                label="Tipo Derivado: "
+                                name="tipoDerivado"
+                                rules={[{
+                                    required: required,
+                                    message: "Por favor ingresa el Tipo Derivado"
+                                }]}
+                                wrapperCol={{
+                                    span: 10,
+                                }}
+                            >
+                                <Select disabled={checkUltimaConcilia}>
+                                    {tipoDerivado.map(elemento => (
+                                        <Select.Option key={elemento.id} value={elemento.id}>{elemento.nombre}</Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
-                    <Form.Item
-                        label="Tipo de Conciliación: "
-                        name="tipoConciliacion"
-                        rules={[{
-                            required: true,
-                            message: "Por favor ingresa el Tipo de Conciliación"
-                        }]}
-                    >
+                    <Row>
+                        <Col span={12} align="rigth">
+                            <Form.Item
+                                label="Ultima Conciliacion: "
+                                name="ultimaConciliacion"
+                                wrapperCol={{
+                                    span: 10,
+                                }}
+                            >
+                                <Checkbox onChange={onChange}></Checkbox>
+                            </Form.Item>
+                        </Col>
 
-                        <Select
-                            options={[
-                                {
-                                    value: 'D',
-                                    label: 'Diaria'
-                                },
-                                {
-                                    value: 'M',
-                                    label: 'Mensual'
-                                },
-                            ]}
-                        />
+                        <Col span={4} align="center">
+                            <Button htmlType="submit" className="buttonSearch" type="primary" shape="circle" icon={<SearchOutlined />} size="large" />
+                            &nbsp;&nbsp;&nbsp;
+                            <Button type="danger" shape="circle" icon={<CloseOutlined />} size="large" onClick={onReset} />
+                        </Col>
+                    </Row>
 
-                    </Form.Item>
-                    <Col span={12} align="left">
-                        Ultima Conciliacion:&nbsp;
-                        <Checkbox></Checkbox>
-                    </Col>
-                    <Form.Item
-                        label="Estatus"
-                        name="estatus"
-                        rules={[{
-                            required: true,
-                            message: "Por favor ingresa el Estatus"
-                        }]}
-                    >
-                        <Select
-                            options={[
-                                {
-                                    value: 'E',
-                                    label: 'Exitosa'
-                                },
-                                {
-                                    value: 'D',
-                                    label: 'Con Diferencias'
-                                },
-                                {
-                                    value: 'X',
-                                    label: 'Con Errores'
-                                },
-                            ]}
-                        />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Tipo Derivado: "
-                        name="tipoDerivado"
-                        rules={[{
-                            required: true,
-                            message: "Por favor ingresa el Tipo Derivado"
-                        }]}
-                    >
-                        <Select>
-                            {tipoDerivado.map(elemento => (
-                                <Select.Option key={elemento.id} value={elemento.id}>{elemento.nombre}</Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-                    <Col span={12} align="right">
-                        <Button htmlType="submit" className="buttonSearch" type="primary" shape="circle" icon={<SearchOutlined />} size="large" />
-                        &nbsp;&nbsp;&nbsp;
-                        <Button type="danger" shape="circle" icon={<CloseOutlined />} size="large" onClick={onReset} />
-                    </Col>
                 </Form>
             </Card>
             <Card size="small" align="left" title="Resumen de Conciliación"
