@@ -25,6 +25,7 @@ function ContentConcilia1() {
     const [disabledV, setDisabledV] = useState(false);
     const [disableDerivado, setDisableDeribado] = useState(true);
     const [tipoDeribado, setTipoDeribado] = useState();
+    const [tipoConciliacionS, setTipoCociliacionsS] = useState();
     const [dataValidacion, SetdataValidacion] = useState([]);
     const [dataConciliacion, setDataCociliacion] = useState([]);
     
@@ -155,18 +156,18 @@ const filesRep=dataValidacion;
               const validacion = await ejecutaValidacion()
               if (validacion.status === 200) {
                   const arch=[];
-                  if(tipoDeribado==4){
-                    SetdataValidacion(validacion.data)
-                    if(validacion.data.length>0){
-                   
-                      setIsModalOpen(true);
-                    }
-                  }else{
+                  console.log("validacion::: "+validacion);
                   validacion.data.forEach((item)=>{
                     console.log(item);
-                       if(item.tipoDerivado==tipoDeribado){
+                    if (tipoDeribado!=4){
+                       if(item.tipoDerivado==tipoDeribado && item.tipoConcilia==tipoConciliacionS ){
                         arch.push(item);
                      }
+                    }else{
+                      if(item.tipoConcilia==tipoConciliacionS ){
+                        arch.push(item);
+                      }
+                    }
                    })
                   SetdataValidacion(arch)
                   if(arch.length>0){
@@ -174,7 +175,7 @@ const filesRep=dataValidacion;
                     setIsModalOpen(true);
                   }
                   setDisabledC(true)
-                  }
+                
                  
               } else {
                 message.error(validacion.data.mensaje);
@@ -212,7 +213,7 @@ const filesRep=dataValidacion;
             state: true,
           });
           setDisabledV(true)
-        console.log(conciliacion)
+        console.log(conciliacion);
         try {
             const response = await ejecutaConciliacion(conciliacion)
             console.log("estatus:: "+response.status)
@@ -251,6 +252,7 @@ const filesRep=dataValidacion;
       }
       const handleChangeSelectDeribado = async value => {
         console.log("value",value)
+        setTipoCociliacionsS(value)
         setDisableDeribado(true)
         const response = await getTipoDerivado()
         if (response.status === 200) {
@@ -267,7 +269,7 @@ const filesRep=dataValidacion;
             const result = [];
             response.data.forEach((item)=>{
              console.log(item);
-                if(item.nombre=="FORWARDS"){
+                if(item.nombre=="SWAPS"){
                   result.push(item);
               }
             })
