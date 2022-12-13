@@ -15,7 +15,7 @@ public interface SicaderConciliacionesRepository  extends JpaRepository<SicaderC
             "INNER JOIN SICADER.SICADER_CON_EJECUCIONES sce ON sc.EJECUCION_ID =SCE.ID \n" +
             "INNER JOIN SICADER.SICADER_CAT_TIPO_DERIVADOS  td ON td.ID = sc.TIPO_DERIVADO_ID  \n" +
             "INNER JOIN MONEDAS m ON m.MON_CLAVE = sc.MONEDA \n" +
-            "WHERE sc.FECHA = 1?", nativeQuery = true)
+            "WHERE sc.FECHA = ?1", nativeQuery = true)
     List<Object[]> getSicaderConciliaciones(LocalDate fechaOperacion);
 
     @Query(value = "select a.fecha_op, a.fecha_ejecucion, a.usu_ejecucion, case when a.tipo_conciliacion= 'D' then 'Diaria' else 'Mensual' end  as tipo, b.nomnbre, \n" +

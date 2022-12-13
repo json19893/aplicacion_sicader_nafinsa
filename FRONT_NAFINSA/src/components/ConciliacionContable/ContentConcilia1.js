@@ -231,6 +231,7 @@ const filesRep=dataValidacion;
                     state: false,
                   });
                   setDisabledV(false)
+                  loadConciliacion(conciliacion.inFecha)
                   message.error(response.data.mensaje);
               }
               

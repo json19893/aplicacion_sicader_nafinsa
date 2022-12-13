@@ -47,15 +47,32 @@ export async function ejecutaValidacion(params) {
     }
 }
 
-export async function getListaConciliacion() {
+export async function getListaConciliacion(fechaconcilia) {
     try {
+        let fechaO;
+        if (fechaconcilia == null) {
+            const fecha = new Date();
+            const fechaS = moment(fecha).format("YYYY-MM-DD")
+            fechaO = fechaS;
+        } else {
+            fechaO = moment(fechaconcilia).format("YYYY-MM-DD")
+        }
+
+        const request = {
+            fechaOperacion: fechaO
+        }
+
+        console.log(request)
         const response = await axios({
             url: `${baseUrl}/sicader/conciliacion/getConciliacionFecha`,
-            method: 'GET'
+            method: 'GET',
+            params: request
         })
+        console.log(response)
         return response;
     } catch (e) {
-        console.log(e)
+        console.log(e.response)
+        return e.response;
     }
 }
 
