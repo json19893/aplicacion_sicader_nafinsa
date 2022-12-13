@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Table, Button, Form, Input, Card, Row, Col, Select, Icon, DatePicker, Checkbox } from 'antd';
-import { FileExcelOutlined, PlusOutlined, CloseOutlined, SearchOutlined } from '@ant-design/icons';
+import { Table, Button, Form, Input, Card, Row, Col, Select, Icon, DatePicker,Popover, Checkbox } from 'antd';
+import { FileExcelOutlined, PlusOutlined, CloseOutlined, SearchOutlined,QuestionOutlined } from '@ant-design/icons';
 import { CSVLink } from 'react-csv';
 import moment from 'moment';
+const { Meta } = Card;
 import { getTipoDerivado } from '../../services/catalogosService'
 import { getEstatusConciliacion } from '../../services/conciliacionService'
 
@@ -137,11 +138,41 @@ function ContentConcilia2() {
         }
         loadEstatusConciliacion(request)
     };
-
+    const [open, setOpen] = useState(false);
+    const handleOpenChange = (newOpen) => {
+        setOpen(newOpen);
+      };
+    const desc=(
+        <Card
+        style={{
+          width: 300,
+          marginTop: 16,
+        }}
+       
+      >
+        <Meta
+          description="Pantalla cuyo objetivo es mostrar el estatus de las conciliaciones ejecutadas en un rango de fechas ya sea para la conciliación Diaria o Mensual. Y también se puede obtener el detalle de las mismas."
+        />
+      </Card>
+      )
+    const content = (
+        <Popover
+           content={desc}
+           trigger="click"
+           placement="leftTop"
+           open={open}
+           onOpenChange={handleOpenChange}
+         >
+           <Button type="ghost" shape="circle" icon={<QuestionOutlined />} size="small" ></Button>
+         </Popover>
+       );
     return (
         <div>
-            <Card size="small" align="left"
+             <Card size="small" align="left" title="Estatus de la Conciliación Contable"
+                extra={content}
+                headStyle={{ backgroundColor: '#39c0c4' }}
             >
+            <br></br>
                 <Form form={form} size="small"
                     onFinish={submitForm}
                     name="formulario"
