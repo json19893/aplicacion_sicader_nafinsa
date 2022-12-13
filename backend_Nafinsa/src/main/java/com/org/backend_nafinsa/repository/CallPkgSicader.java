@@ -35,6 +35,7 @@ public class CallPkgSicader {
         sicaderConciliaPkg.setParameter("P_FECHA", conciliaPkg.getInFecha());
         sicaderConciliaPkg.setParameter("P_USUARIO", conciliaPkg.getInUsuario());
         sicaderConciliaPkg.setParameter("P_DERIVADO", conciliaPkg.getInDerivado());
+        sicaderConciliaPkg.setHint( "hibernate.proc.param_null_passing.P_DERIVADO", "true" );
         sicaderConciliaPkg.execute();
         SalidaPkg salidaPkg = new SalidaPkg();
         salidaPkg.setEstatus((String) sicaderConciliaPkg.getOutputParameterValue("P_ESTATUS_CONCILIA"));
@@ -51,6 +52,7 @@ public class CallPkgSicader {
         sicaderValidaPkg.setParameter("P_FECHA", validacionPkg.getFechaOperacion());
         sicaderValidaPkg.setParameter("P_DERIVADO", validacionPkg.getDerivado());
         sicaderValidaPkg.setParameter("P_TIPO_CONCILIA", validacionPkg.getTipoConciliacion());
+        sicaderValidaPkg.setHint( "hibernate.proc.param_null_passing.P_TIPO_CONCILIA", "true" );
         sicaderValidaPkg.execute();
     }
 
