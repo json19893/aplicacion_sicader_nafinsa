@@ -52,7 +52,7 @@ public class CallPkgSicader {
         sicaderValidaPkg.setParameter("P_FECHA", validacionPkg.getFechaOperacion());
         sicaderValidaPkg.setParameter("P_DERIVADO", validacionPkg.getDerivado());
         sicaderValidaPkg.setParameter("P_TIPO_CONCILIA", validacionPkg.getTipoConciliacion());
-        sicaderValidaPkg.setHint( "hibernate.proc.param_null_passing.P_TIPO_CONCILIA", "true" );
+        sicaderValidaPkg.setHint( "hibernate.proc.param_null_passing.P_DERIVADO", "true" );
         sicaderValidaPkg.execute();
     }
 
