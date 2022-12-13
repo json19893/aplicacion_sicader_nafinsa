@@ -34,8 +34,8 @@ public class CallPkgSicader {
         sicaderConciliaPkg.setParameter("P_TIPO_CONCILIA", conciliaPkg.getInTipoConcilia());
         sicaderConciliaPkg.setParameter("P_FECHA", conciliaPkg.getInFecha());
         sicaderConciliaPkg.setParameter("P_USUARIO", conciliaPkg.getInUsuario());
+        ((org.hibernate.procedure.ParameterRegistration) sicaderConciliaPkg.getParameter("P_DERIVADO")).enablePassingNulls(true);
         sicaderConciliaPkg.setParameter("P_DERIVADO", conciliaPkg.getInDerivado());
-        sicaderConciliaPkg.setHint( "hibernate.proc.param_null_passing.P_DERIVADO", "true" );
         sicaderConciliaPkg.execute();
         SalidaPkg salidaPkg = new SalidaPkg();
         salidaPkg.setEstatus((String) sicaderConciliaPkg.getOutputParameterValue("P_ESTATUS_CONCILIA"));
@@ -50,6 +50,7 @@ public class CallPkgSicader {
         sicaderValidaPkg.registerStoredProcedureParameter("P_DERIVADO", Long.class, ParameterMode.IN);
         sicaderValidaPkg.registerStoredProcedureParameter("P_TIPO_CONCILIA", String.class, ParameterMode.IN);
         sicaderValidaPkg.setParameter("P_FECHA", validacionPkg.getFechaOperacion());
+        ((org.hibernate.procedure.ParameterRegistration) sicaderValidaPkg.getParameter("P_DERIVADO")).enablePassingNulls(true);
         sicaderValidaPkg.setParameter("P_DERIVADO", validacionPkg.getDerivado());
         sicaderValidaPkg.setParameter("P_TIPO_CONCILIA", validacionPkg.getTipoConciliacion());
         sicaderValidaPkg.setHint( "hibernate.proc.param_null_passing.P_DERIVADO", "true" );
