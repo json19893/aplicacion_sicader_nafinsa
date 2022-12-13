@@ -53,7 +53,7 @@ public class CallPkgSicader {
         ((org.hibernate.procedure.ParameterRegistration) sicaderValidaPkg.getParameter("P_DERIVADO")).enablePassingNulls(true);
         sicaderValidaPkg.setParameter("P_DERIVADO", validacionPkg.getDerivado());
         sicaderValidaPkg.setParameter("P_TIPO_CONCILIA", validacionPkg.getTipoConciliacion());
-        sicaderValidaPkg.setHint( "hibernate.proc.param_null_passing.P_DERIVADO", "true" );
+       
         sicaderValidaPkg.execute();
     }
 
