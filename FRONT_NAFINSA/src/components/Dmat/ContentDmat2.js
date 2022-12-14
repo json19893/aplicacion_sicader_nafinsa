@@ -201,9 +201,9 @@ function ContentDmat2() {
       let sheetName = wb.SheetNames[i];
 
       const workSheet = wb.Sheets[sheetName];
-      const jsonData = XLSX.utils.sheet_to_json(workSheet)
-
-      mySheetData[sheetName] = jsonData;
+      //const jsonData = XLSX.utils.sheet_to_json(workSheet)
+      let sheet = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
+      mySheetData[sheetName] = sheet;
 
       console.log(sheetName);
       
