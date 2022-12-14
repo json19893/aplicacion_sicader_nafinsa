@@ -215,7 +215,7 @@ const filesRep=dataValidacion;
           setDisabledV(true)
         console.log(conciliacion);
         try {
-            const response =  ejecutaConciliacion(conciliacion)
+            const response = await ejecutaConciliacion(conciliacion)
             console.log("estatus:: "+response.status)
             if (response.status === 200) {
               if (response.data.respuesta === 'OK') {
