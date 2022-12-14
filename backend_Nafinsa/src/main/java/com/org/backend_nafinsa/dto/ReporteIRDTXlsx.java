@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -19,7 +20,7 @@ public class ReporteIRDTXlsx {
     private double seq;
     private String product;
     private String prodtype;
-    private Date brprcindte;
+    private LocalDate brprcindte;
     private String dealind;
     private String ccy;
     private String baseccy;

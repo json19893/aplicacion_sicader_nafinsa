@@ -38,6 +38,13 @@ public class ArchivoController {
         return cargaArchivo.cargarArchivoMensual(archivoMensualJsDtoList);
     }
 
+    @PostMapping("/archivo06IRDT")
+    public ResponseDto cargarArchivo06IRDT(
+            @RequestBody (required = true) ArchivoMensualJSRequest archivoMensualJsDtoList
+    ) throws IOException {
+        return cargaArchivo.cargarArchivo06IRDT(archivoMensualJsDtoList);
+    }
+
     @GetMapping("/archivoMensual")
     public List<ArchivoReporteMensualDto> getArchivoMensualFecha(
             @RequestParam(required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaOperacion

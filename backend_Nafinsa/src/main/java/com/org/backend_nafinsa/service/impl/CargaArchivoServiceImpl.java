@@ -13,6 +13,7 @@ import com.org.backend_nafinsa.repository.*;
 import com.org.backend_nafinsa.service.CargaArchivoService;
 import com.org.backend_nafinsa.util.CodigosRespuestaControlados;
 import com.org.backend_nafinsa.util.Constants;
+import com.org.backend_nafinsa.util.Utilidades;
 import lombok.extern.java.Log;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -76,6 +77,9 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
     SicaderSlVsSidecaRepository sicaderSlVsSidecaRepository;
     @Autowired
     SicaderSlVsSidecaDetalleRepository sicaderSlVsSidecaDetalleRepository;
+
+    @Autowired
+    Utilidades utilidades;
 
     @Override
     public ResponseDto cargarArchivo(MultipartFile file, String usuario, LocalDate fechaOperacion, boolean forzar) {
@@ -294,6 +298,31 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("{\"Message\":\"No se encontró información.\"}");
         }
+    }
+
+    @Override
+    public ResponseDto cargarArchivo06IRDT(ArchivoMensualJSRequest archivoMensualJsDtoList) {
+        ResponseDto responseDto = new ResponseDto("OK");
+        String reporte[];
+        reporte = validaTipoReporte(archivoMensualJsDtoList.getNombreArchivo().substring(0, 2), archivoMensualJsDtoList.getNombreArchivo().substring(0, 4));
+        if (archivoMensualJsDtoList.getArchivoMensualJsDtoList()== null) {
+            logger.info(respuestaControlada.getArchivovacio().get("codigo"));
+            logger.info(respuestaControlada.getArchivovacio().get("mensaje"));
+            throw new ErrorAplicacionControlado(
+                    respuestaControlada.getArchivovacio().get("codigo"),
+                    this.getClass().getName(),
+                    respuestaControlada.getArchivovacio().get("mensaje")
+            );
+        }
+
+        Optional<SicaderReporteIRDT> reporteIRDTRepo = sicaderReporteIRDTRepository.findByFechaOperacion(archivoMensualJsDtoList.getFechaOperacion());
+        if (reporteIRDTRepo.isPresent() && !archivoMensualJsDtoList.isForzar()) {
+            responseDto.setRespuesta(Constants.MENSAJE_EXISTE);
+        } else {
+            procesarReporteIRDTJs(archivoMensualJsDtoList, reporteIRDTRepo);
+        }
+
+        return null;
     }
 
 
@@ -620,7 +649,7 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
                                 reporteIRDTXlsx.setProdtype(celda.getStringCellValue());
                                 break;
                             case 5:
-                                reporteIRDTXlsx.setBrprcindte(celda.getDateCellValue());
+                                //reporteIRDTXlsx.setBrprcindte( celda.getDateCellValue());
                                 break;
                             case 6:
                                 reporteIRDTXlsx.setDealind(celda.getStringCellValue());
@@ -645,6 +674,97 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
                     if (celda.getColumnIndex() == 11 && columna.getRowNum() > 1)
                         listaReporteIRDTXlsx.add(reporteIRDTXlsx);
                 }
+            }
+
+            List<SicaderReporteIRDTDetalle> sicaderReporteIRDTDetalles = new ArrayList<>();
+            for (ReporteIRDTXlsx reporteIRDTXlsx : (Iterable<ReporteIRDTXlsx>) listaReporteIRDTXlsx) {
+                SicaderReporteIRDTDetalle sicaderReporteIRDTDetalletmp = new SicaderReporteIRDTDetalle(reporteIRDTXlsx, sicaderReporteIRDTSave);
+                sicaderReporteIRDTDetalles.add(sicaderReporteIRDTDetalletmp);
+            }
+            guardarReporteIRDT(sicaderReporteIRDTSave, sicaderReporteIRDTDetalles);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            if (numeroReporte != 0) {
+                sicaderReporteIRDTSave.setEstatus(Constants.CARGA_ERROR);
+                sicaderReporteIRDTRepository.saveAndFlush(sicaderReporteIRDTSave);
+                throw new ErrorAplicacionControlado(
+                        respuestaControlada.getLecturaarchivos().get("codigo"),
+                        this.getClass().getName(),
+                        respuestaControlada.getLecturaarchivos().get("mensaje")
+                );
+            }
+            throw new ErrorAplicacionControlado(
+                    respuestaControlada.getServicionodisponible().get("codigo"),
+                    this.getClass().getName(),
+                    respuestaControlada.getServicionodisponible().get("mensaje")
+            );
+
+        }
+    }
+
+    public void procesarReporteIRDTJs(ArchivoMensualJSRequest archivoMensualJsDtoList, Optional<SicaderReporteIRDT> reporteIRDTRepo) {
+        Long numeroReporte = 0L;
+        SicaderReporteIRDT sicaderReporteIRDTSave = new SicaderReporteIRDT();
+        try {
+            if (reporteIRDTRepo.isPresent()) {
+                sicaderReporteIRDTSave = reporteIRDTRepo.get();
+                sicaderReporteIRDTSave.setFechaModificacion(Constants.diaActual);
+                sicaderReporteIRDTSave.setUsuModificacion(archivoMensualJsDtoList.getUsuario());
+                sicaderReporteIRDTSave.setEstatus(Constants.CARGA_INICIAL);
+                sicaderReporteIRDTSave.getSicaderReporteIRDTDetalles().clear();
+            } else {
+                sicaderReporteIRDTSave.setUsuRegistro(archivoMensualJsDtoList.getUsuario());
+                sicaderReporteIRDTSave.setFechaRegistro(Constants.diaActual);
+                sicaderReporteIRDTSave.setFechaOperacion(archivoMensualJsDtoList.getFechaOperacion());
+                sicaderReporteIRDTSave.setEstatus(Constants.CARGA_INICIAL);
+            }
+            sicaderReporteIRDTSave = sicaderReporteIRDTRepository.saveAndFlush(sicaderReporteIRDTSave);
+            numeroReporte = sicaderReporteIRDTSave.getId();
+            List<ReporteIRDTXlsx> listaReporteIRDTXlsx = new ArrayList<>();
+
+            for ( ArchivoMensualJsDto  objeto : archivoMensualJsDtoList.getArchivoMensualJsDtoList()) {
+
+                Iterator itr = objeto.getData().iterator();
+                int numCelda =0;
+                while(itr.hasNext())
+                {
+                    Object[] elemento = (Object[]) itr.next();
+                    if(numCelda==0 ){
+                        if (elemento.length  != Constants.HEADER_REPORTE_IRDT.length) {
+                            throw new ErrorAplicacionControlado(
+                                    respuestaControlada.getArchivocolumnas().get("codigo"),
+                                    this.getClass().getName(),
+                                    respuestaControlada.getArchivocolumnas().get("mensaje" +" columna:"+numCelda)
+                            );
+                        }
+                    }else {
+                        if(elemento.length!=0){
+                            if (elemento.length  != Constants.HEADER_REPORTE_IRDT.length) {
+                                throw new ErrorAplicacionControlado(
+                                        respuestaControlada.getArchivocolumnas().get("codigo"),
+                                        this.getClass().getName(),
+                                        respuestaControlada.getArchivocolumnas().get("mensaje" +" columna:"+numCelda)
+                                );
+                            }
+                            ReporteIRDTXlsx reporteIRDTXlsx = new ReporteIRDTXlsx();
+                            reporteIRDTXlsx.setBr(elemento[0].toString());
+                            reporteIRDTXlsx.setDealNo(Double.parseDouble(elemento[1].toString()));
+                            reporteIRDTXlsx.setSeq(Double.parseDouble(elemento[2].toString()));
+                            reporteIRDTXlsx.setProduct(elemento[3].toString());
+                            reporteIRDTXlsx.setProdtype(elemento[4].toString());
+                            reporteIRDTXlsx.setBrprcindte( utilidades.fechaGuion_DDMMYYYY(elemento[5].toString()));
+                            reporteIRDTXlsx.setDealind(elemento[6].toString());
+                            reporteIRDTXlsx.setCcy(elemento[7].toString());
+                            reporteIRDTXlsx.setBaseccy(elemento[8].toString());
+                            reporteIRDTXlsx.setNpvamt(Double.parseDouble(elemento[9].toString()));
+                            reporteIRDTXlsx.setNpvbamt(Double.parseDouble(elemento[10].toString()));
+                            reporteIRDTXlsx.setMtmamt(Double.parseDouble(elemento[11].toString()));
+                            listaReporteIRDTXlsx.add(reporteIRDTXlsx);
+                        }
+                    }
+                    numCelda=numCelda+1;
+                }
+
             }
 
             List<SicaderReporteIRDTDetalle> sicaderReporteIRDTDetalles = new ArrayList<>();

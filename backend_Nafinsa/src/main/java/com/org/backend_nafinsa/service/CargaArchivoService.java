@@ -19,4 +19,6 @@ public interface CargaArchivoService {
     List<ArchivoReporteMensualDto> getArchivoMensualFecha(LocalDate fechaOperacion);
 
     ResponseEntity<?> getArchivoDetalleFecha(Long id, String tipoReporte);
+
+    ResponseDto cargarArchivo06IRDT(ArchivoMensualJSRequest archivoMensualJsDtoList);
 }

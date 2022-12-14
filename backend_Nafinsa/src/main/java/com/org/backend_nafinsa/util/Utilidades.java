@@ -3,6 +3,7 @@ package com.org.backend_nafinsa.util;
 import com.org.backend_nafinsa.exception.ErrorAplicacionControlado;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+@Service
 public class Utilidades {
     @Autowired
     CodigosRespuestaControlados respuestaControlada;

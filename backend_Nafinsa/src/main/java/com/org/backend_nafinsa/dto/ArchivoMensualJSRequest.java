@@ -20,5 +20,7 @@ public class ArchivoMensualJSRequest {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaOperacion;
 
+    private String nombreArchivo;
+
     private boolean forzar;
 }
