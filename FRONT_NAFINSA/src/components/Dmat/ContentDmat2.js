@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table, Button, Form, Input, Card, Row, Col, Select,Popover,message, DatePicker, Upload,notification,Modal } from 'antd';
 import { FileExcelOutlined, PlusOutlined, DownloadOutlined, UploadOutlined,QuestionOutlined } from '@ant-design/icons';
 import { CSVLink } from 'react-csv';
+import * as XLSX from 'xlsx';
 const { Dragger } = Upload;
 import * as moment from "moment";
 //import * as fs from 'fs';
@@ -12,6 +13,8 @@ const stateInitialLoading = {
 const fec = {
   fecha: "",
 }
+
+
 import { getArchivoMensual, cargaArchivoMensual } from '../../../src/services/dtmaServices'
 
 function ContentDmat2() {
@@ -23,6 +26,8 @@ function ContentDmat2() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formModal, setformModal] = useState([]);
   const [fechaReporte, setFechaReporte] = useState(fec);
+  const [sheetNames, SetSheetNames] = useState([]);
+  const [sheetData, setSheetData] = useState({})
     const [form] = Form.useForm();
     useEffect(() => {
       loadArchivoFecha(null)
@@ -135,6 +140,7 @@ function ContentDmat2() {
         }
         setFileList([...fileList, file]);
       setUploading(true);
+   
       openNotification('Archivo cargado correctamente',1)
       }else{
         openNotification('Debe borrar el archivo para cargar otro' ,2)
@@ -160,13 +166,22 @@ function ContentDmat2() {
     });
    return openNotification('Por favor seleccione un Archivo', 2)
   }
+ 
+    const data = await fileList[0].arrayBuffer();
+    const mySheetData = readDataFromExcel(data);
+
+    console.log("ssssss:::: "+mySheetData);
+
     const request = {
       fechaOperacion: values.fechaOperacion,
-      file: fileList[0],
+      file: mySheetData,
       forzar: false,
-      usuario: 'jsalgado'
+      usuario: 'Jose'
     }
-    submitPost(request)
+
+    console.log(request);
+  
+    submitPost(request);
   } catch (error) {
     message.error('Error en la creación del registro.'+ error);
     setLoadingBoton({
@@ -174,6 +189,29 @@ function ContentDmat2() {
     });
   }
   }
+
+  const readDataFromExcel = (data) => {
+    const wb = XLSX.read(data);
+
+    SetSheetNames(wb.SheetNames);
+
+    var mySheetData = {};
+
+    for(var i=0; i<wb.SheetNames.length; i++){
+      let sheetName = wb.SheetNames[i];
+
+      const workSheet = wb.Sheets[sheetName];
+      //const jsonData = XLSX.utils.sheet_to_json(workSheet)
+      let sheet = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
+      mySheetData[sheetName] = sheet;
+
+      console.log(sheetName);
+      
+    }
+   return mySheetData ;
+  };
+
+
 
   async function submitPost(request) {
     try {
