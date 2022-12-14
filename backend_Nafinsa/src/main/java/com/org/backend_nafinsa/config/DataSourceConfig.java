@@ -22,7 +22,7 @@ public class DataSourceConfig {
 
 
     //configuracion para datasource
-  @Bean(destroyMethod = "")
+   @Bean(destroyMethod = "")
     public javax.sql.DataSource dataSource() throws NamingException {
         Context context = new InitialContext();
         return (javax.sql.DataSource)context.lookup("jdbc/sicader");

@@ -298,7 +298,7 @@ function CargaArchivo() {
       setNombreArchivo(request.file.name)
       try {
         const extFile = request.file.name.split('.').pop();
-        const response=null;
+        let response=null;
         if(extFile == 'xlsx'){
           console.log('entra xlsx')
           const data = await request.file.arrayBuffer();
@@ -307,17 +307,18 @@ function CargaArchivo() {
           const requestIrdt = {
             fechaOperacion:moment(request.fechaOperacion).format("YYYY-MM-DD"), 
             archivoMensualJsDtoList: mySheetData,
-            forzar: false,
+            forzar: request.forzar==null?false: request.forzar,
             usuario: 'Jose',
             nombreArchivo: request.file.name,
           }
           console.log("requestIrdt::: "+requestIrdt)
           response = await cargarArchivo06IRDT(requestIrdt)
+          console.log("response cargarArchivo06IRDT::: "+response)
         }else{
           response = await cargarArchivo(request)
         }
       if (response.status === 200) {
-        console.log("ss :::");
+        console.log("response.data.respuesta");
         if (response.data.respuesta === 'OK') {
           await loadArchivoFecha(request.fechaOperacion)
           onReset();
