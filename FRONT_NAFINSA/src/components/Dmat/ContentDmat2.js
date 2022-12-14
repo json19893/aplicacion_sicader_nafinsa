@@ -169,9 +169,6 @@ function ContentDmat2() {
  
     const data = await fileList[0].arrayBuffer();
     const mySheetData = readDataFromExcel(data);
-
-    console.log("ssssss:::: "+mySheetData);
-
     const request = {
       fechaOperacion:moment(values.fechaOperacion).format("YYYY-MM-DD"),
       archivoMensualJsDtoList:mySheetData,

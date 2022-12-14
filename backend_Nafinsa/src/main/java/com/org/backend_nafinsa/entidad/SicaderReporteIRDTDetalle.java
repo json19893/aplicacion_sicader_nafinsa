@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -37,7 +39,7 @@ public class SicaderReporteIRDTDetalle {
     private String prodtype;
 
     @Column(name = "BRPRCINDTE")
-    private Date brprcindte;
+    private LocalDate brprcindte;
 
     @Column(name = "DEALIND")
     private String dealind;

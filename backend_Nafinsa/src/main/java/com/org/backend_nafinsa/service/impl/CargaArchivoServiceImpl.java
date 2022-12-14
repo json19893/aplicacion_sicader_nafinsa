@@ -322,7 +322,7 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
             procesarReporteIRDTJs(archivoMensualJsDtoList, reporteIRDTRepo);
         }
 
-        return null;
+        return responseDto;
     }
 
 
@@ -747,12 +747,13 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
                                 );
                             }
                             ReporteIRDTXlsx reporteIRDTXlsx = new ReporteIRDTXlsx();
+                            LocalDate fechaInicial = LocalDate.parse("1900-01-01");
                             reporteIRDTXlsx.setBr(elemento[0].toString());
                             reporteIRDTXlsx.setDealNo(Double.parseDouble(elemento[1].toString()));
                             reporteIRDTXlsx.setSeq(Double.parseDouble(elemento[2].toString()));
                             reporteIRDTXlsx.setProduct(elemento[3].toString());
                             reporteIRDTXlsx.setProdtype(elemento[4].toString());
-                            reporteIRDTXlsx.setBrprcindte( utilidades.fechaGuion_DDMMYYYY(elemento[5].toString()));
+                            reporteIRDTXlsx.setBrprcindte( utilidades.fechaGuion_DDMMYYYY2(elemento[5].toString()));
                             reporteIRDTXlsx.setDealind(elemento[6].toString());
                             reporteIRDTXlsx.setCcy(elemento[7].toString());
                             reporteIRDTXlsx.setBaseccy(elemento[8].toString());

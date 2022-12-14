@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react';
 import { Table, Button, Form, Input, Card, Row, Col, Modal, DatePicker, Popover, message, Upload, notification, Typography } from 'antd';
 import { FileExcelOutlined, PlusOutlined, DownloadOutlined, UploadOutlined, QuestionOutlined } from '@ant-design/icons';
 import { CSVLink } from 'react-csv';
-import { cargarArchivo, getArchivoFecha, getArchivoDetalle } from '../../services/cargaArchivoService'
+import { cargarArchivo, cargarArchivo06IRDT, getArchivoFecha, getArchivoDetalle } from '../../services/cargaArchivoService'
 import { getColumnasDetalleArchivo } from './columnasArchivoDetalle'
-
+import * as moment from "moment";
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
@@ -31,6 +31,8 @@ function CargaArchivo() {
   const [nombreArchivo,setNombreArchivo] = useState([]);
   const [filesRep, setFilesRep] = useState([]);
   const [filesSelectedRep, setFilesSelectedRep] = useState([]);
+  const [sheetNames, SetSheetNames] = useState([]);
+  const [sheetData, setSheetData] = useState({});
 
   const filesReprocess = [];
 
@@ -169,7 +171,7 @@ function CargaArchivo() {
       if (cadena[1] != 'TXT' && cadena[1] != 'xlsx') {
         return openNotification('Favor de validar el nombre del archivo ingresado', 2);
       }
-      let val = cadena[0] + '.' + cadena[1] == '01_REP_FUTUROS_POSICION.TXT' ? 0 :
+      /*let val = cadena[0] + '.' + cadena[1] == '01_REP_FUTUROS_POSICION.TXT' ? 0 :
         cadena[0] + '.' + cadena[1] == '03_FX_FORWARD_POSITIONS.TXT' ? 0 :
           cadena[0] + '.' + cadena[1] == '06_SWAP_RESUMEN_POSICION.TXT' ? 0 :
             cadena[0] + '.' + cadena[1] == '40_JOURNAL_ENTRIES_DETAIL.TXT' ? 0 :
@@ -177,7 +179,7 @@ function CargaArchivo() {
                 cadena[0] + '.' + cadena[1] == 'IRDT.xlsx' ? 0 : 1
       if (val == 1) {
         return openNotification('Favor de validar el nombre del archivo ingresado', 2);
-      }
+      }*/
       setFileUpload(fileUpload => [...fileUpload, file]);
       setUploading(true);
       openNotification('Archivo seleccionado correctamente', 1)
@@ -219,6 +221,7 @@ function CargaArchivo() {
 
     for (const fileProcess of fileUpload){
       try {
+     
         const request = {
           fechaOperacion: values.fechaOperacion,
           file: fileProcess,
@@ -226,6 +229,7 @@ function CargaArchivo() {
           usuario: 'Jose'
         }
         await submitPost(request)
+    
 
       } catch (error) {
         message.error('Error en la creación del registro.');
@@ -293,8 +297,27 @@ function CargaArchivo() {
     
       setNombreArchivo(request.file.name)
       try {
-      const response = await cargarArchivo(request)
+        const extFile = request.file.name.split('.').pop();
+        const response=null;
+        if(extFile == 'xlsx'){
+          console.log('entra xlsx')
+          const data = await request.file.arrayBuffer();
+          const mySheetData = readDataFromExcel(data);
+          console.log(mySheetData)
+          const requestIrdt = {
+            fechaOperacion:moment(request.fechaOperacion).format("YYYY-MM-DD"), 
+            archivoMensualJsDtoList: mySheetData,
+            forzar: false,
+            usuario: 'Jose',
+            nombreArchivo: request.file.name,
+          }
+          console.log("requestIrdt::: "+requestIrdt)
+          response = await cargarArchivo06IRDT(requestIrdt)
+        }else{
+          response = await cargarArchivo(request)
+        }
       if (response.status === 200) {
+        console.log("ss :::");
         if (response.data.respuesta === 'OK') {
           await loadArchivoFecha(request.fechaOperacion)
           onReset();
@@ -306,6 +329,7 @@ function CargaArchivo() {
           //});
         }
         else {
+          console.log("request.file :::"+request.file);
           filesReprocess.push(request.file);
         }
       } else {
@@ -316,12 +340,39 @@ function CargaArchivo() {
         });
       }
     } catch (error) {
-      message.error('Error en la creación del registro.');
+      message.error('Error en la creación del registrosss.');
       setLoadingBoton({
         state: false,
       });
     }
   }
+
+  
+
+    const readDataFromExcel = (data) => {
+      const wb = XLSX.read(data,{cellDates:true});
+  
+      SetSheetNames(wb.SheetNames);
+  
+      var mySheetData = [];
+  
+      for(var i=0; i<wb.SheetNames.length; i++){
+        let sheetName = wb.SheetNames[i];
+  
+        const workSheet = wb.Sheets[sheetName];
+        //const jsonData = XLSX.utils.sheet_to_json(workSheet)
+        let sheet = XLSX.utils.sheet_to_json(workSheet, { header: 1,raw:true,dateNF:'yyyy-mm-dd'} );
+        let dat={
+          socio:sheetName,
+          data:sheet
+        }
+        mySheetData.push(dat);
+  
+        console.log("sww:: "+sheetName);
+        
+      }
+     return mySheetData ;
+    };
 
   const handleOk = () => {
     formModal.forzar = true;

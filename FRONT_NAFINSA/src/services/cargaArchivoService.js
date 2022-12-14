@@ -26,6 +26,22 @@ export async function cargarArchivo(params) {
     }
 }
 
+export async function cargarArchivo06IRDT(request) {
+   
+    try{
+        const response = await axios({
+            url: `${baseUrl}/sicader/carga/archivo06IRDT`,
+            method: 'POST',
+            data: request,
+            //headers: { "Content-Type": "application/json" }
+        })
+        console.log(response);
+        return response;
+    } catch (e) {
+        console.log('error servicio: ' + JSON.stringify(e.response))
+        return e.response;        
+    }
+}
 export async function getArchivoFecha (fechaOperacion) {
     try{
         let fechaO;
