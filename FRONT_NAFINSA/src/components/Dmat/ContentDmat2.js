@@ -173,8 +173,8 @@ function ContentDmat2() {
     console.log("ssssss:::: "+mySheetData);
 
     const request = {
-      fechaOperacion: values.fechaOperacion,
-      file: mySheetData,
+      fechaOperacion:moment(values.fechaOperacion).format("YYYY-MM-DD"),
+      archivoMensualJsDtoList:mySheetData,
       forzar: false,
       usuario: 'Jose'
     }
@@ -195,7 +195,7 @@ function ContentDmat2() {
 
     SetSheetNames(wb.SheetNames);
 
-    var mySheetData = {};
+    var mySheetData = [];
 
     for(var i=0; i<wb.SheetNames.length; i++){
       let sheetName = wb.SheetNames[i];
@@ -203,7 +203,11 @@ function ContentDmat2() {
       const workSheet = wb.Sheets[sheetName];
       //const jsonData = XLSX.utils.sheet_to_json(workSheet)
       let sheet = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
-      mySheetData[sheetName] = sheet;
+      let dat={
+        socio:sheetName,
+        data:sheet
+      }
+      mySheetData.push (dat);
 
       console.log(sheetName);
       
