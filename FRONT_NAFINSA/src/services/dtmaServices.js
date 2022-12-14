@@ -132,17 +132,11 @@ export async function getAllC10 (fechaOpe) {
 
 export async function cargaArchivoMensual (params) {
     try{
-        var FormData = require('form-data');
-        const formData = new FormData();
-        formData.append('file', params.file)
-        const fechaS = moment(params.fechaOperacion).format("YYYY-MM-DD")
-console.log("service:: ",params.forzar);
+        
         const response = await axios({
-            url: `${baseUrl}/sicader/carga/archivoMensual?fechaOperacion=${fechaS}&forzar=${params.forzar}&usuario=${params.usuario}`,
+            url: `${baseUrl}/sicader/carga/archivoMensual`,
             method: 'POST',
-            data: formData,
-            //headers: { "Content-Type": "multipart/form-data" },
-
+            data: params
         })
         console.log(response);
         return response;
