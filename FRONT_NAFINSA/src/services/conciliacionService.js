@@ -3,10 +3,10 @@ import * as moment from "moment";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
-export async function validaConciliacion (params) {
+export  function validaConciliacion (params) {
     try{
       
-        const response = await axios({
+        const response =  axios({
             url: `${baseUrl}/sicader/conciliacion/ejecutaValidacion`,
             method: 'POST',
             data: params
