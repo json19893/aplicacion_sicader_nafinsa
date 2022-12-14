@@ -2,14 +2,14 @@ package com.org.backend_nafinsa.dto;
 
 import lombok.*;
 
-import javax.persistence.Column;
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Builder
-public class ReporteMensual {
+public class ReporteMensualJs {
 
     private int folio;
     private double contrato;

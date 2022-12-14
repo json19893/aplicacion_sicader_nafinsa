@@ -8,6 +8,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -23,9 +24,9 @@ public class SicaderSlVsSideca {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SICADER_SL_SIDECA_SEQ")
     @SequenceGenerator(schema = "SICADER", name = "SICADER_SL_SIDECA_SEQ", sequenceName = "SICADER_SL_SIDECA_SEQ", allocationSize = 1)
     private Long id;
-    @Temporal(TemporalType.DATE)
+
     @Column(name = "FECHA_OP")
-    private Date fechaOperacion;
+    private LocalDate fechaOperacion;
 
     @Column(name = "FECHA_REGISTRO")
     private Date fechaRegistro;

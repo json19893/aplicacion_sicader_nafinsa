@@ -31,6 +31,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -154,56 +155,84 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
     }
 
     @Override
-    public ResponseDto cargarArchivoMensual(MultipartFile file, String usuario, Date fechaOperacion, boolean forzar) {
-        logger.info(file.toString());
-        if (!file.getOriginalFilename().contains("xlsx")) {
-            throw new ErrorAplicacionControlado(
-                    respuestaControlada.getExtensionXlsx().get("codigo"),
-                    this.getClass().getName(),
-                    respuestaControlada.getExtensionXlsx().get("mensaje")
-            );
-        }
+    public ResponseDto cargarArchivoMensual(ArchivoMensualJSRequest archivoMensualJsDtoList) {
 
-        if (file.isEmpty()) {
-            //updateResumen(sicaderResumenArchivo,Constants.CARGA_ERROR);
-            throw new ErrorAplicacionControlado(
-                    respuestaControlada.getArchivovacio().get("codigo"),
-                    this.getClass().getName(),
-                    respuestaControlada.getArchivovacio().get("mensaje")
-            );
-        }
-
-        Optional<SicaderSlVsSideca> sicaderSlVsSideca = sicaderSlVsSidecaRepository.findByFechaOperacion(fechaOperacion);
-        if (sicaderSlVsSideca.isPresent() && !forzar) {
+        Optional<SicaderSlVsSideca> sicaderSlVsSideca = sicaderSlVsSidecaRepository.findByFechaOperacion(archivoMensualJsDtoList.getFechaOperacion());
+        if (sicaderSlVsSideca.isPresent() && ! archivoMensualJsDtoList.isForzar()) {
             return new ResponseDto(Constants.MENSAJE_EXISTE);
         }
         SicaderSlVsSideca sicaderSlVsSidecaSave = new SicaderSlVsSideca();
         if (sicaderSlVsSideca.isPresent()) {
             sicaderSlVsSidecaSave = sicaderSlVsSideca.get();
-            sicaderSlVsSidecaSave.setFechaModificacion(fechaOperacion);
-            sicaderSlVsSidecaSave.setUsuModificacion(usuario);
+            sicaderSlVsSidecaSave.setFechaModificacion(Constants.diaActual);
+            sicaderSlVsSidecaSave.setUsuModificacion(archivoMensualJsDtoList.getUsuario());
             sicaderSlVsSidecaSave.getSicaderSlVsSidecaDetalles().clear();
             sicaderSlVsSidecaSave.setEstatus("E");
         } else {
-            sicaderSlVsSidecaSave.setUsuRegistro(usuario);
-            sicaderSlVsSidecaSave.setFechaRegistro(fechaOperacion);
-            sicaderSlVsSidecaSave.setFechaOperacion(fechaOperacion);
+            sicaderSlVsSidecaSave.setUsuRegistro(archivoMensualJsDtoList.getUsuario());
+            sicaderSlVsSidecaSave.setFechaRegistro(Constants.diaActual);
+            sicaderSlVsSidecaSave.setFechaOperacion(archivoMensualJsDtoList.getFechaOperacion());
             sicaderSlVsSidecaSave.setEstatus("E");
 
         }
-        List<ReporteMensual> reporteMensualLista = new ArrayList<>();
-        try {
-            reporteMensualLista = procesaReporteMensual(file, usuario, fechaOperacion);
-        } catch (Exception e) {
-            logger.error(e.toString());
-            throw new ErrorAplicacionControlado(
-                    respuestaControlada.getArchivoinconsistente().get("codigo"),
-                    this.getClass().getName(),
-                    respuestaControlada.getArchivoinconsistente().get("mensaje")
-            );
+        List<ReporteMensualJs> reporteMensualLista = new ArrayList<>();
+
+        for ( ArchivoMensualJsDto  objeto : archivoMensualJsDtoList.getArchivoMensualJsDtoList()) {
+            objeto.getSocio();
+            SicaderCatSociosLiquidadores sicaderCatSociosLiquidadores =
+                    sociosLiquidadoresRepository.findByNombreLike("%" + objeto.getSocio() + "%");
+            if (sicaderCatSociosLiquidadores == null) {
+                throw new ErrorAplicacionControlado(
+                        respuestaControlada.getSocioLiquidador().get("codigo"),
+                        this.getClass().getName(),
+                        respuestaControlada.getSocioLiquidador().get("mensaje")
+                );
+            }
+
+            Iterator itr = objeto.getData().iterator();
+            int numCelda =0;
+            while(itr.hasNext())
+            {
+                Object[] elemento = (Object[]) itr.next();
+                if(numCelda==0 ){
+                    if (elemento.length  != Constants.HEADER_REPORTE_MENSUAL.length) {
+                        throw new ErrorAplicacionControlado(
+                                respuestaControlada.getArchivocolumnas().get("codigo"),
+                                this.getClass().getName(),
+                                respuestaControlada.getArchivocolumnas().get("mensaje" +" columna:"+numCelda)
+                        );
+                    }
+                }else {
+                   if(elemento.length!=0){
+                    if (elemento.length  != Constants.HEADER_REPORTE_MENSUAL.length) {
+                        throw new ErrorAplicacionControlado(
+                                respuestaControlada.getArchivocolumnas().get("codigo"),
+                                this.getClass().getName(),
+                                respuestaControlada.getArchivocolumnas().get("mensaje" +" columna:"+numCelda)
+                        );
+                    }
+                    ReporteMensualJs reporteMensualAdd1 = new ReporteMensualJs();
+                    reporteMensualAdd1.setFolio((Integer) elemento[0]);
+                    reporteMensualAdd1.setContrato((Integer) elemento[1] );
+                    reporteMensualAdd1.setMoneda((String) elemento[2] );
+                    reporteMensualAdd1.setEntregarSl( Double.parseDouble(elemento[3].toString()));
+                    reporteMensualAdd1.setRecibirSl(Double.parseDouble( elemento[4].toString()) );
+                    reporteMensualAdd1.setNetoValSl(Double.parseDouble( elemento[5].toString()));
+                    reporteMensualAdd1.setEntregarSideca(Double.parseDouble( elemento[6].toString()) );
+                    reporteMensualAdd1.setRecibirSideca(Double.parseDouble( elemento[7].toString()));
+                    reporteMensualAdd1.setNetovalSideca(Double.parseDouble( elemento[8].toString()));
+                    reporteMensualAdd1.setDiferencia(Double.parseDouble( elemento[9].toString()));
+                    reporteMensualAdd1.setSocioLiquidador(sicaderCatSociosLiquidadores.getId());
+                    reporteMensualLista.add(reporteMensualAdd1);
+                }
+                   }
+                numCelda=numCelda+1;
+            }
+
         }
+
         List<SicaderSlVsSidecaDetalle> sicaderSlVsSidecaDetalles = new ArrayList<>();
-        for (ReporteMensual reporteMensual : (Iterable<ReporteMensual>) reporteMensualLista) {
+        for (ReporteMensualJs reporteMensual : (Iterable<ReporteMensualJs>) reporteMensualLista) {
             SicaderSlVsSidecaDetalle sicaderSlVsSidecaDetalletmp = new SicaderSlVsSidecaDetalle(reporteMensual, sicaderSlVsSidecaSave);
             sicaderSlVsSidecaDetalles.add(sicaderSlVsSidecaDetalletmp);
         }
@@ -856,7 +885,7 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
                         if (columna.getRowNum() > 0) {
                             switch (celda.getColumnIndex()) {
                                 case 0:
-                                    reporteMensual.setFolio(celda.getNumericCellValue());
+                                    reporteMensual.setFolio((int) celda.getNumericCellValue());
                                     break;
                                 case 1:
                                     reporteMensual.setContrato(celda.getNumericCellValue());

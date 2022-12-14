@@ -2,6 +2,7 @@ package com.org.backend_nafinsa.entidad;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.org.backend_nafinsa.dto.ReporteMensual;
+import com.org.backend_nafinsa.dto.ReporteMensualJs;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -64,6 +65,21 @@ public class SicaderSlVsSidecaDetalle {
     private SicaderSlVsSideca sicaderSlVsSideca;
 
     public SicaderSlVsSidecaDetalle(ReporteMensual reporteMensual, SicaderSlVsSideca sicaderSlVsSideca) {
+        this.folio = reporteMensual.getFolio();
+        this.contrato = reporteMensual.getContrato();
+        this.moneda = reporteMensual.getMoneda();
+        this.entregarSl = reporteMensual.getEntregarSl();
+        this.recibirSl = reporteMensual.getRecibirSl();
+        this.netoValSl = reporteMensual.getNetoValSl();
+        this.entregarSideca = reporteMensual.getEntregarSideca();
+        this.recibirSideca = reporteMensual.getRecibirSideca();
+        this.netovalSideca = reporteMensual.getNetovalSideca();
+        this.diferencia = reporteMensual.getDiferencia();
+        this.sicaderSlVsSideca = sicaderSlVsSideca;
+        this.socioId = reporteMensual.getSocioLiquidador();
+    }
+
+    public SicaderSlVsSidecaDetalle(ReporteMensualJs reporteMensual, SicaderSlVsSideca sicaderSlVsSideca) {
         this.folio = reporteMensual.getFolio();
         this.contrato = reporteMensual.getContrato();
         this.moneda = reporteMensual.getMoneda();

@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface SicaderSlVsSidecaRepository extends JpaRepository<SicaderSlVsSideca, Long> {
 
-    Optional<SicaderSlVsSideca> findByFechaOperacion(Date fechaOperacion);
+    Optional<SicaderSlVsSideca> findByFechaOperacion(LocalDate fechaOperacion);
 
     @Query(value = "select  nombre, fecha_op, RECIBIR_SL, ENTREGAR_SL, RECIBIR_SIDECA, ENTREGAR_SIDECA from  \n" +
             "sicader.sicader_sl_vs_sideca a inner  join   sicader.SICADER_SL_VS_SIDECA_detalle b\n" +

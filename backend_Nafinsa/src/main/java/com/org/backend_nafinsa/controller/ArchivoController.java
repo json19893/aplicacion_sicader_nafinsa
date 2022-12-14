@@ -33,11 +33,9 @@ public class ArchivoController {
 
     @PostMapping("/archivoMensual")
     public ResponseDto cargarArchivoMensual(
-            @RequestParam(required = true) MultipartFile file,
-            @RequestParam(required = true) String usuario,
-            @RequestParam(required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaOperacion,
-            @RequestParam(required = true) boolean forzar) throws IOException {
-        return cargaArchivo.cargarArchivoMensual(file, usuario, fechaOperacion, forzar);
+            @RequestBody (required = true) ArchivoMensualJSRequest archivoMensualJsDtoList
+            ) throws IOException {
+        return cargaArchivo.cargarArchivoMensual(archivoMensualJsDtoList);
     }
 
     @GetMapping("/archivoMensual")
