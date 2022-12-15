@@ -45,12 +45,18 @@ settipoConciliacion(cons);
       const response = await getListaConciliacion(fecha)
 
       if (response.status === 200) {
-        setDataCociliacion(response.data)
+        if (response.data.length > 0){
+          const newData = response.data;
+          newData.forEach(function(item){
+            item.fechaOperacion = item.fechaOperacion.substring(0,10);
+          })
+          setDataCociliacion(newData)
+        }
       }
   }
     const columns = [
         {
-            title: "Fecha de Vencimiento",
+            title: "Fecha Operativa",
             dataIndex: "fechaOperacion",
             key: "fechaOperacion",
             align: "center"
@@ -97,6 +103,13 @@ settipoConciliacion(cons);
             key: "diferencia",
             align: "center"
         },
+        {
+          title: "Tipo Conciliación",
+          dataIndex: "tipoConciliacion",
+          key: "tipoConciliacion",
+          align: "center"
+      },
+
     ];
 
     const colRep = [
