@@ -45,6 +45,19 @@ const Login = ({
     try {
       const response = await getLogin(request);
       console.log(response);
+      if (response.data.status==200){
+       if (response.data.error=="OK"){
+        alert(" entro   "+ response.data.message)
+       }else{
+        alert(" no entro   "+ response.data.message)
+       }
+            }else{
+              alert(" errr   "+ response.data.message)
+            }
+    
+        /*sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
+        sessionStorage.setItem('idToken', JSON.stringify(idToken));
+        sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));*/
     } catch (error) {
       console.log("Error:: "+error);
       setLoading({

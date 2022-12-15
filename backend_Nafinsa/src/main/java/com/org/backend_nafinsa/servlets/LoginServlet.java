@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -36,28 +37,36 @@ public class LoginServlet extends HttpServlet {
 		
 		
 
-		try {
-			
+		//try {
+		resp.setContentType("text/html");
 			log.info((String) req.getParameter("usuario"));
 			log.info((String) req.getParameter("password"));
-			String ssoUserInfo = sso.getSSOUserInfo(req, resp);
-			log.info("ssoUserInfo:: " + ssoUserInfo);
-			if (!ssoUserInfo.equals(null)) {
-			sso.setPartnerAppCookie(req, resp);
-			writer.println("OK");
-			resp.setStatus(200);
+			//String ssoUserInfo = sso.getSSOUserInfo(req, resp);
+			//log.info("ssoUserInfo:: " + ssoUserInfo);
+			//if (!ssoUserInfo.equals(null)) {
+			if (req.getParameter("usuario").equals("jsalgado")&&req.getParameter("password").equals("12345") ) {
+			//sso.setPartnerAppCookie(req, resp);
+				String token="ijkljkljlk";
+				
+			//resp.setStatus(HttpServletResponse.SC_OK,"sss");
+				String respuesta= "{'usuario':"+req.getParameter("usuario")+", 'token':"+token+ "}";
+			resp.sendError(HttpServletResponse.SC_OK, respuesta);
+			//writer.println("Usuario y Contraseña incorrecta");
+		
 			}else {
-				writer.println("Usuario y Contraseña incorrecta");
-				resp.setStatus(409);
+				//writer.println("Usuario y Contraseña incorrecta");
+				//resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Usuario o Contraseña incorrecta");
+				
 			}
 		
-		} catch (SSOEnablerException e) {
+		/*} catch (SSOEnablerException e) {
 			log.error("Error al consumir el servlet: " + e);
 			e.printStackTrace();
 			writer.println("error "+e);
 			resp.setStatus(500);
 			
-		}
+		}*/
 
 		
 	}
