@@ -103,6 +103,13 @@ settipoConciliacion(cons);
             key: "diferencia",
             align: "center"
         },
+        {
+          title: "Tipo Conciliación",
+          dataIndex: "tipoConciliacion",
+          key: "tipoConciliacion",
+          align: "center"
+      },
+
     ];
 
     const colRep = [

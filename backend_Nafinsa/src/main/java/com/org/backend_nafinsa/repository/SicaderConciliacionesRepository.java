@@ -11,7 +11,9 @@ import java.util.List;
 @Repository
 public interface SicaderConciliacionesRepository  extends JpaRepository<SicaderConciliaciones,Long> {
 
-    @Query(value = "SELECT sc.FECHA , td.NOMNBRE  , sc.CUENTA , m.MON_NOMBRE  ,sc.ENTE , sc.IMPORTE_SIF , sc.IMPORTE_OP , sc.IMPORTE_SIF - sc.IMPORTE_OP FROM SICADER.SICADER_CONCILIACIONES sc \n" +
+    @Query(value = "SELECT sc.FECHA , td.NOMNBRE  ,  \n" +
+    		"sc.CUENTA||'-'||sc.SUBCUENTA1||'-'||sc.SUBCUENTA2||'-'||sc.SUBCUENTA3||'-'||sc.SUBCUENTA4||'-'||sc.SUBCUENTA5||'-'||sc.SUBCUENTA6||'-'||sc.SUBCUENTA7 AS cuenta , \n" +
+    		"sc.MONEDA  ,sc.ENTE , sc.IMPORTE_SIF , sc.IMPORTE_OP , sc.IMPORTE_SIF - sc.IMPORTE_OP, sce.TIPO_CONCILIACION FROM SICADER.SICADER_CONCILIACIONES sc \n" +
             "INNER JOIN SICADER.SICADER_CON_EJECUCIONES sce ON sc.EJECUCION_ID =SCE.ID \n" +
             "INNER JOIN SICADER.SICADER_CAT_TIPO_DERIVADOS  td ON td.ID = sc.TIPO_DERIVADO_ID  \n" +
             "INNER JOIN MONEDAS m ON m.MON_CLAVE = sc.MONEDA \n" +
