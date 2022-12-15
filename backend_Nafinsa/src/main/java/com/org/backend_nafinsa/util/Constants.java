@@ -29,5 +29,12 @@ public class Constants {
     public static String MENSAJE_EXISTE = "Los datos ingresados ya existen, ¿desea sobrescribir la información?";
     
     public static String MENSAJE_EXISTE_COBERTURA = "Ya existe una cobertura con el nombre ";
+
+    public static final String TOKEN_HEADER = "Authorization";
+    public static final String TOKEN_PREFIX = "Bearer ";
+    public static final String TOKEN_SECRET = "Nafinsa981635Sicader";
+
+    public static final int TOKEN_TIME_EXP = 600000;
+
 }
 
