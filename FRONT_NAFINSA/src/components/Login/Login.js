@@ -47,7 +47,9 @@ const Login = ({
       console.log(response);
       if (response.data.status==200){
        if (response.data.error=="OK"){
-        alert(" entro   "+ response.data.message)
+        alert(JSON.stringify(response.data.message) )
+        console.log(JSON.stringify(response.data.message))
+
        }else{
         alert(" no entro   "+ response.data.message)
        }
@@ -56,8 +58,7 @@ const Login = ({
             }
     
         /*sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
-        sessionStorage.setItem('idToken', JSON.stringify(idToken));
-        sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));*/
+        sessionStorage.setItem('idToken', JSON.stringify(idToken));*/
     } catch (error) {
       console.log("Error:: "+error);
       setLoading({

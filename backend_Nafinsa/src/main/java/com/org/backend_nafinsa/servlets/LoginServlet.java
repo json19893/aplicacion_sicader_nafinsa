@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.chermansolutions.oracle.sso.partnerapp.beans.SSOEnablerJspBean;
+import com.org.backend_nafinsa.dto.UsuarioToken;
+import com.org.backend_nafinsa.util.Utilidades;
 
 import lombok.extern.slf4j.Slf4j;
 import oracle.security.sso.enabler.SSOEnablerException;
@@ -23,6 +25,7 @@ import oracle.security.sso.enabler.SSOEnablerException;
 @WebServlet(urlPatterns = "/sicader/login/*")
 public class LoginServlet extends HttpServlet {
 
+	Utilidades utl= new Utilidades();
 	/**
 	 * 
 	 */
@@ -38,7 +41,7 @@ public class LoginServlet extends HttpServlet {
 		
 
 		//try {
-		resp.setContentType("text/html");
+		    resp.setContentType("json/html");
 			log.info((String) req.getParameter("usuario"));
 			log.info((String) req.getParameter("password"));
 			//String ssoUserInfo = sso.getSSOUserInfo(req, resp);
@@ -46,16 +49,16 @@ public class LoginServlet extends HttpServlet {
 			//if (!ssoUserInfo.equals(null)) {
 			if (req.getParameter("usuario").equals("jsalgado")&&req.getParameter("password").equals("12345") ) {
 			//sso.setPartnerAppCookie(req, resp);
-				String token="ijkljkljlk";
+				 String token = utl.getJWTToken(req.getParameter("usuario"));
+			        UsuarioToken user = new UsuarioToken();
+			        user.setUsuario(req.getParameter("usuario"));
+			        user.setToken(token);
 				
-			//resp.setStatus(HttpServletResponse.SC_OK,"sss");
-				String respuesta= "{'usuario':"+req.getParameter("usuario")+", 'token':"+token+ "}";
-			resp.sendError(HttpServletResponse.SC_OK, respuesta);
-			//writer.println("Usuario y Contraseña incorrecta");
-		
+				String respuesta= user.toString();
+			    resp.sendError(HttpServletResponse.SC_OK, respuesta);
+	
 			}else {
-				//writer.println("Usuario y Contraseña incorrecta");
-				//resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
 				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Usuario o Contraseña incorrecta");
 				
 			}

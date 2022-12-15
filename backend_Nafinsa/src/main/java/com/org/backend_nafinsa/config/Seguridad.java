@@ -15,7 +15,7 @@ public class Seguridad  extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers( "/sicader/acceso/login").permitAll()
+                .antMatchers( "/sicader/login").permitAll()
                 .antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/configuration/ui").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
