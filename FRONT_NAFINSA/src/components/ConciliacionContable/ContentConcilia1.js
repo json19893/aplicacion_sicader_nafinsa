@@ -45,7 +45,13 @@ settipoConciliacion(cons);
       const response = await getListaConciliacion(fecha)
 
       if (response.status === 200) {
-        setDataCociliacion(response.data)
+        if (response.data.length > 0){
+          const newData = response.data;
+          newData.forEach(function(item){
+            item.fechaOperacion = item.fechaOperacion.substring(0,10);
+          })
+          setDataCociliacion(newData)
+        }
       }
   }
     const columns = [
