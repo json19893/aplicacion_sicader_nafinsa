@@ -50,7 +50,7 @@ settipoConciliacion(cons);
   }
     const columns = [
         {
-            title: "Fecha de Vencimiento",
+            title: "Fecha Operativa",
             dataIndex: "fechaOperacion",
             key: "fechaOperacion",
             align: "center"

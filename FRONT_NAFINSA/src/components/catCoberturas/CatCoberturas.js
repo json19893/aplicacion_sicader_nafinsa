@@ -49,7 +49,9 @@ function CatCoberturas() {
             })
             setDataCobertura(dataTemp)
             */
-            setDataCobertura(response.data)
+            setDataCobertura(response.data.sort(function(a,b){
+                return b.id-a.id
+            }))
         }
     }
 
