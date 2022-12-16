@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Row, Col, } from 'antd';
+import { Form, Input, Button, Row, Col,Tooltip,message,notification } from 'antd';
 import { getLogin } from '../../services/loginService'
 
 
@@ -34,10 +34,31 @@ const Login = ({
       [event.target.id]: event.target.value
     })
   };
-
+  const openNotification = (mensaje,tipo) => {
+    const placement='bottom';
+    if(tipo==1){
+    return notification.success({
+       description:
+       `${mensaje}`,
+       placement,
+     });
+    }
+    if(tipo==2){
+     return notification.error({
+        description:
+        `${mensaje}`,
+        placement,
+      });
+     }
+ 
+     
+   };
  
   const handleSubmit=  async (values) => {
-
+    setLoading({
+      state: true,
+      message: '...'
+    });
     const request={
       "usuario":values.username,
       "password":values.password
@@ -45,10 +66,11 @@ const Login = ({
     try {
       const response = await getLogin(request);
       console.log(response);
-      if (response.data.status==200){
-       if (response.data.error=="OK"){
-        alert(JSON.stringify(response.data.message) )
-        let da=response.data.message
+     let data =response.data==undefined?response.response.data:response.data;
+      if (data.status==200){
+       if (data.error=="OK"){
+        alert(JSON.stringify(data.message) )
+        let da=data.message
         da=da.replaceAll('"','')
         da=da.replaceAll('{','')
         da=da.replaceAll('}','')
@@ -63,18 +85,32 @@ const Login = ({
         
         window.location.href = "/sicader/home"
        }else{
-        alert(" no entro   "+ response.data.message)
+   
+        openNotification(data.message, 2)
+        setLoading({
+          state: false,
+          message: 'Acceder'
+        });
        }
-            }else{
-              alert(" errr   "+ response.data.message)
+            }else if (data.status==401){
+              openNotification(data.message, 2)
+              setLoading({
+                state: false,
+                message: 'Acceder'
+              });
             }
     
         
     } catch (error) {
       console.log("Error:: "+error);
+      openNotification(error, 2)
       setLoading({
         state: false,
-        
+        message: 'Acceder'
+      });
+      setLoading({
+        state: false,
+        message: 'Acceder'
       });
     }
    

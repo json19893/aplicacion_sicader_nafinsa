@@ -7,10 +7,11 @@ import {
   BlockOutlined,
   FundOutlined,
   InteractionOutlined,
-  UserOutlined
+  UserOutlined,CommentOutlined ,
+  CustomerServiceOutlined
 
 } from '@ant-design/icons';
-import { Layout, Menu, Icon,Avatar, Image, Row, Col,Dropdown,Button} from 'antd';
+import { Layout, Menu, Icon,Avatar, Image, Row, Col,Tooltip,Button, Dropdown} from 'antd';
 
 import { Link } from 'react-router-dom';
 import logo from '../../assest/logo.png'
@@ -27,7 +28,7 @@ function getItem(label, key, route, icon) {
 const usu = {
   usu: "",
 }
-const items = [
+const item = [
   getItem('Home', '1', '/sicader/home', <HomeOutlined />,),
   getItem('Carga Archivos', '2', '/sicader/cargaArchivo', <FolderOpenOutlined />),
   getItem('Información SIDECA', '3', '/sicader/infSIDECA', <PieChartOutlined />),
@@ -39,11 +40,18 @@ const items = [
   getItem('Conciliación Contable', '9', '/sicader/conciliacionContable', <InteractionOutlined />),
 
 ];
+
+
 const MenuLeft = (componente) => {
   const [collapsed, setCollapsed] = useState(false);
   let menuSele = componente.val;
   let compo = componente.componente;
   const [usuario, setUsuario] = useState(usu);
+  const logout = () => {
+    sessionStorage.clear();
+    window.location.href = "/sicader/login"
+  };
+
   useEffect(() => {
     setUsuario({
       usu: sessionStorage.getItem('usuario'),
@@ -51,6 +59,26 @@ const MenuLeft = (componente) => {
     });
   
   }, []);
+  const items = [
+    {
+      key: '1',
+      label: (
+        <a>
+        {usuario.usu}
+        </a>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <a onClick={logout}>
+         salir
+        </a>
+      ),
+    },
+  ];
+
+
   return (
     <div id="home" >
       <Layout
@@ -62,7 +90,7 @@ const MenuLeft = (componente) => {
           <div className="logo" > <img width="60px" height="60px" alt="logo" src={logo}></img></div>
           <Menu theme="dark" defaultSelectedKeys={[menuSele]} mode="inline"  >
             <> {
-              items.map(item => {
+              item.map(item => {
                 return (
                   <Menu.Item key={item.key} icon={item.icon} >
                     <Link to={item.route}>
@@ -89,8 +117,19 @@ const MenuLeft = (componente) => {
                 SISTEMA DE CONCILIACIÓN AUTOMÁTICA DE DERIVADOS
                 </Col>
                 <Col span={7} align="right">
-                
-                <Avatar  size={41}style={{ color: 'white', backgroundColor: '#179ba0' }}>{usuario.letra}</Avatar>
+                <Dropdown
+                menu={{
+                  items,
+                }}
+                placement="bottom"
+                arrow
+              >
+                 
+               <Avatar  size={41}style={{ color: 'white', backgroundColor: '#179ba0' }}>{usuario.letra}</Avatar>
+               
+                </Dropdown>
+ 
+              
                 </Col>
               </Row>
            

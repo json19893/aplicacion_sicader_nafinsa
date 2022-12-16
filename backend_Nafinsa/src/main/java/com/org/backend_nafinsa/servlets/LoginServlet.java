@@ -63,7 +63,7 @@ public class LoginServlet extends HttpServlet {
 	
 			}else {
 
-				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Usuario o Contraseña incorrecta");
+				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Credenciales no validas");
 				
 			}
 		
