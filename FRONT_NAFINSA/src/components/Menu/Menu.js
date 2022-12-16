@@ -48,7 +48,8 @@ const MenuLeft = (componente) => {
   let menuSele = componente.val;
   let compo = componente.componente;
   const [usuario, setUsuario] = useState(usu);
-  const logout = () => {
+  const logout = async () => {
+    const sucess=   await logout(request);
     let dat=sucess.data==undefined?sucess.response.data:sucess.data;
     if (dat.status==200){
       if (dat.error=="OK"){
