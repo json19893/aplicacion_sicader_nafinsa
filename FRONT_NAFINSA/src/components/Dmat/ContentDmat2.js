@@ -27,7 +27,16 @@ function ContentDmat2() {
   const [formModal, setformModal] = useState([]);
   const [fechaReporte, setFechaReporte] = useState(fec);
   const [sheetNames, SetSheetNames] = useState([]);
-  const [sheetData, setSheetData] = useState({})
+  const [sheetData, setSheetData] = useState({});
+  const [usuario, setUsuario] = useState(usu);
+
+  useEffect(() => {
+    setUsuario({
+      usu: sessionStorage.getItem('usuario'),
+      letra:sessionStorage.getItem('usuario').charAt(0)
+    });  
+  }, []);
+
     const [form] = Form.useForm();
     useEffect(() => {
       loadArchivoFecha(null)
@@ -173,7 +182,7 @@ function ContentDmat2() {
       fechaOperacion:moment(values.fechaOperacion).format("YYYY-MM-DD"),
       archivoMensualJsDtoList:mySheetData,
       forzar: false,
-      usuario: 'Jose'
+      usuario: usuario.usu
     }
 
     console.log(request);

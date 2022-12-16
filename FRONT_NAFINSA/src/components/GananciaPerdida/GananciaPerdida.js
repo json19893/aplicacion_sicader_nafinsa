@@ -14,7 +14,15 @@ function GananciaPerdida() {
     const [formModal, setformModal] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [dataGananciaPerdida, setDataGananciaPerdida] = useState([]);
+    const [usuario, setUsuario] = useState(usu);
 
+    useEffect(() => {
+      setUsuario({
+        usu: sessionStorage.getItem('usuario'),
+        letra:sessionStorage.getItem('usuario').charAt(0)
+      });
+    }, []);
+    
     const columns = [
         {
             title: "Fecha de Vencimiento",
@@ -85,7 +93,7 @@ function GananciaPerdida() {
                 fechaVencimiento: values.fechaVencimiento,
                 forzar: false,
                 perdida: values.perdidaInflacionaria,
-                usuario: 'Pedro',
+                usuario: usuario.usu,
                 valorUid: values.valorUdi
             }
             submitPost(request)

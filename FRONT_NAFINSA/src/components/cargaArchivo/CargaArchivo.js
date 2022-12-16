@@ -34,6 +34,15 @@ function CargaArchivo() {
   const [sheetNames, SetSheetNames] = useState([]);
   const [sheetData, setSheetData] = useState({});
 
+  const [usuario, setUsuario] = useState(usu);
+
+  useEffect(() => {
+    setUsuario({
+      usu: sessionStorage.getItem('usuario'),
+      letra: sessionStorage.getItem('usuario').charAt(0)
+    });
+  }, []);
+
   const filesReprocess = [];
 
   const handleInputChange = (event) => {
@@ -226,7 +235,7 @@ function CargaArchivo() {
           fechaOperacion: values.fechaOperacion,
           file: fileProcess,
           forzar: false,
-          usuario: 'Jose'
+          usuario: usuario.usu
         }
         await submitPost(request)
     
@@ -281,7 +290,7 @@ function CargaArchivo() {
         fechaOperacion: fileProcess.fechaOperacion,
         file: fileProcess.file,
         forzar: true,
-        usuario: 'Jose'
+        usuario: usuario.usu
       }
       await submitPost(request)
     };
@@ -308,7 +317,7 @@ function CargaArchivo() {
             fechaOperacion:moment(request.fechaOperacion).format("YYYY-MM-DD"), 
             archivoMensualJsDtoList: mySheetData,
             forzar: request.forzar==null?false: request.forzar,
-            usuario: 'Jose',
+            usuario: usuario.usu,
             nombreArchivo: request.file.name,
           }
           console.log("requestIrdt::: "+requestIrdt)
