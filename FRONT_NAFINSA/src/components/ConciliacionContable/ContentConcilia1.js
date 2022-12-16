@@ -12,6 +12,9 @@ const stateInitialLoading = {
   const stateInitialLoading2 = {
     state: false,
   }
+  const usu = {
+    usu: "",
+  }
 
   const stateConciliacion = {};
 function ContentConcilia1() {

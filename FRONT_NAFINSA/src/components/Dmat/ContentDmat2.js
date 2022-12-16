@@ -14,7 +14,9 @@ const fec = {
   fecha: "",
 }
 
-
+const usu = {
+  usu: "",
+}
 import { getArchivoMensual, cargaArchivoMensual } from '../../../src/services/dtmaServices'
 
 function ContentDmat2() {

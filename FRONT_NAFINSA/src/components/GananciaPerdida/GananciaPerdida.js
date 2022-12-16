@@ -8,6 +8,9 @@ const { Meta } = Card;
 const stateInitialLoading = {
     state: false,
 }
+const usu = {
+    usu: "",
+  }
 function GananciaPerdida() {
     const [loadingBoton, setLoadingBoton] = useState(stateInitialLoading);
     const [msjMod, setMsjMod] = useState([]);

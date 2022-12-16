@@ -8,6 +8,9 @@ const { Meta } = Card;
 const stateInitialLoading = {
     state: false,
   }
+  const usu = {
+    usu: "",
+  }
 function ContentDmat1() {
     const [loadingBoton, setLoadingBoton] = useState(stateInitialLoading);
     const [dataComplemento, setDataComplemento] = useState([]);

@@ -9,6 +9,9 @@ const { Meta } = Card;
 const stateInitialLoading = {
     state: false,
 }
+const usu = {
+    usu: "",
+  }
 function CierreJornada() {
     const [loadingBoton, setLoadingBoton] = useState(stateInitialLoading);
     const [divisas, setDivisas] = useState([]);

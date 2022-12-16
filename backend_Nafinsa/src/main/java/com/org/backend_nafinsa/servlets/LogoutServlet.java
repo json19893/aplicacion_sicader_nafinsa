@@ -36,13 +36,13 @@ public class LogoutServlet extends HttpServlet {
         try {
             /***eliminar cookies****************************************************************************/
             /*******************************************************************************/
-            //sso.removeJspAppCookies(req,resp);
+            sso.removeJspAppCookies(req,resp);
             /*******************************************************************************/
             /*******************************************************************************/
-            resp.sendError(HttpServletResponse.SC_OK,  "{\"mensaje\":\"se eliminaron cookies\"}");
+            resp.sendError(HttpServletResponse.SC_OK,  "se eliminaron cookies");
         }catch (Exception e){
             log.error(e.toString());
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "{\"mensaje\":\"Error al eliminar cookies\"}");
+            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error al eliminar cookies");
         }
         //catch (SSOEnablerException e) {
         //    log.error(e.toString());

@@ -9,6 +9,9 @@ const { Meta } = Card;
 const stateInitialLoading = {
     state: false,
   }
+  const usu = {
+    usu: "",
+  }
 function InfSideca2() {
     const [loadingBoton, setLoadingBoton] = useState(stateInitialLoading);
     const [socios, setSocios] = useState([]);

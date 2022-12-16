@@ -49,19 +49,22 @@ public class LoginServlet extends HttpServlet {
 			log.info("ssoUserInfo:: " + ssoUserInfo);
 			/***HABILITAR EL ACCESO POR USUARIO Y PASS******************************************************************************/
 			/***********************************************************************************************************************/
-			//if (!ssoUserInfo.equals(null)) {
+			if (!ssoUserInfo.equals(null)) {
 			/***********************************************************************************************************************/
-			if (req.getParameter("usuario").equals("jsalgado")&&req.getParameter("password").equals("12345") ) {
-			    resp.sendError(HttpServletResponse.SC_OK, "{\"usuario\":\""+(String) req.getParameter("usuario")+"\"}");
+			//if (req.getParameter("usuario").equals("jsalgado")&&req.getParameter("password").equals("12345") ) {
+			    resp.sendError(HttpServletResponse.SC_OK, "Usuario firmado en Nafin");
+			//}else {
+			    //resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Credenciales no validas");
+			//}
 			}else {
-				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "{\"mensaje\":\"Credenciales no validas\"}");
+				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Credenciales no validas");
 			}
 		} catch (SSOEnablerException e) {
 			log.error(e.toString());
-			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "{\"mensaje\":\"Credenciales no validas\"}");
+			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Credenciales no validas");
 		}catch (Exception e){
 			log.error(e.toString());
-			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "{\"mensaje\":\"Credenciales no validas\"}");
+			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Credenciales no validas");
 		}
 	}
 }

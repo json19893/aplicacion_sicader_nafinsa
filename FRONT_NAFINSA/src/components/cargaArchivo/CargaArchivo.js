@@ -14,6 +14,9 @@ const { Title } = Typography;
 const stateInitialLoading = {
   state: false,
 }
+const usu = {
+  usu: "",
+}
 function CargaArchivo() {
   const [loadingBoton, setLoadingBoton] = useState(stateInitialLoading);
   const [fileUpload, setFileUpload] = useState([]);

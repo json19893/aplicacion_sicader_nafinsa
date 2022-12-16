@@ -37,16 +37,16 @@ public class SuccessServlet extends HttpServlet {
         log.info((String)req.getParameter("usuario"));
         String usuario = (String)req.getParameter("usuario");
         if (usuario.isEmpty()){
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "{\"mensaje\":\"Credenciales no validas\"}");
+            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Credenciales no validas");
         }else {
             /*****AJUSTE DE CAMBIO DE REDUNDANCIA DE CODIGO*****************************/
             /***************************************************************************/
-            //try {
-            //    sso.setPartnerAppCookie(req, resp);
-            //} catch (SSOEnablerException e) {
-            //    log.info(e.toString());
-            //    resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "{\"mensaje\":\"Credenciales no validas\"}");
-            //}
+            try {
+                sso.setPartnerAppCookie(req, resp);
+            } catch (SSOEnablerException e) {
+                log.info(e.toString());
+                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Credenciales no validas");
+            }
             /***************************************************************************/
             /***************************************************************************/
             String token = utl.getJWTToken(req.getParameter("usuario"));

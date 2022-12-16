@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Row, Col,Tooltip,message,notification } from 'antd';
-import { getLogin } from '../../services/loginService'
+import { getLogin,getSucees } from '../../services/loginService'
 
 
 
@@ -69,8 +69,11 @@ const Login = ({
      let data =response.data==undefined?response.response.data:response.data;
       if (data.status==200){
        if (data.error=="OK"){
-        alert(JSON.stringify(data.message) )
-        let da=data.message
+        const sucess=   await getSucees(request);
+        let dat=sucess.data==undefined?sucess.response.data:sucess.data;
+        if (dat.status==200){
+          if (dat.error=="OK"){
+        let da=dat.message
         da=da.replaceAll('"','')
         da=da.replaceAll('{','')
         da=da.replaceAll('}','')
@@ -84,6 +87,21 @@ const Login = ({
         sessionStorage.setItem('access',true);
         
         window.location.href = "/sicader/home"
+      }else{
+   
+        openNotification(dat.message, 2)
+        setLoading({
+          state: false,
+          message: 'Acceder'
+        });
+       }
+      }else if (dat.status==401){
+        openNotification(dat.message, 2)
+        setLoading({
+          state: false,
+          message: 'Acceder'
+        });
+      }
        }else{
    
         openNotification(data.message, 2)

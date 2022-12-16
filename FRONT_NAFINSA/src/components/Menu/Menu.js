@@ -16,6 +16,7 @@ import { Layout, Menu, Icon,Avatar, Image, Row, Col,Tooltip,Button, Dropdown} fr
 import { Link } from 'react-router-dom';
 import logo from '../../assest/logo.png'
 import { useState, useEffect } from 'react';
+import {logout } from '../../services/loginService'
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, route, icon) {
   return {
@@ -48,8 +49,27 @@ const MenuLeft = (componente) => {
   let compo = componente.componente;
   const [usuario, setUsuario] = useState(usu);
   const logout = () => {
-    sessionStorage.clear();
-    window.location.href = "/sicader/login"
+    let dat=sucess.data==undefined?sucess.response.data:sucess.data;
+    if (dat.status==200){
+      if (dat.error=="OK"){
+        sessionStorage.clear();
+        window.location.href = "/sicader/login"
+  }else{
+
+    openNotification(dat.message, 2)
+    setLoading({
+      state: false,
+      message: 'Acceder'
+    });
+   }
+  }else if (dat.status==401){
+    openNotification(dat.message, 2)
+    setLoading({
+      state: false,
+      message: 'Acceder'
+    });
+  }
+  
   };
 
   useEffect(() => {

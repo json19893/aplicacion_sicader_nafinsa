@@ -6,7 +6,9 @@ import moment from 'moment';
 const { Meta } = Card;
 import { getTipoDerivado } from '../../services/catalogosService'
 import { getEstatusConciliacion } from '../../services/conciliacionService'
-
+const usu = {
+    usu: "",
+  }
 function ContentConcilia2() {
 
     const stateInitialLoading = {

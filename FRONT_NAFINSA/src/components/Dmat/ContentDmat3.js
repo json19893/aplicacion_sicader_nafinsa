@@ -9,6 +9,9 @@ const { Meta } = Card;
 const stateInitialLoading = {
     state: false,
   }
+  const usu = {
+    usu: "",
+  }
 function ContentDmat3() {
     const [loadingBoton, setLoadingBoton] = useState(stateInitialLoading);
     const [dataCuentaMargen, setDataCuentaMargen] = useState([]);

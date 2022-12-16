@@ -4,6 +4,9 @@ import { FileExcelOutlined,QuestionOutlined } from '@ant-design/icons';
 import { CSVLink } from 'react-csv';
 import { getCuentasConciliarReq10 } from '../../services/catalogosService'
 const { Meta } = Card;
+const usu = {
+    usu: "",
+  }
 function CuentasConciliar() {
 
     const [cuentas, setCuentas] = useState([]);

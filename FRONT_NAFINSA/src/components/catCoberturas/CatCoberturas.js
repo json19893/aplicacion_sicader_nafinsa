@@ -12,6 +12,9 @@ const { Password } = Input;
 const stateInitialLoading = {
     state: false,
 }
+const usu = {
+    usu: "",
+  }
 function CatCoberturas() {
     const [loadingBoton, setLoadingBoton] = useState(stateInitialLoading);
     const [dataCobertura, setDataCobertura] = useState([]);
