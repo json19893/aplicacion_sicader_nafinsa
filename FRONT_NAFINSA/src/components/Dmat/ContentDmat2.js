@@ -342,7 +342,7 @@ const [open, setOpen] = useState(false);
             label="Archivo:"
             name="archivoMensual"
             rules={[{
-              required: true,
+              required: false,
               message: "Por favor de cargar un archivo "
             }]}
           >

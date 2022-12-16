@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.chermansolutions.oracle.sso.partnerapp.beans.SSOEnablerJspBean;
+import com.google.gson.Gson;
 import com.org.backend_nafinsa.dto.UsuarioToken;
 import com.org.backend_nafinsa.util.Utilidades;
 
@@ -22,10 +23,11 @@ import oracle.security.sso.enabler.SSOEnablerException;
 
 @Slf4j
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@WebServlet(urlPatterns = "/sicader/login/*")
+@WebServlet(urlPatterns = "/sicader-api/init/*")
 public class LoginServlet extends HttpServlet {
 
 	Utilidades utl= new Utilidades();
+	Gson gson = new Gson();
 	/**
 	 * 
 	 */
@@ -38,10 +40,10 @@ public class LoginServlet extends HttpServlet {
 		resp.addHeader("Access-Control-Allow-Origin", "*");
 		PrintWriter writer = resp.getWriter();
 		
-		
+		resp.setCharacterEncoding("UTF-8");
 
 		//try {
-		    resp.setContentType("json/html");
+		    resp.setContentType("text/html");
 			log.info((String) req.getParameter("usuario"));
 			log.info((String) req.getParameter("password"));
 			//String ssoUserInfo = sso.getSSOUserInfo(req, resp);
@@ -54,8 +56,10 @@ public class LoginServlet extends HttpServlet {
 			        user.setUsuario(req.getParameter("usuario"));
 			        user.setToken(token);
 				
-				String respuesta= user.toString();
-			    resp.sendError(HttpServletResponse.SC_OK, respuesta);
+
+				writer.print(this.gson.toJson(user));
+
+			    resp.sendError(HttpServletResponse.SC_OK, this.gson.toJson(user));
 	
 			}else {
 

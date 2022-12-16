@@ -48,8 +48,20 @@ const Login = ({
       if (response.data.status==200){
        if (response.data.error=="OK"){
         alert(JSON.stringify(response.data.message) )
-        console.log(JSON.stringify(response.data.message))
-
+        let da=response.data.message
+        da=da.replaceAll('"','')
+        da=da.replaceAll('{','')
+        da=da.replaceAll('}','')
+        let valores= da.split(',')
+        let usuario=valores[0].replace('usuario:','')
+        let token=valores[1].replace('token:','')
+        console.log(usuario);
+        console.log(token);
+        sessionStorage.setItem('usuario',usuario );
+        sessionStorage.setItem('toke',token);
+        sessionStorage.setItem('access',true);
+        
+        window.location.href = "/sicader/home"
        }else{
         alert(" no entro   "+ response.data.message)
        }
@@ -57,13 +69,12 @@ const Login = ({
               alert(" errr   "+ response.data.message)
             }
     
-        /*sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
-        sessionStorage.setItem('idToken', JSON.stringify(idToken));*/
+        
     } catch (error) {
       console.log("Error:: "+error);
       setLoading({
-        state: true,
-        message: 'cargando...'
+        state: false,
+        
       });
     }
    

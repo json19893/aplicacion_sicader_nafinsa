@@ -6,7 +6,7 @@ export async function getLogin (request) {
       
     
         const response = await axios({
-            url: `${baseUrl}/sicader/login/`,
+            url: `${baseUrl}/sicader-api/init/`,
             method: 'POST',
             params:request ,
             mode: 'no-cors',
