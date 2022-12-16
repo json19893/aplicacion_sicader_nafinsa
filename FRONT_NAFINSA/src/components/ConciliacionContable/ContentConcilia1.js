@@ -28,7 +28,15 @@ function ContentConcilia1() {
     const [tipoConciliacionS, setTipoCociliacionsS] = useState();
     const [dataValidacion, SetdataValidacion] = useState([]);
     const [dataConciliacion, setDataCociliacion] = useState([]);
-    
+    const [usuario, setUsuario] = useState(usu);
+
+    useEffect(() => {
+      setUsuario({
+        usu: sessionStorage.getItem('usuario'),
+        letra:sessionStorage.getItem('usuario').charAt(0)
+      });
+    }, []);
+
     useEffect(() => {
       let cons=[
         {
@@ -146,7 +154,7 @@ const filesRep=dataValidacion;
                 "inDerivado": values.tipoDerivado,
                 "inFecha":  moment(values.fechaConciliacion).format("YYYY-MM-DD"),
                 "inTipoConcilia": values.tipoConciliacion,
-                "inUsuario": "jsalgado"
+                "inUsuario": usuario.usu
               }
               
               setConciliacion (conciliacion)

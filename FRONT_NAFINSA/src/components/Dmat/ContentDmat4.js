@@ -22,6 +22,15 @@ function ContentDmat4() {
     const [formModal, setformModal] = useState([]);
     const data = dataC10;
     const [form] = Form.useForm();
+    const [usuario, setUsuario] = useState(usu);
+
+    useEffect(() => {
+      setUsuario({
+        usu: sessionStorage.getItem('usuario'),
+        letra:sessionStorage.getItem('usuario').charAt(0)
+      });
+    }, []);
+
     useEffect(() => {
 
         async function loadCobertura() {
@@ -100,7 +109,7 @@ function ContentDmat4() {
               ],
         
           
-            "usuario": "jsalgado"
+            "usuario": usuario.usu
           }
         
        

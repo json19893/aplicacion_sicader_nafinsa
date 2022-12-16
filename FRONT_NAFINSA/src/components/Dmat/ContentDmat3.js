@@ -18,6 +18,15 @@ function ContentDmat3() {
     const [contraparte, setContraparte] = useState([]);
     const data = dataCuentaMargen;
     const [form] = Form.useForm();
+    const [usuario, setUsuario] = useState(usu);
+
+    useEffect(() => {
+      setUsuario({
+        usu: sessionStorage.getItem('usuario'),
+        letra:sessionStorage.getItem('usuario').charAt(0)
+      });
+    }, []);
+
     useEffect(() => {
 
         async function loadContraparte() {
@@ -69,7 +78,7 @@ function ContentDmat3() {
             "fechaOperacion":  moment(values.fechaOperacion).format("YYYY-MM-DD"),
             "forzar": false,
             "ingresos":values.ingresos==undefined?0: parseFloat(values.ingresos),
-            "usuario": "jsalgado"
+            "usuario": usuario.usu
           }
 
     

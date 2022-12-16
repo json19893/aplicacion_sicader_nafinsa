@@ -17,6 +17,14 @@ function InfSideca1() {
 
     const [msjMod, setMsjMod] = useState([]);
     const [formModal, setformModal] = useState([]);
+    const [usuario, setUsuario] = useState(usu);
+
+    useEffect(() => {
+      setUsuario({
+        usu: sessionStorage.getItem('usuario'),
+        letra:sessionStorage.getItem('usuario').charAt(0)
+      });
+    }, []);
 
     useEffect(() => {
 
@@ -87,7 +95,7 @@ function InfSideca1() {
             montoBalance: values.montoEndingBalance,
             montoIva: values.montoIVA,
             forzar: false,
-            usuario: 'Jose'
+            usuario: usuario.usu
         }
         submitPost(request)
     };

@@ -18,7 +18,15 @@ function InfSideca2() {
     const [formModal, setformModal] = useState([]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [usuario, setUsuario] = useState(usu);
 
+    useEffect(() => {
+      setUsuario({
+        usu: sessionStorage.getItem('usuario'),
+        letra:sessionStorage.getItem('usuario').charAt(0)
+      });
+    }, []);
+    
     const columns = [
         {
             title: "Fecha de Operacion",
@@ -95,7 +103,7 @@ function InfSideca2() {
             ivaCuenta: values.ivaCuenta,
             ivaOperacion: values.ivaOperacion,
             forzar: false,
-            usuario: 'Jose'
+            usuario: usuario.usu
         }
         submitPost(request)
     };

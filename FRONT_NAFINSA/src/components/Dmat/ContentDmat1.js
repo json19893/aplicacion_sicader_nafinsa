@@ -14,6 +14,14 @@ function ContentDmat1() {
     const [msjMod, setMsjMod] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formModal, setformModal] = useState([]);
+    const [usuario, setUsuario] = useState(usu);
+
+    useEffect(() => {
+        setUsuario({
+            usu: sessionStorage.getItem('usuario'),
+            letra: sessionStorage.getItem('usuario').charAt(0)
+        });
+    }, []);
    
     const columns = [
         {
@@ -47,7 +55,7 @@ function ContentDmat1() {
             {
                 "fechaOperacion": moment(values.fechaOperacion).format("YYYY-MM-DD"),
                 "forzar": false,
-                "usuario": "jsalgado",
+                "usuario": usuario.usu,
                 "valuacionBanxico": parseFloat(values.valuacion)
               }
 
