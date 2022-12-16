@@ -39,45 +39,29 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.addHeader("Access-Control-Allow-Origin", "*");
 		PrintWriter writer = resp.getWriter();
-		
 		resp.setCharacterEncoding("UTF-8");
-
-		//try {
+		try {
 		    resp.setContentType("text/html");
 			log.info((String) req.getParameter("usuario"));
 			log.info((String) req.getParameter("password"));
-			//String ssoUserInfo = sso.getSSOUserInfo(req, resp);
-			//log.info("ssoUserInfo:: " + ssoUserInfo);
+			String ssoUserInfo = null;
+				ssoUserInfo = sso.getSSOUserInfo(req, resp);
+			log.info("ssoUserInfo:: " + ssoUserInfo);
+			/***HABILITAR EL ACCESO POR USUARIO Y PASS******************************************************************************/
+			/***********************************************************************************************************************/
 			//if (!ssoUserInfo.equals(null)) {
+			/***********************************************************************************************************************/
 			if (req.getParameter("usuario").equals("jsalgado")&&req.getParameter("password").equals("12345") ) {
-			//sso.setPartnerAppCookie(req, resp);
-				 String token = utl.getJWTToken(req.getParameter("usuario"));
-			        UsuarioToken user = new UsuarioToken();
-			        user.setUsuario(req.getParameter("usuario"));
-			        user.setToken(token);
-				
-
-				writer.print(this.gson.toJson(user));
-
-			    resp.sendError(HttpServletResponse.SC_OK, this.gson.toJson(user));
-	
+			    resp.sendError(HttpServletResponse.SC_OK, "{\"usuario\":\""+(String) req.getParameter("usuario")+"\"}");
 			}else {
-
-				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Credenciales no validas");
-				
+				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "{\"mensaje\":\"Credenciales no validas\"}");
 			}
-		
-		/*} catch (SSOEnablerException e) {
-			log.error("Error al consumir el servlet: " + e);
-			e.printStackTrace();
-			writer.println("error "+e);
-			resp.setStatus(500);
-			
-		}*/
-
-		
+		} catch (SSOEnablerException e) {
+			log.error(e.toString());
+			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "{\"mensaje\":\"Credenciales no validas\"}");
+		}catch (Exception e){
+			log.error(e.toString());
+			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "{\"mensaje\":\"Credenciales no validas\"}");
+		}
 	}
-	
-
-
 }
