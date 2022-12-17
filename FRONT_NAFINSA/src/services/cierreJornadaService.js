@@ -11,10 +11,12 @@ export async function getResumenDivisa (params) {
             fechaFin: moment(params.fechaFin).format("YYYY-MM-DD"),
             monClave: params.monClave
         }
+        let token_insert=  sessionStorage.getItem('toke')
         response = await axios({
             url: `${baseUrl}/sicader/cierreJornada/resumenDivisa`,
             method: 'GET',
-            params: request
+            params: request,
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response)
         return response;

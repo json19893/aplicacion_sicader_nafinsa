@@ -14,14 +14,15 @@ export async function getAllCartaConfirmacion (fechaOpe) {
         }else{
             fechaO=moment(fechaOpe).format("YYYY-MM-DD");
         }
-    
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/informacion/getCartaConfirmacion`,
             method: 'GET',
             params: {
                 //fechaOperacion: '2022-11-18'
                 fechaOperacion: fechaO
-            }
+            },
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response)
         return response;
@@ -32,11 +33,13 @@ export async function getAllCartaConfirmacion (fechaOpe) {
 
 export async function cargaCartaConfirmacion (params) {
     try{
+        let token_insert=  sessionStorage.getItem('toke')
         console.log(params.fechaOperacion+' - '+params.forzar+' - '+params.idSocioLiquidador+' - '+params.montoBalance+' - '+params.montoIva+' - '+params.usuario)
         const response = await axios({
             url: `${baseUrl}/sicader/informacion/cartaConfirmacion`,
             method: 'POST',
-            data: params
+            data: params,
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response);
         return response;
@@ -55,14 +58,15 @@ export async function getAllCuentaAsigna (fechaOpe) {
         }else{
             fechaO=moment(fechaOpe).format("YYYY-MM-DD");
         }
-   
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/informacion/getCuentaAsigna`,
             method: 'GET',
             params: {
                 //fechaOperacion: '2022-11-18'
                 fechaOperacion: fechaO
-            }
+            },
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response)
         return response;
@@ -74,11 +78,12 @@ export async function getAllCuentaAsigna (fechaOpe) {
 export async function cargaCuentaAsigna (params) {
     try{
         console.log(params.balanceFinal+' - '+params.fechaOperacion+' - '+params.forzar+' - '+params.idSocioLiquidador+' - '+params.ivaCuenta+' - '+params.ivaOperacion+' - '+params.usuario)
-
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/informacion/cuentaAsigna`,
             method: 'POST',
-            data: params
+            data: params,
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response);
         return response;

@@ -10,12 +10,14 @@ export async function cargarArchivo(params) {
         const formData = new FormData();
         formData.append('file', params.file)
         const fechaS = moment(params.fechaOperacion).format("YYYY-MM-DD")
-
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/carga/archivo?fechaOperacion=${fechaS}&forzar=${params.forzar}&usuario=${params.usuario}`,
             method: 'POST',
             data: formData,
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: { "Content-Type": "multipart/form-data",
+                       "Authorization": `${token_insert}`
+                     },
 
         })
         console.log(response);
@@ -29,11 +31,12 @@ export async function cargarArchivo(params) {
 export async function cargarArchivo06IRDT(request) {
    
     try{
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/carga/archivo06IRDT`,
             method: 'POST',
             data: request,
-            //headers: { "Content-Type": "application/json" }
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response);
         return response;
@@ -55,12 +58,14 @@ export async function getArchivoFecha (fechaOperacion) {
 
         const fecha = new Date();
         const fechaS = moment(fecha).format("YYYY-MM-DD")
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/carga/archivo`,
             method: 'GET',
             params: {
                 fechaOperacion: fechaO
-            }
+            },
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response)
         return response;
@@ -71,11 +76,13 @@ export async function getArchivoFecha (fechaOperacion) {
 
 export async function getArchivoDetalle (request) {
     try{
-        
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/carga/archivoDetalle?id=${parseInt(request.id)}&tipoReporte=${request.tipoReporte}`,
             method: 'POST',
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: { "Content-Type": "multipart/form-data" ,
+                       "Authorization": `${token_insert}`
+                     }
         })
         
         /*const request = {

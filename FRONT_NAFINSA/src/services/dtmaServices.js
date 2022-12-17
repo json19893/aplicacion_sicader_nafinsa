@@ -7,11 +7,12 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export async function cargaValuacionBanxico (params) {
     try{
-      
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/dmta/complementoBanxico`,
             method: 'POST',
-            data: params
+            data: params,
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response);
         return response;
@@ -31,15 +32,16 @@ export async function getAllSicaderBanxico (fechaOpe) {
         }else{
             fechaO=moment(fechaOpe).format("YYYY-MM-DD");
         }
-    
-        
+
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/dmta/getComplementoBanxico`,
             method: 'GET',
             params: {
                 //fechaOperacion: '2022-11-18'
                 fechaOperacion: fechaO
-            }
+            },
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response)
         return response;
@@ -50,11 +52,12 @@ export async function getAllSicaderBanxico (fechaOpe) {
 
 export async function cargaCuentaMargen (params) {
     try{
-      
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/dmta/cuentaMargen`,
             method: 'POST',
-            data: params
+            data: params,
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response);
         return response;
@@ -73,15 +76,16 @@ export async function getAllSicaderInteresMargen (fechaOpe) {
         }else{
             fechaO=moment(fechaOpe).format("YYYY-MM-DD");
         }
-    
-        
+
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/dmta/getCuentaMargen`,
             method: 'GET',
             params: {
                 //fechaOperacion: '2022-11-18'
                 fechaOperacion: fechaO
-            }
+            },
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response)
         return response;
@@ -93,10 +97,12 @@ export async function getAllSicaderInteresMargen (fechaOpe) {
 
 export async function cargaC10 (params) {
     try{
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/dmta/sicaderC10`,
             method: 'POST',
-            data: params
+            data: params,
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response);
         return response;
@@ -115,13 +121,15 @@ export async function getAllC10 (fechaOpe) {
         }else{
             fechaO=moment(fechaOpe).format("YYYY-MM-DD");
         }
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/dmta/getSicaderC10`,
             method: 'GET',
             params: {
                 //fechaOperacion: '2022-11-18'
                 fechaOperacion: fechaO
-            }
+            },
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response)
         return response;
@@ -132,11 +140,12 @@ export async function getAllC10 (fechaOpe) {
 
 export async function cargaArchivoMensual (params) {
     try{
-        
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/carga/archivoMensual`,
             method: 'POST',
-            data: params
+            data: params,
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response);
         return response;
@@ -155,13 +164,15 @@ export async function getArchivoMensual (fechaOpe) {
         }else{
             fechaO=moment(fechaOpe).format("YYYY-MM-DD");
         }
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/carga/archivoMensual`,
             method: 'GET',
             params: {
                 //fechaOperacion: '2022-11-18'
                 fechaOperacion: fechaO
-            }
+            },
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response)
         return response;

@@ -40,13 +40,13 @@ function ContentConcilia2() {
 
     async function loadEstatusConciliacion(request) {
         const response = await getEstatusConciliacion(request)
-
         if (response.status === 200) {
             setDataResumenEstatusConcilia(response.data)
             setLoadingBoton({
                 state: false,
             });
-        } else {
+        }
+        else {
             message.error(response.data.mensaje);
             setLoadingBoton({
                 state: false,

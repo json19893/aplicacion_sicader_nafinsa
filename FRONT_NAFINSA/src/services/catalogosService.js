@@ -5,9 +5,12 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export async function getSocioLiquidador() {
     try {
+
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/catalogo/getSocioLiquidador`,
-            method: 'GET'
+            method: 'get',
+            headers: { "Authorization": `${token_insert}` }
         })
         return response;
     } catch (e) {
@@ -17,9 +20,11 @@ export async function getSocioLiquidador() {
 
 export async function getContraparte() {
     try {
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/catalogo/getContraparte`,
-            method: 'GET'
+            method: 'GET',
+            headers: { "Authorization": `${token_insert}` }
         })
         return response;
     } catch (e) {
@@ -29,9 +34,11 @@ export async function getContraparte() {
 
 export async function getCobertura() {
     try {
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/catalogo/getCobertura`,
-            method: 'GET'
+            method: 'GET',
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response)
         return response;
@@ -42,9 +49,11 @@ export async function getCobertura() {
 
 export async function getTipoCuenta() {
     try {
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/catalogo/getTipoCuenta`,
-            method: 'GET'
+            method: 'GET',
+            headers: { "Authorization": `${token_insert}` }
         })
         return response;
     } catch (e) {
@@ -54,21 +63,25 @@ export async function getTipoCuenta() {
 
 export async function getTipoDerivado() {
     try {
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/catalogo/getTipoDerivado`,
-            method: 'GET'
+            method: 'GET',
+            headers: { "Authorization": `${token_insert}` }
         })
         return response;
     } catch (e) {
-        console.log(e)
+        console.log("respuesta:"+e.response())
     }
 }
 
 export async function postArchivoMensual() {
     try {
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/catalogo/archivoMensual`,
-            method: 'POST'
+            method: 'POST',
+            headers: { "Authorization": `${token_insert}` }
         })
         return response;
     } catch (e) {
@@ -87,12 +100,14 @@ export async function cargaCobertura(params) {
         }
         console.log('post: ' + JSON.stringify(request))
 
-
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/catalogo/cobertura`,
             method: 'POST',
             data: request,
-            headers: { "Content-Type": "application/json" }
+            headers: { "Content-Type": "application/json",
+                       "Authorization": `${token_insert}`
+                     }
         })
         console.log('servicio: ' + response);
         return response;
@@ -104,9 +119,11 @@ export async function cargaCobertura(params) {
 
 export async function getMoneda() {
     try {
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/catalogo/getMoneda`,
-            method: 'GET'
+            method: 'GET',
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log('monedas: ' + response);
         return response;
@@ -117,9 +134,11 @@ export async function getMoneda() {
 
 export async function getCuentasConciliar() {
     try {
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/catalogo/getCuentasConciliar`,
-            method: 'GET'
+            method: 'GET',
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log('cuentas: ' + response);
         return response;
@@ -130,9 +149,11 @@ export async function getCuentasConciliar() {
 
 export async function getCuentasConciliarReq10() {
     try {
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/catalogo/getCuentasConciliarReq10`,
-            method: 'GET'
+            method: 'GET',
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log('cuentasR10: ' + response);
         return response;

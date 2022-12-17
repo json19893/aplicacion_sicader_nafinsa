@@ -5,6 +5,7 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export async function cargaGanancia(params) {
     try {
+        let token_insert=  sessionStorage.getItem('toke')
         const request = {
             fechaOperacion: moment(params.fechaVencimiento).format("YYYY-MM-DD"),
             fechaVencimiento: moment(params.fechaVencimiento).format("YYYY-MM-DD"),
@@ -16,7 +17,8 @@ export async function cargaGanancia(params) {
         const response = await axios({
             url: `${baseUrl}/sicader/ganancia/gananciaPerdidaUDI`,
             method: 'POST',
-            data: request
+            data: request,
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response);
         return response;
@@ -40,11 +42,12 @@ export async function getGananciaPerdidaUDI(fechaVenc) {
         const request = {
             fechaOperacion: fechaO
         }
-
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/ganancia/getGananciaPerdidaUDI`,
             method: 'GET',
-            params: request
+            params: request,
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response)
         return response;

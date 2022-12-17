@@ -5,11 +5,12 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export async function validaConciliacion (params) {
     try{
-      
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/conciliacion/ejecutaValidacion`,
             method: 'POST',
-            data: params
+            data: params,
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response);
         return response;
@@ -20,11 +21,12 @@ export async function validaConciliacion (params) {
 
 export async function ejecutaConciliacion (params) {
     try{
-      
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/conciliacion/ejecutaConciliacion`,
             method: 'POST',
-            data: params
+            data: params,
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response);
         return response;
@@ -35,10 +37,11 @@ export async function ejecutaConciliacion (params) {
 
 export async function ejecutaValidacion(params) {
     try{
-      
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/conciliacion/getValidacion`,
-            method: 'GET'
+            method: 'GET',
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response);
         return response;
@@ -63,10 +66,12 @@ export async function getListaConciliacion(fechaconcilia) {
         }
 
         console.log(request)
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/conciliacion/getConciliacionFecha`,
             method: 'GET',
-            params: request
+            params: request,
+            headers: { "Authorization": `${token_insert}` }
         })
         console.log(response)
         return response;
@@ -78,15 +83,20 @@ export async function getListaConciliacion(fechaconcilia) {
 
 export async function getEstatusConciliacion (params) {
     try{
-      console.log(params)
+      console.log('parametros:'+params)
+        let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/conciliacion/getEstatusConciliacion`,
             method: 'POST',
-            data: params
+            data: params,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `${token_insert}` }
         })
-        console.log(response);
+        console.log("response:"+response);
         return response;
     } catch (e) {
         console.log(e.response)
+        return e.response;
     }
 }
