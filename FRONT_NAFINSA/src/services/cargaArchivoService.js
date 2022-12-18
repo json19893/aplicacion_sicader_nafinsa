@@ -1,7 +1,10 @@
 import axios from 'axios';
 import * as moment from "moment";
+import errorInterceptor from '../interceptors/error';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
+
+errorInterceptor();
 
 export async function cargarArchivo(params) {
     console.log(params)
@@ -67,10 +70,11 @@ export async function getArchivoFecha (fechaOperacion) {
             },
             headers: { "Authorization": `${token_insert}` }
         })
-        console.log(response)
+        console.log(response);
         return response;
     } catch (e) {
-        console.log(e)
+        console.log(e.response);
+        return e.response;
     }
 }
 
@@ -99,6 +103,7 @@ export async function getArchivoDetalle (request) {
         console.log(response)
         return response;
     } catch (e) {
-        console.log(e)
+        console.log(e.response)
+        return e.response;
     }
 }

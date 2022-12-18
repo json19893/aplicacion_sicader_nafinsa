@@ -1,7 +1,10 @@
 import axios from 'axios';
 import * as moment from "moment";
+import errorInterceptor from '../interceptors/error';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
+
+errorInterceptor();
 
 export async function getAllCartaConfirmacion (fechaOpe) {
     try{

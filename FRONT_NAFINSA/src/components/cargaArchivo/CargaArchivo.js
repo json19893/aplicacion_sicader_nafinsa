@@ -139,9 +139,9 @@ function CargaArchivo() {
     }
   }
 
-  useEffect(() => {
-    loadArchivoDetalle(null)
-  }, []);
+  //useEffect(() => {
+  //  loadArchivoDetalle(null)
+  //}, []);
 
   const dataDetalle = dataDetalleArchivo;
 

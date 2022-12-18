@@ -11,8 +11,8 @@ export async function getLogin (request) {
         console.log(response)
         return response;
     } catch (e) {
-        console.log(e)
-        return e;
+        console.log(e.response)
+        return e.response;
     }
 }
 

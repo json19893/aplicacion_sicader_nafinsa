@@ -54,9 +54,9 @@ function ContentConcilia2() {
         }
     }
 
-    useEffect(() => {
-        loadEstatusConciliacion(null)
-    }, []);
+    //useEffect(() => {
+    //    loadEstatusConciliacion(null)
+    //}, []);
 
     const columns = [
         {

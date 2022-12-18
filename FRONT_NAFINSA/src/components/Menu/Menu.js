@@ -48,9 +48,11 @@ const MenuLeft = (componente) => {
   let menuSele = componente.val;
   let compo = componente.componente;
   const [usuario, setUsuario] = useState(usu);
-  const logout = async () => {
+
+  async function logoutP() {
+    const request = null;
     const sucess=   await logout(request);
-    let dat=sucess.data==undefined?sucess.response.data:sucess.data;
+    let dat=sucess?.data==undefined?sucess.response.data:sucess.data;
     if (dat.status==200){
       if (dat.error=="OK"){
         sessionStorage.clear();
@@ -92,7 +94,7 @@ const MenuLeft = (componente) => {
     {
       key: '2',
       label: (
-        <a onClick={logout}>
+        <a onClick={logoutP}>
          salir
         </a>
       ),

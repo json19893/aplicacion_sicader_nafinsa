@@ -1,7 +1,9 @@
 import axios from 'axios';
+import errorInterceptor from '../interceptors/error';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
+errorInterceptor();
 
 export async function getSocioLiquidador() {
     try {
