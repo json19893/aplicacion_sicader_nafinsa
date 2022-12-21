@@ -128,6 +128,14 @@ function CargaArchivo() {
 
       if (response.status === 200) {
         if (response.data != null) {
+          response.data.forEach(element => {
+            if(request.tipoReporte == 'REPORTE40'){
+              element.valueDate = element.valueDate.substring(0,10);
+            }
+            delete element.id;
+            delete element.reporteId;            
+            //console.log('elemento: '+JSON.stringify(element))
+          })
           setDataDetalleArchivo(response.data)
         }
       }

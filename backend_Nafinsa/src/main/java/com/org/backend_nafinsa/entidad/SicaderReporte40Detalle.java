@@ -59,7 +59,7 @@ public class SicaderReporte40Detalle {
     private SicaderReporte40 sicaderReporte40;
 
     public SicaderReporte40Detalle(Reporte40 reporte40, SicaderReporte40 sicaderReporte40) {
-        //this.broker=reporte40.getBroker() ;
+        this.broker=reporte40.getBroker() ;
         this.dealNo = reporte40.getDealNo();
         this.seq = reporte40.getSeq();
         this.type = reporte40.getType();
