@@ -19,7 +19,7 @@ import java.io.PrintWriter;
 
 @Slf4j
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@WebServlet(urlPatterns = "/sicader-api/success/*")
+@WebServlet(urlPatterns = "/success")
 public class SuccessServlet extends HttpServlet {
 
     Utilidades utl= new Utilidades();
@@ -29,16 +29,16 @@ public class SuccessServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     @SuppressWarnings("deprecation")
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.addHeader("Access-Control-Allow-Origin", "*");
         PrintWriter writer = resp.getWriter();
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html");
         log.info((String)req.getParameter("usuario"));
         String usuario = (String)req.getParameter("usuario");
-        if (usuario.isEmpty()){
+      /*  if (usuario.isEmpty()){
             resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Credenciales no validas");
-        }else {
+        }else {*/
             /*****AJUSTE DE CAMBIO DE REDUNDANCIA DE CODIGO*****************************/
             /***************************************************************************/
             try {
@@ -49,13 +49,13 @@ public class SuccessServlet extends HttpServlet {
             }
             /***************************************************************************/
             /***************************************************************************/
-            String token = utl.getJWTToken(req.getParameter("usuario"));
+           /* String token = utl.getJWTToken(req.getParameter("usuario"));
             UsuarioToken user = new UsuarioToken();
             user.setUsuario(usuario);
             user.setToken(token);
             writer.print(this.gson.toJson(user));
-            resp.sendError(HttpServletResponse.SC_OK, this.gson.toJson(user));
-        }
+            resp.sendError(HttpServletResponse.SC_OK, this.gson.toJson(user));*/
+       // }
     }
 
 }

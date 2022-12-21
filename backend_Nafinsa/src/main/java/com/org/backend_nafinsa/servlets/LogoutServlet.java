@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 
 @Slf4j
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@WebServlet(urlPatterns = "/sicader-api/logout/*")
+@WebServlet(urlPatterns = "/logout")
 public class LogoutServlet extends HttpServlet {
 
     Utilidades utl= new Utilidades();
@@ -28,7 +28,7 @@ public class LogoutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     @SuppressWarnings("deprecation")
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.addHeader("Access-Control-Allow-Origin", "*");
         PrintWriter writer = resp.getWriter();
         resp.setCharacterEncoding("UTF-8");

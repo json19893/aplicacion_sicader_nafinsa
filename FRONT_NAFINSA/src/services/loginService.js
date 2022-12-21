@@ -3,7 +3,7 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 export async function getLogin (request) {
     try{
         const response = await axios({
-            url: `${baseUrl}/sicader-api/init/`,
+            url: `${baseUrl}/init`,
             method: 'POST',
             params:request ,
             mode: 'no-cors',
@@ -11,15 +11,15 @@ export async function getLogin (request) {
         console.log(response)
         return response;
     } catch (e) {
-        console.log(e.response)
-        return e.response;
+        console.log(e)
+        return e;
     }
 }
 
 export async function getSucees (request) {
     try{
         const response = await axios({
-            url: `${baseUrl}/sicader-api/success/`,
+            url: `${baseUrl}/success`,
             method: 'POST',
             params:request ,
             mode: 'no-cors',
@@ -35,7 +35,7 @@ export async function getSucees (request) {
 export async function logout (request) {
     try{
         const response = await axios({
-            url: `${baseUrl}/sicader-api/logout/`,
+            url: `${baseUrl}/logout`,
             method: 'POST',
             params:request ,
             mode: 'no-cors',

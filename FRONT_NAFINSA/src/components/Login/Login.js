@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Row, Col,Tooltip,message,notification } from 'antd';
 import { getLogin,getSucees } from '../../services/loginService'
+import { stringify } from 'rc-field-form/es/useWatch';
 
 
 
@@ -67,19 +68,24 @@ const Login = ({
       const response = await getLogin(request);
       console.log(response);
      let data =response.data==undefined?response.response.data:response.data;
-      if (data.status==200){
-       if (data.error=="OK"){
-        const sucess=   await getSucees(request);
-        let dat=sucess.data==undefined?sucess.response.data:sucess.data;
-        if (dat.status==200){
-          if (dat.error=="OK"){
-        let da=dat.message
-        da=da.replaceAll('"','')
+     console.log("theirs data:"+JSON.stringify(data));
+      if (response.status==200){
+       //if (response	.error=="OK"){
+        /*const sucess=   await getSucees(request);
+        let dat=sucess.data==undefined?sucess.response.data:sucess.data;*/
+        //if (dat.status==200){
+        //  if (dat.error=="OK"){
+	 	console.log("Entro");			
+        let da=response.data;
+        console.log("data jcarias:"+JSON.stringify(da));
+        /*da=da.replaceAll('"','')
         da=da.replaceAll('{','')
         da=da.replaceAll('}','')
         let valores= da.split(',')
         let usuario=valores[0].replace('usuario:','')
-        let token=valores[1].replace('token:','')
+        let token=valores[1].replace('token:','')*/
+       let usuario = da.usuario;
+       let token = da.token;
         console.log(usuario);
         console.log(token);
         sessionStorage.setItem('usuario',usuario );
@@ -87,29 +93,29 @@ const Login = ({
         sessionStorage.setItem('access',true);
         
         window.location.href = "/sicader/home"
-      }else{
+     /* }else{
    
         openNotification(dat.message, 2)
         setLoading({
           state: false,
           message: 'Acceder'
         });
-       }
-      }else if (dat.status==401){
+       }*/
+      /*}else if (dat.status==401){
         openNotification(dat.message, 2)
         setLoading({
           state: false,
           message: 'Acceder'
         });
-      }
-       }else{
+      }*/
+       /*}else{
    
         openNotification(data.message, 2)
         setLoading({
           state: false,
           message: 'Acceder'
         });
-       }
+       }*/
             }else if (data.status==401){
               openNotification(data.message, 2)
               setLoading({
