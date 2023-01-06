@@ -12,7 +12,7 @@ public interface ConciliaSicaderService {
 
     boolean ejecutarValidacion(ValidacionPkg validacionPkg);
 
-    List <ConciliacionFechaDto> getConciliacionFecha(LocalDate fechaOperacion);
+    List <ConciliacionFechaDto> getConciliacionFecha(LocalDate fechaOperacion, String tipoConciliacion);
 
     List<SicaderValidacion> getValidacion();
 
