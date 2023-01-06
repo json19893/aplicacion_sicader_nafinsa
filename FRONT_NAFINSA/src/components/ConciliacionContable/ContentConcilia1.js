@@ -52,8 +52,8 @@ function ContentConcilia1() {
         },]
 settipoConciliacion(cons);        
     }, []);
-    async function loadConciliacion(fecha) {
-      const response = await getListaConciliacion(fecha)
+    async function loadConciliacion(datosConciliacion) {
+      const response = await getListaConciliacion(datosConciliacion)
 
       if (response.status === 200) {
         if (response.data.length > 0){
@@ -249,13 +249,13 @@ const filesRep=dataValidacion;
                     state: false,
                   });
                   setDisabledV(false)
-                  loadConciliacion(conciliacion.inFecha)  
+                  loadConciliacion(conciliacion)  
               }else{
                 setLoadingBoton2({
                     state: false,
                   });
                   setDisabledV(false)
-                  loadConciliacion(conciliacion.inFecha)
+                  loadConciliacion(conciliacion)
                   message.error(response.data.mensaje);
               }
               

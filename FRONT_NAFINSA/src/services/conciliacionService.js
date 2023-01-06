@@ -53,19 +53,20 @@ export async function ejecutaValidacion(params) {
     }
 }
 
-export async function getListaConciliacion(fechaconcilia) {
+export async function getListaConciliacion(datosConciliacion) {
     try {
         let fechaO;
-        if (fechaconcilia == null) {
+        if (datosConciliacion.inFecha == null) {
             const fecha = new Date();
             const fechaS = moment(fecha).format("YYYY-MM-DD")
             fechaO = fechaS;
         } else {
-            fechaO = moment(fechaconcilia).format("YYYY-MM-DD")
+            fechaO = moment(datosConciliacion.inFecha).format("YYYY-MM-DD")
         }
 
         const request = {
-            fechaOperacion: fechaO
+            fechaOperacion: fechaO,
+            tipoConciliacion: datosConciliacion.inTipoConcilia
         }
 
         console.log(request)
