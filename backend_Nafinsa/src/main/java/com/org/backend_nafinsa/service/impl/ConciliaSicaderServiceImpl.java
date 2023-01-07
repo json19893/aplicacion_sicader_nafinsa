@@ -60,14 +60,24 @@ public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
     }
 
     @Override
-    public List <ConciliacionFechaDto> getConciliacionFecha(LocalDate fechaOperacion, String tipoConciliacion) {
+    public List <ConciliacionFechaDto> getConciliacionFecha(LocalDate fechaOperacion, String tipoConciliacion, Long idDerivado) {
         List <ConciliacionFechaDto> conciliacionFechaDtoList = new ArrayList<>();
-        List<Object[]> objectList = sicaderConciliacionesRepository.getSicaderConciliaciones (fechaOperacion, tipoConciliacion);
+        if(idDerivado<=3 ){
+        List<Object[]> objectList = sicaderConciliacionesRepository.getSicaderConciliaciones (fechaOperacion, tipoConciliacion, idDerivado);
         conciliacionFechaDtoList.addAll(
                 objectList.stream()
                         .map(ob -> new ConciliacionFechaDto(ob))
                         .collect(Collectors.toList()));
         return conciliacionFechaDtoList;
+        }else{
+            List<Object[]> objectList = sicaderConciliacionesRepository.getAllSicaderConciliaciones(fechaOperacion, tipoConciliacion);
+            conciliacionFechaDtoList.addAll(
+                    objectList.stream()
+                            .map(ob -> new ConciliacionFechaDto(ob))
+                            .collect(Collectors.toList()));
+            return conciliacionFechaDtoList;
+        }
+
     }
 
     @Override

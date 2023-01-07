@@ -37,9 +37,10 @@ public class ConciliaSicaderController {
     @GetMapping("getConciliacionFecha")
     public List <ConciliacionFechaDto> getConciliacionFecha(
             @RequestParam(required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaOperacion,
-            @RequestParam(required = true) String tipoConciliacion
+            @RequestParam(required = true) String tipoConciliacion,
+            @RequestParam(required = true) Long idDerivado
     ){
-        return conciliaSicaderService.getConciliacionFecha(fechaOperacion, tipoConciliacion);
+        return conciliaSicaderService.getConciliacionFecha(fechaOperacion, tipoConciliacion, idDerivado);
     }
 
     @GetMapping("getValidacion")
