@@ -66,7 +66,8 @@ export async function getListaConciliacion(datosConciliacion) {
 
         const request = {
             fechaOperacion: fechaO,
-            tipoConciliacion: datosConciliacion.inTipoConcilia
+            tipoConciliacion: datosConciliacion.inTipoConcilia,
+            idDerivado: datosConciliacion.inDerivado
         }
 
         console.log(request)
