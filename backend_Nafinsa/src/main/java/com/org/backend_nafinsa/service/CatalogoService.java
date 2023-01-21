@@ -24,4 +24,8 @@ public interface CatalogoService {
     List<CuentaConciliarDto> getCuentasConciliar();
 
     List<CuentasRequerimiento10Dto> obtenerCuentasConciliarReq10();
+    
+    List<CatCoberturaConciliarDto> getCoberturaById(Long Id);
+    
+    void deleteCoberturaId(Long id);
 }

@@ -18,5 +18,8 @@ public interface SicaderCatCoberturaRepository extends JpaRepository<SicaderCatC
     public List<Object[]> getAllCatCoberturaConciliar();
     
     public List<Object[]> findByNombre(String nombre);
-
+    
+    @Query(value = "SELECT id,nombre, to_char(CUENTA_ACTIVA_ID) AS ACTIVO, to_char(CUENTA_PASIVA_ID) AS PASIVO, to_char(CUENTA_CAPITAL_ID) AS CAPITAL\n" +
+            "  FROM SICADER.SICADER_CAT_COBERTURAS A WHERE ID = ?1", nativeQuery = true)
+    public List<Object[]> getCoberturaById(Long id);
 }

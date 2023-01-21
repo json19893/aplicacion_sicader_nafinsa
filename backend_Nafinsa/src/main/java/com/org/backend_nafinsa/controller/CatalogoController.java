@@ -3,6 +3,7 @@ package com.org.backend_nafinsa.controller;
 import com.org.backend_nafinsa.dto.*;
 import com.org.backend_nafinsa.service.CatalogoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,20 @@ public class CatalogoController {
         return catalogoService.getCobertura();
     }
 
+    @GetMapping("/getCoberturaId")
+    public List<CatCoberturaConciliarDto> getCoberturaId(
+    		@RequestParam(required = true) Long id
+    		) {
+        return catalogoService.getCoberturaById(id);
+    }
+    
+    @DeleteMapping("/deleteCoberturaId")
+    public ResponseEntity<?> deleteCoberturaId(
+    		@RequestParam(required = true) Long id
+    		) {
+        catalogoService.deleteCoberturaId(id);
+    	return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/getSocioLiquidador")
     public List<SicaderCatalogoDto> getSocioLiquidador() {

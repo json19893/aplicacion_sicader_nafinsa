@@ -56,15 +56,20 @@ public class CatalogoServiceImpl implements CatalogoService {
         sicaderCatCoberturas.setCuentaPasiva(inCuentaPasiva);
         sicaderCatCoberturas.setCuentaCapital(inCuentaCapital);
         
-        List<Object[]> objectLis = sicaderCatCoberturaRepository.findByNombre(sicaderCatCoberturas.getNombre());
-        
-        if(objectLis.size()==0) {
+        if(coberturaRequest.getId()>0) {
+        	sicaderCatCoberturas.setId(coberturaRequest.getId());
             sicaderCatCoberturaRepository.save(sicaderCatCoberturas);
             return new ResponseDto("OK");
         }else {
-        	return new ResponseDto(Constants.MENSAJE_EXISTE_COBERTURA+sicaderCatCoberturas.getNombre());
+            List<Object[]> objectLis = sicaderCatCoberturaRepository.findByNombre(sicaderCatCoberturas.getNombre());
+            
+            if(objectLis.size()==0) {
+                sicaderCatCoberturaRepository.save(sicaderCatCoberturas);
+                return new ResponseDto("OK");
+            }else {
+            	return new ResponseDto(Constants.MENSAJE_EXISTE_COBERTURA+sicaderCatCoberturas.getNombre());
+            }
         }
-
     }
 
     @Cacheable("getSocioLiquidador")
@@ -146,5 +151,21 @@ public class CatalogoServiceImpl implements CatalogoService {
                         .collect(Collectors.toList()));
 
         return requerimiento10Dtos;
+    }
+    
+    @Override
+    public List<CatCoberturaConciliarDto> getCoberturaById(Long id) {
+    	List<Object[]> objectList = sicaderCatCoberturaRepository.getCoberturaById(id);
+        List<CatCoberturaConciliarDto> catCoberturaConciliarDtos = new ArrayList<>();
+        catCoberturaConciliarDtos.addAll(
+                objectList.stream()
+                        .map(ob -> new CatCoberturaConciliarDto(ob))
+                        .collect(Collectors.toList()));
+
+        return catCoberturaConciliarDtos;
+    }
+    
+    public void deleteCoberturaId(Long id) {
+    	sicaderCatCoberturaRepository.deleteById(id);;
     }
 }

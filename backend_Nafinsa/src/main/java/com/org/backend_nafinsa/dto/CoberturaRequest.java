@@ -11,6 +11,7 @@ import lombok.ToString;
 @ToString
 public class CoberturaRequest {
 
+	private Long id;
     private String nombre;
     private Long cuentaActiva;
     private Long cuentaPasiva;
