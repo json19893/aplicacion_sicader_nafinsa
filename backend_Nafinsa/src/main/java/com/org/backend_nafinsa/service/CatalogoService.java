@@ -27,5 +27,5 @@ public interface CatalogoService {
     
     List<CatCoberturaConciliarDto> getCoberturaById(Long Id);
     
-    void deleteCoberturaId(Long id);
+    ResponseDto deleteCoberturaId(Long id);
 }

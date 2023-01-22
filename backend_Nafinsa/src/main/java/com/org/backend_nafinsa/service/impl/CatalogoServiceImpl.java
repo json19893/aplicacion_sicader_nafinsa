@@ -169,15 +169,13 @@ public class CatalogoServiceImpl implements CatalogoService {
         return catCoberturaConciliarDtos;
     }
     
-    public void deleteCoberturaId(Long id) {
+    @Override
+    public ResponseDto deleteCoberturaId(Long id) {
         try{
-            sicaderCatCoberturaRepository.deleteById(id);;
+            sicaderCatCoberturaRepository.deleteById(id);
+            return new ResponseDto("OK");
         }catch (Exception e){
-            throw new ErrorAplicacionControlado(
-                    respuestaControlada.getServicionodisponible().get("codigo"),
-                    this.getClass().getName(),
-                    respuestaControlada.getServicionodisponible().get("mensaje")
-            );
+        	return new ResponseDto("ERROR: "+e);
         }
 
     }
