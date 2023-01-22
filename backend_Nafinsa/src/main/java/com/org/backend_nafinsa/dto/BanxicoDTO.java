@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -15,11 +16,11 @@ import java.util.Date;
 @ToString
 public class BanxicoDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date fechaOperacion;
+    private String fechaOperacion;
     private BigDecimal ValBanxico;
 
     public BanxicoDTO(Object[] object) {
-        this.fechaOperacion = (Date) object[0];
+        this.fechaOperacion = new SimpleDateFormat("yyyy-MM-dd").format((Date) object[0]);
         this.ValBanxico = (BigDecimal) object[1];
     }
 }

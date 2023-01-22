@@ -21,6 +21,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -33,7 +34,12 @@ public class Utilidades {
     CodigosRespuestaControlados respuestaControlada;
     final DateTimeFormatter formatoDDMMYYYY = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     final DateTimeFormatter fechaGuion_DDMMYYYY = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+    SimpleDateFormat formatoYYYYMMDD = new SimpleDateFormat("YYYY-MM-dd");
+
+
     final DateTimeFormatter fechaGuion_DDMMMYYYY = DateTimeFormatter.ofPattern("dd-MMM-yyyy", new Locale("es", "ES"));
+
 
     public LocalDate fechaDDMMYYYY(String fecha) {
         try {
@@ -131,4 +137,6 @@ public class Utilidades {
 
         return "Bearer " + token;
     }
+
+
 }

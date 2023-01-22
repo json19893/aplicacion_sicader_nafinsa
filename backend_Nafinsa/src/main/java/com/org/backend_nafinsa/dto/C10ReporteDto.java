@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -18,7 +19,7 @@ public class C10ReporteDto {
 
     private String nombre;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date fechaOperacion;
+    private String fechaOperacion;
 
     private BigDecimal activo;
 
@@ -28,7 +29,7 @@ public class C10ReporteDto {
 
     public C10ReporteDto(Object[] object) {
         this.nombre = (String) object[0];
-        this.fechaOperacion = (Date) object[1];
+        this.fechaOperacion = new SimpleDateFormat("yyyy-MM-dd").format( (Date) object[1]);
         try {
             this.activo = (BigDecimal) object[2];
         } catch (Exception e) {

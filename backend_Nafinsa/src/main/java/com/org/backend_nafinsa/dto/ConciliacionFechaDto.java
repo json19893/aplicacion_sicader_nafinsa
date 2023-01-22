@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -16,7 +17,7 @@ import java.util.Date;
 public class ConciliacionFechaDto {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date fechaOperacion;
+    private String fechaOperacion;
 
     private String nombre;
 
@@ -35,7 +36,7 @@ public class ConciliacionFechaDto {
     private String tipoConciliacion;
 
     public ConciliacionFechaDto(Object[] object) {
-        this.fechaOperacion = (Date) object[0];
+        this.fechaOperacion = new SimpleDateFormat("yyyy-MM-dd").format( (Date) object[0]);
         this.nombre = (String) object[1];
         this.cuenta = (String) object[2];
         this.moneda = (BigDecimal) object[3];
