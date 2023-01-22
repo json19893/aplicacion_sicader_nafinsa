@@ -37,9 +37,21 @@ public class Utilidades {
 
     SimpleDateFormat formatoYYYYMMDD = new SimpleDateFormat("YYYY-MM-dd");
 
-
+    final DateTimeFormatter formatoYYYYMMDDSINGUION = DateTimeFormatter.ofPattern("yyyyMMdd");
     final DateTimeFormatter fechaGuion_DDMMMYYYY = DateTimeFormatter.ofPattern("dd-MMM-yyyy", new Locale("es", "ES"));
 
+    public LocalDate formatoYYYYMMDDSINGUION(String fecha) {
+        try {
+            LocalDate localDate = LocalDate.parse(fecha, formatoYYYYMMDDSINGUION);
+            return localDate;
+        } catch (Exception e) {
+            throw new ErrorAplicacionControlado(
+                    respuestaControlada.getServicionodisponible().get("codigo"),
+                    this.getClass().getName(),
+                    respuestaControlada.getServicionodisponible().get("mensaje")
+            );
+        }
+    }
 
     public LocalDate fechaDDMMYYYY(String fecha) {
         try {

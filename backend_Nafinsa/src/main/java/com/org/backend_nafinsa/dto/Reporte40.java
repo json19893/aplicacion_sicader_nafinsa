@@ -28,9 +28,9 @@ public class Reporte40 {
 
     @CsvBindByName
     private String security;
-    @CsvDate("YYYYMMDD")
+
     @CsvBindByName
-    private Date valueDate;
+    private String valueDate;
     @CsvBindByName
     private Date maturityDate;
 

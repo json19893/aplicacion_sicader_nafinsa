@@ -2,11 +2,15 @@ package com.org.backend_nafinsa.entidad;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.org.backend_nafinsa.dto.Reporte40;
+import com.org.backend_nafinsa.exception.ErrorAplicacionControlado;
+import com.org.backend_nafinsa.util.Utilidades;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -36,7 +40,7 @@ public class SicaderReporte40Detalle {
     private String security;
 
     @Column(name = "VALUE_DATE")
-    private Date valueDate;
+    private LocalDate valueDate;
 
     @Column(name = "MATURITY_DATE")
     private Date maturityDate;
@@ -59,12 +63,21 @@ public class SicaderReporte40Detalle {
     private SicaderReporte40 sicaderReporte40;
 
     public SicaderReporte40Detalle(Reporte40 reporte40, SicaderReporte40 sicaderReporte40) {
+        Utilidades utilidades=new Utilidades();
         this.broker=reporte40.getBroker() ;
         this.dealNo = reporte40.getDealNo();
         this.seq = reporte40.getSeq();
         this.type = reporte40.getType();
         this.security = reporte40.getSecurity();
-        this.valueDate = reporte40.getValueDate();
+        try{
+        this.valueDate =  utilidades.formatoYYYYMMDDSINGUION(reporte40.getValueDate());
+        }catch (Exception e){
+            throw new ErrorAplicacionControlado(
+                    "101",
+                    this.getClass().getName(),
+                    "error en el formato del archivo"
+            );
+        }
         this.maturityDate = reporte40.getMaturityDate();
         this.description = reporte40.getDescription();
         this.ccy = reporte40.getCcy();
