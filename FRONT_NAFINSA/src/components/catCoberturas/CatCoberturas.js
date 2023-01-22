@@ -25,16 +25,16 @@ function CatCoberturas() {
 
     useEffect(() => {
 
-        async function loadCuentasConciliar() {
-            const response = await getCuentasConciliar()
-
-            if (response.status === 200) {
-                setCuentas(response.data)
-            }
-        }
+     
         loadCuentasConciliar()
     }, []);
+    async function loadCuentasConciliar() {
+        const response = await getCuentasConciliar()
 
+        if (response.status === 200) {
+            setCuentas(response.data)
+        }
+    }
     var dataTemp = [];
 
     async function loadCobertura() {
@@ -107,12 +107,19 @@ function CatCoberturas() {
         try {
         
             const response = await deletCobertura(id)
-            console.log("despues de peticion::: "+response)
+           
             if (response.status === 200) {
-                message.success("Registro borrado");
-                window.location.href = "/sicader/catCoberturas"
-            }else{
-                message.error("No se puede borarr el registro");
+                if (response.data.respuesta === 'OK') {
+                    message.success('Registro borrado');
+                    loadCuentasConciliar()
+                }
+                else {
+                    message.error("No se puede borrar el registro");
+                    loadCuentasConciliar()
+                }
+            } else {
+                message.error(response.data.mensaje);
+                loadCuentasConciliar()
             }
         } catch (error) {
             message.error(error);
@@ -315,6 +322,8 @@ function CatCoberturas() {
             >
                 <p>{msjMod}</p>
             </Modal>
+
+           
         </div>
     );
 }
