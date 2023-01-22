@@ -112,7 +112,7 @@ function CatCoberturas() {
                 message.success("Registro borrado");
                 window.location.href = "/sicader/catCoberturas"
             }else{
-                message.error(response.mensaje);
+                message.error("No se puede borarr el registro");
             }
         } catch (error) {
             message.error(error);

@@ -12,7 +12,7 @@ export async function getSocioLiquidador() {
         const response = await axios({
             url: `${baseUrl}/sicader/catalogo/getSocioLiquidador`,
             method: 'get',
-            headers: { "Authorization": `${token_insert}` }
+            headers: {    'Content-Type': 'application/json', "Authorization": `${token_insert}` }
         })
         return response;
     } catch (e) {

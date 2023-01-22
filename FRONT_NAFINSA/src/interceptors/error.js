@@ -13,6 +13,8 @@ const errorInterceptor = () => {
                 message.warning('La sesión ha expirado');
                 sessionStorage.clear();
                 window.location.href = "/sicader/login"
+            }else{
+                return error;
             }
         }
       );
