@@ -35,7 +35,7 @@ public class CatalogoController {
         return catalogoService.getCoberturaById(id);
     }
     
-    @DeleteMapping("/deleteCoberturaId")
+    @PostMapping("/deleteCoberturaId")
     public ResponseEntity<?> deleteCoberturaId(
     		@RequestParam(required = true) Long id
     		) {

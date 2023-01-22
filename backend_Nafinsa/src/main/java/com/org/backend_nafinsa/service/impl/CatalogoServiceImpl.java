@@ -2,8 +2,10 @@ package com.org.backend_nafinsa.service.impl;
 
 import com.org.backend_nafinsa.dto.*;
 import com.org.backend_nafinsa.entidad.*;
+import com.org.backend_nafinsa.exception.ErrorAplicacionControlado;
 import com.org.backend_nafinsa.repository.*;
 import com.org.backend_nafinsa.service.CatalogoService;
+import com.org.backend_nafinsa.util.CodigosRespuestaControlados;
 import com.org.backend_nafinsa.util.Constants;
 
 import org.modelmapper.ModelMapper;
@@ -45,6 +47,8 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Autowired
     SicaderCuentasConciliarRepository sicaderCuentasConciliarRepository;
 
+    @Autowired
+    CodigosRespuestaControlados respuestaControlada;
     @Override
     public ResponseDto cargaCobertura(CoberturaRequest coberturaRequest) {
         SicaderCuentasConciliar inCuentaActiva= coberturaRequest.getCuentaActiva() == null ? null : sicaderCuentasConciliarRepository.findById(coberturaRequest.getCuentaActiva()).get();
@@ -166,6 +170,15 @@ public class CatalogoServiceImpl implements CatalogoService {
     }
     
     public void deleteCoberturaId(Long id) {
-    	sicaderCatCoberturaRepository.deleteById(id);;
+        try{
+            sicaderCatCoberturaRepository.deleteById(id);;
+        }catch (Exception e){
+            throw new ErrorAplicacionControlado(
+                    respuestaControlada.getServicionodisponible().get("codigo"),
+                    this.getClass().getName(),
+                    respuestaControlada.getServicionodisponible().get("mensaje")
+            );
+        }
+
     }
 }
