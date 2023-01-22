@@ -163,3 +163,20 @@ export async function getCuentasConciliarReq10() {
         console.log(e)
     }
 }
+
+export async function deletCobertura(params) {
+    try {
+        let token_insert=  sessionStorage.getItem('toke')
+        const response = await axios({
+            url: `${baseUrl}/sicader/catalogo/deleteCoberturaId?id=${params}`,
+            method: 'POST',
+            headers: {
+                       "Authorization": `${token_insert}`
+                     }
+        })
+        console.log('servicio: ' + response);
+        return response;
+    } catch (e) {
+        console.log("erroorr el   "+e)
+    }
+}

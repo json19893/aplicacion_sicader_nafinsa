@@ -1,10 +1,10 @@
-import { Table, Button, Form, Input, Card, Row, Col, Select, Popover, message, Modal } from 'antd';
+import { Table, Button, Form, Input, Card, Row, Col, Select, Popover, message, Modal,Popconfirm,Space } from 'antd';
 import 'antd/dist/antd.min.css';
 import './cobertura.css';
-import { FileExcelOutlined, PlusOutlined, CloseOutlined, QuestionOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, PlusOutlined, CloseOutlined, QuestionOutlined,DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import { CSVLink } from 'react-csv';
 import { useState, useEffect } from 'react';
-import { getCobertura, cargaCobertura, getCuentasConciliar } from '../../services/catalogosService'
+import { getCobertura, cargaCobertura, getCuentasConciliar,deletCobertura } from '../../services/catalogosService'
 const { Meta } = Card;
 
 const { Item } = Form;
@@ -85,11 +85,46 @@ function CatCoberturas() {
             dataIndex: "capital",
             key: "capital",
             align: "center"
-        }
+        }, {
+            title: 'Acciones',
+            dataIndex: 'Acciones',
+            align: "left",
+            render: (_, record) =>
+                <Space>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <Popconfirm title="¿Desea eliminar el registro?" onConfirm={() => handleDelete(record.id)}>
+                    <DeleteOutlined style={{ fontSize: '18px', color: '#E51E0A' }} />
+                </Popconfirm>
+                &nbsp;&nbsp;
+                <Popconfirm title="¿Desea editar el registro?"  onConfirm={() => handleEdit(record.id)}>
+                        <EditOutlined  style={{ fontSize: '18px', color: '#0A42E5' }} />
+                    </Popconfirm></Space>
+               
+          },
     ];
 
     const data = dataCobertura;
-
+    async function deltCobertura(id) {
+        try {
+        
+            const response = await deletCobertura(id)
+            console.log("despues de peticion::: "+response)
+            if (response.status === 200) {
+                message.success("Registro borrado");
+                window.location.href = "/sicader/catCoberturas"
+            }else{
+                message.error(response.mensaje);
+            }
+        } catch (error) {
+            message.error(error);
+        }
+       
+    }
+    const handleDelete = (key) => {
+        deltCobertura(key);
+      };
+      const handleEdit = (key) => {
+        alert(key)
+       };
     const onReset = () => {
         form.resetFields();
     };
