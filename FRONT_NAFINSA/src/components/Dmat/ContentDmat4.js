@@ -306,7 +306,7 @@ function ContentDmat4() {
             <Card size="small" align="left" title="Detalle C-10"
                 headStyle={{ backgroundColor: '#39c0c4' }}
                 extra={
-                    <CSVLink data={data} filename={"catalogoCoberturas.csv"}>
+                    <CSVLink data={data} filename={"detalle_C10.csv"}>
                         <FileExcelOutlined style={{ color: 'green', fontSize: 25 }} />
                     </CSVLink>}
             >

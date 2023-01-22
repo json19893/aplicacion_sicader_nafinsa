@@ -446,7 +446,7 @@ const filesRep=dataValidacion;
             <Card size="small" align="left" title="Detalle de la última Conciliación"
                 headStyle={{ backgroundColor: '#39c0c4' }}
                 extra={
-                    <CSVLink data={data} filename={"catalogoCoberturas.csv"}>
+                    <CSVLink data={data} filename={"detalleConciliacion.csv"}>
                         <FileExcelOutlined style={{ color: 'green', fontSize: 25 }} />
                     </CSVLink>}
             >

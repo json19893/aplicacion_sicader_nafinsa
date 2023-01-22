@@ -250,7 +250,7 @@ function InfSideca1() {
             <Card size="small" align="left" title="Resumen de Información de Cartas de Confirmación"
                 headStyle={{ backgroundColor: '#39c0c4' }}
                 extra={
-                    <CSVLink data={data} filename={"catalogoCoberturas.csv"}>
+                    <CSVLink data={data} filename={"resumenCartasConfirmacion.csv"}>
                         <FileExcelOutlined style={{ color: 'green', fontSize: 25 }} />
                     </CSVLink>}
             >
