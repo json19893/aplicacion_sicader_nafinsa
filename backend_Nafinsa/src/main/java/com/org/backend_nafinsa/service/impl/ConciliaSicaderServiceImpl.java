@@ -89,6 +89,28 @@ public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
 
     @Override
     public List<EstatusConciliacionDto> getEstatusConciliacion(EstatusConciliacionRequest estatusConciliacionRequest) {
+        String estatusIn="";
+        if (estatusConciliacionRequest.getEstatus().contains("E")){
+            estatusIn="Exitosa";
+        }else if (estatusConciliacionRequest.getEstatus().contains("D")){
+            estatusIn="Con diferencias";
+        }else {
+            estatusIn="Con Errores";
+        }
+        String derivadoIn="";
+        if (estatusConciliacionRequest.getDerivado().contains("1")){
+            derivadoIn="FORWARDS";
+        }else if (estatusConciliacionRequest.getDerivado().contains("2")){
+            derivadoIn="FUTUROS";
+        }else {
+            derivadoIn="SWAPS";
+        }
+        String conciliacionIn="";
+        if (estatusConciliacionRequest.getTipoConciliacion().contains("D")){
+            conciliacionIn="Diaria";
+        }else {
+            conciliacionIn="Mensual";
+        }
         List <EstatusConciliacionDto> estatusConciliacionDtoList = new ArrayList<>();
         if(estatusConciliacionRequest.isUltimaConciliacion()){
             List<Object[]> objectList = sicaderConciliacionesRepository.getEstatusConciliacionesUltima();
@@ -99,11 +121,44 @@ public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
             return estatusConciliacionDtoList;
 
         }else{
-            List<Object[]> objectList = sicaderConciliacionesRepository.getEstatusConciliaciones(estatusConciliacionRequest.getFechaOperacionIni(), estatusConciliacionRequest.getFechaOperacionFin(),estatusConciliacionRequest.getFechaVencimientoIni(), estatusConciliacionRequest.getFechaVencimientoFin(), estatusConciliacionRequest.getUsuario(), estatusConciliacionRequest.getTipoConciliacion(),estatusConciliacionRequest.getEstatus(), estatusConciliacionRequest.getDerivado());
+            List<Object[]> objectList1 =new ArrayList<>();
+            if (estatusConciliacionRequest.getFechaVencimientoFin() ==null){
+             objectList1 = sicaderConciliacionesRepository.getEstatusConciliacionesSinFechaEjec(estatusConciliacionRequest.getFechaOperacionIni(), estatusConciliacionRequest.getFechaOperacionFin());
+            }else{
+             objectList1 = sicaderConciliacionesRepository.getEstatusConciliacionesFechaEjec(estatusConciliacionRequest.getFechaOperacionIni(), estatusConciliacionRequest.getFechaOperacionFin(),estatusConciliacionRequest.getFechaVencimientoIni(), estatusConciliacionRequest.getFechaVencimientoFin());
+            }
             estatusConciliacionDtoList.addAll(
-                    objectList.stream()
+                    objectList1.stream()
                             .map(ob -> new EstatusConciliacionDto(ob))
                             .collect(Collectors.toList()));
+            if(estatusConciliacionRequest.getUsuario()!= null){
+                estatusConciliacionDtoList=estatusConciliacionDtoList
+                        .stream()
+                        .filter( c-> c.getUsuario().contains(estatusConciliacionRequest.getUsuario()))
+                        .collect(Collectors.toList());
+            }
+            if(estatusConciliacionRequest.getTipoConciliacion()!= null){
+                String finalConciliacionIn = conciliacionIn;
+                estatusConciliacionDtoList=estatusConciliacionDtoList
+                        .stream()
+                        .filter( c-> c.getTipoConciliacion().contains(finalConciliacionIn))
+                        .collect(Collectors.toList());
+            }
+            if(estatusConciliacionRequest.getEstatus() != null){
+                String finalEstatusIn = estatusIn;
+                estatusConciliacionDtoList=estatusConciliacionDtoList
+                        .stream()
+                        .filter( c-> c.getEstatus().contains(finalEstatusIn))
+                        .collect(Collectors.toList());
+            }
+
+            if(estatusConciliacionRequest.getDerivado() != null){
+                String finalDerivadoIn = derivadoIn;
+                estatusConciliacionDtoList=estatusConciliacionDtoList
+                        .stream()
+                        .filter( c-> c.getTipoDerivado().contains(finalDerivadoIn))
+                        .collect(Collectors.toList());
+            }
             return estatusConciliacionDtoList;
 
         }

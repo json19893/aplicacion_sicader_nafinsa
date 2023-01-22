@@ -52,6 +52,27 @@ public interface SicaderConciliacionesRepository  extends JpaRepository<SicaderC
                                             String estatus,
                                             String derivado);
 
+    @Query(value = "select a.fecha_op, a.fecha_ejecucion, a.usu_ejecucion, case when a.tipo_conciliacion= 'D' then 'Diaria' else 'Mensual' end  as tipo, b.nomnbre, \n" +
+            "case when a.estatus ='E' then 'Exitosa' \n" +
+            "when a.estatus ='D' then 'Con diferencias' \n" +
+            "else 'Con Errores' end  as  estatus   from  sicader.sicader_con_ejecuciones a \n" +
+            "inner join sicader.sicader_cat_tipo_derivados b on a.derivado_id=b.id\n" +
+            "where fecha_op BETWEEN ?1 and ?2\n" +
+            "and fecha_ejecucion BETWEEN ?3 and ?4 ", nativeQuery = true)
+    List<Object[]> getEstatusConciliacionesFechaEjec(LocalDate fechaOperacionIni,
+                                            LocalDate fechaOperacionFin,
+                                            LocalDate fechaVencimientoIni,
+                                            LocalDate fechaVencimientoFin);
+
+    @Query(value = "select a.fecha_op, a.fecha_ejecucion, a.usu_ejecucion, case when a.tipo_conciliacion= 'D' then 'Diaria' else 'Mensual' end  as tipo, b.nomnbre, \n" +
+            "case when a.estatus ='E' then 'Exitosa' \n" +
+            "when a.estatus ='D' then 'Con diferencias' \n" +
+            "else 'Con Errores' end  as  estatus   from  sicader.sicader_con_ejecuciones a \n" +
+            "inner join sicader.sicader_cat_tipo_derivados b on a.derivado_id=b.id\n" +
+            "where fecha_op BETWEEN ?1 and ?2 ", nativeQuery = true)
+    List<Object[]> getEstatusConciliacionesSinFechaEjec(LocalDate fechaOperacionIni,
+                                                     LocalDate fechaOperacionFin);
+
     @Query(value = "select a.fecha_op, a.fecha_ejecucion, a.usu_ejecucion, case when a.tipo_conciliacion= 'D' then 'Diaria' else 'Mensual' end  as www, b.nomnbre, \n" +
             "case when a.estatus ='E' then 'Exitosa' \n" +
             "when a.estatus ='D' then 'Con diferencias' \n" +
