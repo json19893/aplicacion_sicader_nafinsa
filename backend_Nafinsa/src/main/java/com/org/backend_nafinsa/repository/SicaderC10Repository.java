@@ -24,7 +24,7 @@ public interface SicaderC10Repository extends JpaRepository<SicaderC10, Long> {
             "                    a.id=b.REPORTE_ID INNER JOIN SICADER.SICADER_CAT_COBERTURAS c on b.COBERTURA_ID =c.ID \n" +
             "                    WHERE a.FECHA_OP =?1 \n" +
             ") XD \n" +
-            "    GROUP BY NOMBRE, FECHA_OP", nativeQuery = true)
+            "    GROUP BY NOMBRE, FECHA_OP ORDER BY 1", nativeQuery = true)
     public List<Object[]> getAllSicaderC10(LocalDate fechaOperacion);
 
 

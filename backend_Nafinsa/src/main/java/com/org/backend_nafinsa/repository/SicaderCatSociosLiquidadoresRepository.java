@@ -11,4 +11,6 @@ public interface SicaderCatSociosLiquidadoresRepository extends JpaRepository<Si
 
     SicaderCatSociosLiquidadores findByNombreLike(String nombre);
 
+    List<SicaderCatSociosLiquidadores> findAllByOrderByNombreAsc();
+
 }

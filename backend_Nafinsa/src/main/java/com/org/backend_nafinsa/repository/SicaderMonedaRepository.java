@@ -22,4 +22,6 @@ public interface SicaderMonedaRepository extends JpaRepository<SicaderMoneda, In
             "MONEDAS B ON A.MON_CLAVE =B.MON_CLAVE \n" +
             "WHERE A.PAR_FECHA  BETWEEN ?1 AND ?2 " , nativeQuery = true)
     public List<Object[]> getSicaderCierreJornadaFecha(LocalDate fechaIni, LocalDate FechaFin );
+
+    List<SicaderMoneda> findAllByOrderByMonNombreAsc();
 }

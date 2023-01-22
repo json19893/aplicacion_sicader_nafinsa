@@ -75,7 +75,7 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Cacheable("getSocioLiquidador")
     @Override
     public List<SicaderCatalogoDto> getSocioLiquidador() {
-        List<SicaderCatSociosLiquidadores> sicaderCatSociosLiquidadorList = sicaderCatSociosLiquidadoresRepository.findAll();
+        List<SicaderCatSociosLiquidadores> sicaderCatSociosLiquidadorList = sicaderCatSociosLiquidadoresRepository.findAllByOrderByNombreAsc();
         List<SicaderCatalogoDto> sicaderCatalogoDtoList = modelMapper.map(sicaderCatSociosLiquidadorList, new TypeToken<List<SicaderCatalogoDto>>() {
         }.getType());
         return sicaderCatalogoDtoList;
@@ -84,7 +84,7 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Cacheable("getTipoCuenta")
     @Override
     public List<SicaderCatalogoDto> getObtenerTipoCuenta() {
-        List<SicaderCatTipoCuenta> sicaderCatTipoCuentaList = sicaderCatTipoCuentaRepository.findAll();
+        List<SicaderCatTipoCuenta> sicaderCatTipoCuentaList = sicaderCatTipoCuentaRepository.findAllByOrderByNombreAsc();
         List<SicaderCatalogoDto> sicaderCatalogoDtoList = modelMapper.map(sicaderCatTipoCuentaList, new TypeToken<List<SicaderCatalogoDto>>() {
         }.getType());
         return sicaderCatalogoDtoList;
@@ -93,7 +93,7 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Cacheable("getDerivado")
     @Override
     public List<SicaderCatalogoDto> getTipoDerivado() {
-        List<SicaderCatTipoDerivados> sicaderCatTipoDerivados = sicaderCatTipoDerivadosRepository.findAll();
+        List<SicaderCatTipoDerivados> sicaderCatTipoDerivados = sicaderCatTipoDerivadosRepository.findAllByOrderByNombreAsc();
         List<SicaderCatalogoDto> sicaderCatalogoDtoList = modelMapper.map(sicaderCatTipoDerivados, new TypeToken<List<SicaderCatalogoDto>>() {
         }.getType());
         return sicaderCatalogoDtoList;
@@ -102,7 +102,7 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Cacheable("getContraparte")
     @Override
     public List<SicaderCatalogoDto> getContraparte() {
-        List<SicaderCatContraparte> sicaderCatContrapartes = sicaderCatContraparteRepository.findAll();
+        List<SicaderCatContraparte> sicaderCatContrapartes = sicaderCatContraparteRepository.findAllByOrderByNombreAsc();
         List<SicaderCatalogoDto> sicaderCatalogoDtoList = modelMapper.map(sicaderCatContrapartes, new TypeToken<List<SicaderCatalogoDto>>() {
         }.getType());
         return sicaderCatalogoDtoList;
@@ -123,7 +123,7 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Override
     public List<SicaderMonedaDto> getMoneda() {
 
-        List<SicaderMoneda> sicaderMonedas = sicaderMonedaRepository.findAll();
+        List<SicaderMoneda> sicaderMonedas = sicaderMonedaRepository.findAllByOrderByMonNombreAsc();
         List<SicaderMonedaDto> sicaderMonedaDtoList = modelMapper.map(sicaderMonedas, new TypeToken<List<SicaderMonedaDto>>() {
         }.getType());
         return sicaderMonedaDtoList;

@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface SicaderCatTipoCuentaRepository extends JpaRepository<SicaderCatTipoCuenta, Long> {
 
-    @Query(value = "SELECT id,CUENTA||'-'||SUBCUENTA1 ||'-'||SUBCUENTA2 ||'-'||SUBCUENTA3 ||'-'|| SUBCUENTA4 ||'-'||SUBCUENTA5 ||'-'||SUBCUENTA6 ||'-'||SUBCUENTA7 AS nombre  FROM SICADER.SICADER_CUENTAS_CONCILIAR", nativeQuery = true)
+    @Query(value = "SELECT id,CUENTA||'-'||SUBCUENTA1 ||'-'||SUBCUENTA2 ||'-'||SUBCUENTA3 ||'-'|| SUBCUENTA4 ||'-'||SUBCUENTA5 ||'-'||SUBCUENTA6 ||'-'||SUBCUENTA7 AS nombre  FROM SICADER.SICADER_CUENTAS_CONCILIAR ORDER BY cuenta", nativeQuery = true)
     public List<Object[]> getAllcuentaConciliar();
 
     @Query(value = "SELECT CUENTA||'-'||SUBCUENTA1||SUBCUENTA2||SUBCUENTA3||SUBCUENTA4||SUBCUENTA5||SUBCUENTA6||SUBCUENTA7 AS CUENTA, ENTE, MONEDA, TIPO_ENTE, C2.CUE_NOMBRE\n" +
@@ -26,6 +26,8 @@ public interface SicaderCatTipoCuentaRepository extends JpaRepository<SicaderCat
             "    AND C.SUBCUENTA6 = CUE_SCTA6\n" +
             "    AND C.SUBCUENTA7 = CUE_SCTA7", nativeQuery = true)
     public List<Object[]> getAllRequerimiento10Cuenta();
+
+    List<SicaderCatTipoCuenta> findAllByOrderByNombreAsc();
 
 
 }
