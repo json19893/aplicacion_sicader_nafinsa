@@ -202,7 +202,7 @@ function CargaArchivo() {
       }*/
       setFileUpload(fileUpload => [...fileUpload, file]);
       setUploading(true);
-      openNotification('Archivo seleccionado correctamente', 1)
+      //openNotification('Archivo seleccionado correctamente', 1)
       return false;
     },
     fileUpload,

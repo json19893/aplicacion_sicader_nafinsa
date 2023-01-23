@@ -42,7 +42,7 @@ export async function getCobertura() {
             method: 'GET',
             headers: { "Authorization": `${token_insert}` }
         })
-        console.log(response)
+      
         return response;
     } catch (e) {
         console.log(e)
@@ -94,19 +94,13 @@ export async function postArchivoMensual() {
 export async function cargaCobertura(params) {
     try {
 
-        const request = {
-            nombre: params.nombre,
-            cuentaActiva: parseInt(params.cuentaActiva),
-            cuentaPasiva: parseInt(params.cuentaPasiva),
-            cuentaCapital: parseInt(params.cuentaCapital)
-        }
-        console.log('post: ' + JSON.stringify(request))
+        console.log('post: ' + JSON.stringify(params))
 
         let token_insert=  sessionStorage.getItem('toke')
         const response = await axios({
             url: `${baseUrl}/sicader/catalogo/cobertura`,
             method: 'POST',
-            data: request,
+            data: params,
             headers: { "Content-Type": "application/json",
                        "Authorization": `${token_insert}`
                      }
@@ -174,9 +168,27 @@ export async function deletCobertura(params) {
                        "Authorization": `${token_insert}`
                      }
         })
-        console.log('servicio: ' + response);
+      
         return response;
     } catch (e) {
         console.log("erroorr el   "+e)
     }
 }
+
+export async function getCoberturaId(params) {
+    try {
+        let token_insert=  sessionStorage.getItem('toke')
+        const response = await axios({
+            url: `${baseUrl}/sicader/catalogo/getCoberturaId?id=${params}`,
+            method: 'GET',
+            headers: {
+                       "Authorization": `${token_insert}`
+                     }
+        })
+       
+        return response;
+    } catch (e) {
+        console.log("erroorr el   "+e)
+    }
+}
+
