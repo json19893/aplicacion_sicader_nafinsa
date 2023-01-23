@@ -115,7 +115,7 @@ function GananciaPerdida() {
             console.log("response:::", response.data.respuesta);
             if (response.status === 200) {
                 if (response.data.respuesta === 'OK') {
-                    loadGananciaPerdidaUDI(request.fechaOperacion)
+                    loadGananciaPerdidaUDI(request.fechaVencimiento)
                     form.resetFields();
                     message.success('Registro creado correctamente.');
                     setLoadingBoton({
