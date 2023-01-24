@@ -24,7 +24,7 @@ public interface SicaderCatTipoCuentaRepository extends JpaRepository<SicaderCat
             "    AND C.SUBCUENTA4 = CUE_SCTA4\n" +
             "    AND C.SUBCUENTA5 = CUE_SCTA5\n" +
             "    AND C.SUBCUENTA6 = CUE_SCTA6\n" +
-            "    AND C.SUBCUENTA7 = CUE_SCTA7", nativeQuery = true)
+            "    AND C.SUBCUENTA7 = CUE_SCTA7 ORDER BY CUENTA||'-'||SUBCUENTA1||SUBCUENTA2||SUBCUENTA3||SUBCUENTA4||SUBCUENTA5||SUBCUENTA6||SUBCUENTA7", nativeQuery = true)
     public List<Object[]> getAllRequerimiento10Cuenta();
 
     List<SicaderCatTipoCuenta> findAllByOrderByNombreAsc();

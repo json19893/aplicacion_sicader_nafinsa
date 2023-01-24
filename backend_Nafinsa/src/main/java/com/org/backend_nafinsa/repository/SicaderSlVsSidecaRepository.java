@@ -18,7 +18,7 @@ public interface SicaderSlVsSidecaRepository extends JpaRepository<SicaderSlVsSi
     @Query(value = "select  nombre, fecha_op, RECIBIR_SL, ENTREGAR_SL, RECIBIR_SIDECA, ENTREGAR_SIDECA from  \n" +
             "sicader.sicader_sl_vs_sideca a inner  join   sicader.SICADER_SL_VS_SIDECA_detalle b\n" +
             "on a.id =b.reporte_id  inner join sicader.sicader_cat_socios_liquidadores c on b.socio_id=c.id\n" +
-            "where  a.fecha_op= ?1  ", nativeQuery = true)
+            "where  a.fecha_op= ?1  order BY b.socio_id ASC  ", nativeQuery = true)
 
     public List<Object[]> getSicaderReporteMensual(LocalDate fechaOperacion);
 }
