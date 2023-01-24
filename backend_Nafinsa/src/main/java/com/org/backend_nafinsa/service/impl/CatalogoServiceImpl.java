@@ -51,9 +51,9 @@ public class CatalogoServiceImpl implements CatalogoService {
     CodigosRespuestaControlados respuestaControlada;
     @Override
     public ResponseDto cargaCobertura(CoberturaRequest coberturaRequest) {
-        SicaderCuentasConciliar inCuentaActiva= coberturaRequest.getCuentaActiva() == null ? null : sicaderCuentasConciliarRepository.findById(coberturaRequest.getCuentaActiva()).get();
-        SicaderCuentasConciliar inCuentaPasiva= coberturaRequest.getCuentaPasiva() == null ? null : sicaderCuentasConciliarRepository.findById(coberturaRequest.getCuentaPasiva()).get();
-        SicaderCuentasConciliar inCuentaCapital=coberturaRequest.getCuentaCapital() == null ? null :  sicaderCuentasConciliarRepository.findById(coberturaRequest.getCuentaCapital()).get();
+        SicaderCuentasConciliar inCuentaActiva= coberturaRequest.getCuentaActiva() == null ? null :coberturaRequest.getCuentaActiva() == 0?null: sicaderCuentasConciliarRepository.findById(coberturaRequest.getCuentaActiva()).get();
+        SicaderCuentasConciliar inCuentaPasiva= coberturaRequest.getCuentaPasiva() == null ? null :coberturaRequest.getCuentaPasiva() ==0?null: sicaderCuentasConciliarRepository.findById(coberturaRequest.getCuentaPasiva()).get();
+        SicaderCuentasConciliar inCuentaCapital=coberturaRequest.getCuentaCapital() == null ? null :coberturaRequest.getCuentaCapital()==0?null:  sicaderCuentasConciliarRepository.findById(coberturaRequest.getCuentaCapital()).get();
         SicaderCatCoberturas sicaderCatCoberturas = new SicaderCatCoberturas();
         sicaderCatCoberturas.setNombre(coberturaRequest.getNombre());
         sicaderCatCoberturas.setCuentaActiva(inCuentaActiva);
@@ -169,15 +169,13 @@ public class CatalogoServiceImpl implements CatalogoService {
         return catCoberturaConciliarDtos;
     }
     
-    public void deleteCoberturaId(Long id) {
+    @Override
+    public ResponseDto deleteCoberturaId(Long id) {
         try{
-            sicaderCatCoberturaRepository.deleteById(id);;
+            sicaderCatCoberturaRepository.deleteById(id);
+            return new ResponseDto("OK");
         }catch (Exception e){
-            throw new ErrorAplicacionControlado(
-                    respuestaControlada.getServicionodisponible().get("codigo"),
-                    this.getClass().getName(),
-                    respuestaControlada.getServicionodisponible().get("mensaje")
-            );
+        	return new ResponseDto("ERROR: "+e);
         }
 
     }

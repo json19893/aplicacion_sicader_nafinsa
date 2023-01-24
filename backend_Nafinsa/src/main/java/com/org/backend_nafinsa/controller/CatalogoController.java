@@ -36,11 +36,10 @@ public class CatalogoController {
     }
     
     @PostMapping("/deleteCoberturaId")
-    public ResponseEntity<?> deleteCoberturaId(
+    public ResponseDto deleteCoberturaId(
     		@RequestParam(required = true) Long id
     		) {
-        catalogoService.deleteCoberturaId(id);
-    	return ResponseEntity.ok().build();
+        return catalogoService.deleteCoberturaId(id);
     }
 
     @GetMapping("/getSocioLiquidador")

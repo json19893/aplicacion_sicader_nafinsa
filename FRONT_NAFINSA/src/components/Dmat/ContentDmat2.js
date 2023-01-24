@@ -152,7 +152,7 @@ function ContentDmat2() {
         setFileList([...fileList, file]);
       setUploading(true);
    
-      openNotification('Archivo cargado correctamente',1)
+     // openNotification('Archivo cargado correctamente',1)
       }else{
         openNotification('Debe borrar el archivo para cargar otro' ,2)
       }

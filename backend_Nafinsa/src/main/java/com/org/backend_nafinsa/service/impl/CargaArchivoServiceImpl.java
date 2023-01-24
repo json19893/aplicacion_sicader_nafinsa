@@ -92,9 +92,9 @@ public class CargaArchivoServiceImpl implements CargaArchivoService {
             logger.info("IDPROCESO:" + uuid + " codigo:" + respuestaControlada.getArchivovacio().get("codigo"));
             logger.info("IDPROCESO:" + uuid + " mensaje:" + respuestaControlada.getArchivovacio().get("mensaje"));
             throw new ErrorAplicacionControlado(
-                    respuestaControlada.getArchivovacio().get("codigo"),
+                    "409",
                     this.getClass().getName(),
-                    respuestaControlada.getArchivovacio().get("mensaje")
+                    "El archivo se encuentra vacio"
             );
         }
         switch (reporte[0]) {

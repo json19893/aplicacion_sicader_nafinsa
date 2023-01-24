@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from 'react';
-import { Table, Button, Form, Input, Card, Row, Col, Modal, DatePicker, Popover, message, Upload, notification, Typography } from 'antd';
+import { Table, Button, Form, Input, Card, Row, Col, Modal, DatePicker, Popover, message, Upload, notification, Typography, Spin } from 'antd';
 import { FileExcelOutlined, PlusOutlined, DownloadOutlined, UploadOutlined, QuestionOutlined } from '@ant-design/icons';
 import { CSVLink } from 'react-csv';
 import { cargarArchivo, cargarArchivo06IRDT, getArchivoFecha, getArchivoDetalle } from '../../services/cargaArchivoService'
@@ -38,6 +38,8 @@ function CargaArchivo() {
   const [sheetData, setSheetData] = useState({});
 
   const [usuario, setUsuario] = useState(usu);
+  const [spinLoading, setSpinLoading] = useState(false);
+  const [botonModalProc, setBotonModalProc] = useState(false);
 
   useEffect(() => {
     setUsuario({
@@ -202,7 +204,7 @@ function CargaArchivo() {
       }*/
       setFileUpload(fileUpload => [...fileUpload, file]);
       setUploading(true);
-      openNotification('Archivo seleccionado correctamente', 1)
+      //openNotification('Archivo seleccionado correctamente', 1)
       return false;
     },
     fileUpload,
@@ -294,6 +296,8 @@ function CargaArchivo() {
   };
 
   const handleRepOk = async () => {
+    setSpinLoading(true);
+    setBotonModalProc(true);
     console.log(filesSelectedRep);
 
     for (const fileProcess of filesSelectedRep){
@@ -310,7 +314,8 @@ function CargaArchivo() {
     setLoadingBoton({
       state: false
     });
-
+    setSpinLoading(false);
+    setBotonModalProc(false);
   }
 
   async function submitPost(request) {
@@ -354,13 +359,14 @@ function CargaArchivo() {
           filesReprocess.push(request.file);
         }
       } else {
-        message.error(response.data.mensaje);
+        message.error(response.response.data.mensaje+': '+request.file.name);
         await loadArchivoFecha(request.fechaOperacion)
         setLoadingBoton({
           state: false,
         });
       }
     } catch (error) {
+      console.log('error: '+error);
       message.error('Error en la creación del registrosss.');
       setLoadingBoton({
         state: false,
@@ -545,8 +551,14 @@ function CargaArchivo() {
         <p>{msjMod}</p>
       </Modal>
 
-      <Modal open={isModalRepOpen} onOk={handleRepOk} onCancel={handleRepCancel} >
+      <Modal open={isModalRepOpen} 
+        onOk={handleRepOk} 
+        onCancel={handleRepCancel} 
+        okButtonProps={{disabled:botonModalProc}}
+        cancelButtonProps={{disabled:botonModalProc}}
+        >
         <p>Los siguientes archivos ya se encuentran procesados.<br></br>Seleccionar los que desea reprocesar.</p>
+        <Spin spinning={spinLoading}>
         <Table 
           size="small" 
           columns={colRep} 
@@ -561,6 +573,7 @@ function CargaArchivo() {
           }}
         >
         </Table>
+        </Spin>
       </Modal>
 
       <Modal

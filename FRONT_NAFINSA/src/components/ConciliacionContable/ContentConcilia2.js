@@ -200,7 +200,7 @@ function ContentConcilia2() {
                         label="Fecha Ejecucion:"
                         name="fechaEjecucion"
                         rules={[{
-                            required: required,
+                            required: false,
                         }]}
                     >
                         <RangePicker disabled={checkUltimaConcilia} />
@@ -211,7 +211,7 @@ function ContentConcilia2() {
                                 label="Usuario"
                                 name="usuario"
                                 rules={[{
-                                    required: required,
+                                    required: false,
                                     message: "Por favor ingresa el Usuario"
                                 }]}
                             >
@@ -223,7 +223,7 @@ function ContentConcilia2() {
                                 label="Tipo de Conciliación: "
                                 name="tipoConciliacion"
                                 rules={[{
-                                    required: required,
+                                    required: false,
                                     message: "Por favor ingresa el Tipo de Conciliación"
                                 }]}
                                 wrapperCol={{
@@ -252,7 +252,7 @@ function ContentConcilia2() {
                                 label="Estatus"
                                 name="estatus"
                                 rules={[{
-                                    required: required,
+                                    required: false,
                                     message: "Por favor ingresa el Estatus"
                                 }]}
                                 wrapperCol={{
@@ -282,7 +282,7 @@ function ContentConcilia2() {
                                 label="Tipo Derivado: "
                                 name="tipoDerivado"
                                 rules={[{
-                                    required: required,
+                                    required: false,
                                     message: "Por favor ingresa el Tipo Derivado"
                                 }]}
                                 wrapperCol={{
