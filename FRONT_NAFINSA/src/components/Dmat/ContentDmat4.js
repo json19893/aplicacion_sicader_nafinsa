@@ -40,9 +40,7 @@ function ContentDmat4() {
             const response = await getCobertura()
 
             if (response.status === 200) {
-                setCobertura(response.data.sort(function(a,b){
-                    return b.id-a.id
-                }))
+                setCobertura(response.data)
             }
         }
         loadCobertura()

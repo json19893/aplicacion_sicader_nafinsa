@@ -117,6 +117,7 @@ function ContentConcilia2() {
     const dateFormat = 'YYYY/MM/DD';
 
     const submitForm = (values) => {
+        console.log("form")
         setLoadingBoton({
             state: true,
         });
@@ -127,14 +128,14 @@ function ContentConcilia2() {
             }
         }else{
             request = {
-                fechaOperacionIni: moment(values.fechaOperativa[0]).format("YYYY-MM-DD"),
-                fechaOperacionFin: moment(values.fechaOperativa[1]).format("YYYY-MM-DD"),
-                fechaVencimientoIni: moment(values.fechaEjecucion[0]).format("YYYY-MM-DD"),
-                fechaVencimientoFin: moment(values.fechaEjecucion[1]).format("YYYY-MM-DD"),
-                usuario: values.usuario,
-                tipoConciliacion: values.tipoConciliacion,
-                estatus: values.estatus,
-                derivado: values.tipoDerivado,
+                fechaOperacionIni:values.fechaOperativa[0]==null?null: moment(values.fechaOperativa[0]).format("YYYY-MM-DD"),
+                fechaOperacionFin:values.fechaOperativa[1]==null?null: moment(values.fechaOperativa[1]).format("YYYY-MM-DD"),
+                fechaVencimientoIni:values.fechaEjecucion!=undefined?moment(values.fechaEjecucion[0]).format("YYYY-MM-DD"):null,
+                fechaVencimientoFin:values.fechaEjecucion=undefined? moment(values.fechaEjecucion[1]).format("YYYY-MM-DD"):null,
+                usuario: values.usuario!=undefined?values.usuario:null,
+                tipoConciliacion: values.tipoConciliacion!=undefined?values.tipoConciliacion:null,
+                estatus: values.estatus!=undefined?values.estatus:null,
+                derivado: values.tipoDerivado!=undefined?values.tipoDerivado:null,
                 ultimaConciliacion: checkUltimaConcilia
             }
         }

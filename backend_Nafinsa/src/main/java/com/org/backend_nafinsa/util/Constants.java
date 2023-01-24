@@ -34,7 +34,7 @@ public class Constants {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String TOKEN_SECRET = "Nafinsa981635Sicader";
 
-    public static final int TOKEN_TIME_EXP = 4100000;
+    public static final int TOKEN_TIME_EXP = 41000000;
 
 }
 

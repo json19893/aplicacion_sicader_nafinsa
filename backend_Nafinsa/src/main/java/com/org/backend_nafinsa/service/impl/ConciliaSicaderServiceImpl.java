@@ -89,28 +89,8 @@ public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
 
     @Override
     public List<EstatusConciliacionDto> getEstatusConciliacion(EstatusConciliacionRequest estatusConciliacionRequest) {
-        String estatusIn="";
-        if (estatusConciliacionRequest.getEstatus().contains("E")){
-            estatusIn="Exitosa";
-        }else if (estatusConciliacionRequest.getEstatus().contains("D")){
-            estatusIn="Con diferencias";
-        }else {
-            estatusIn="Con Errores";
-        }
-        String derivadoIn="";
-        if (estatusConciliacionRequest.getDerivado().contains("1")){
-            derivadoIn="FORWARDS";
-        }else if (estatusConciliacionRequest.getDerivado().contains("2")){
-            derivadoIn="FUTUROS";
-        }else {
-            derivadoIn="SWAPS";
-        }
-        String conciliacionIn="";
-        if (estatusConciliacionRequest.getTipoConciliacion().contains("D")){
-            conciliacionIn="Diaria";
-        }else {
-            conciliacionIn="Mensual";
-        }
+       
+     
         List <EstatusConciliacionDto> estatusConciliacionDtoList = new ArrayList<>();
         if(estatusConciliacionRequest.isUltimaConciliacion()){
             List<Object[]> objectList = sicaderConciliacionesRepository.getEstatusConciliacionesUltima();
@@ -138,6 +118,13 @@ public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
                         .collect(Collectors.toList());
             }
             if(estatusConciliacionRequest.getTipoConciliacion()!= null){
+                  
+        String conciliacionIn="";
+        if (estatusConciliacionRequest.getTipoConciliacion().contains("D")){
+            conciliacionIn="Diaria";
+        }else {
+            conciliacionIn="Mensual";
+        }
                 String finalConciliacionIn = conciliacionIn;
                 estatusConciliacionDtoList=estatusConciliacionDtoList
                         .stream()
@@ -145,6 +132,14 @@ public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
                         .collect(Collectors.toList());
             }
             if(estatusConciliacionRequest.getEstatus() != null){
+                String estatusIn="";
+                if (estatusConciliacionRequest.getEstatus().contains("E")){
+                    estatusIn="Exitosa";
+                }else if (estatusConciliacionRequest.getEstatus().contains("D")){
+                    estatusIn="Con diferencias";
+                }else {
+                    estatusIn="Con Errores";
+                }
                 String finalEstatusIn = estatusIn;
                 estatusConciliacionDtoList=estatusConciliacionDtoList
                         .stream()
@@ -153,6 +148,14 @@ public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
             }
 
             if(estatusConciliacionRequest.getDerivado() != null){
+                String derivadoIn="";
+                if (estatusConciliacionRequest.getDerivado().contains("1")){
+                    derivadoIn="FORWARDS";
+                }else if (estatusConciliacionRequest.getDerivado().contains("2")){
+                    derivadoIn="FUTUROS";
+                }else {
+                    derivadoIn="SWAPS";
+                }
                 String finalDerivadoIn = derivadoIn;
                 estatusConciliacionDtoList=estatusConciliacionDtoList
                         .stream()
