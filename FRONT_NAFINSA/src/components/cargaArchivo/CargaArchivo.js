@@ -250,6 +250,7 @@ function CargaArchivo() {
           forzar: false,
           usuario: usuario.usu
         }
+
         await submitPost(request)
     
 
@@ -279,6 +280,8 @@ function CargaArchivo() {
         dataTemp.push(dataResp)
       })
 
+      setRowKeys([]);
+      setFilesSelectedRep([]);
       setFilesRep(dataTemp)
       setIsModalRepOpen(true);
     }
@@ -297,7 +300,7 @@ function CargaArchivo() {
 
   const handleRepOk = async () => {
     setSpinLoading(true);
-    setBotonModalProc(true);
+    setBotonModalProc(true);    
     console.log(filesSelectedRep);
 
     for (const fileProcess of filesSelectedRep){
@@ -319,7 +322,7 @@ function CargaArchivo() {
   }
 
   async function submitPost(request) {
-    
+        
       setNombreArchivo(request.file.name)
       try {
         const extFile = request.file.name.split('.').pop();
@@ -483,6 +486,20 @@ function CargaArchivo() {
 
   const [show, setShow] = useState();
 
+  const [selectedRowKeys, setRowKeys] = useState([]);
+  const [loading, setLoading] = useState([]);
+
+  const onSelectChange = (selectedRowKeys, selectedRows) => {
+      setRowKeys(selectedRowKeys);
+      console.log(selectedRows);
+      setFilesSelectedRep(selectedRows);
+  };
+
+  const rowSelection = {
+      selectedRowKeys,
+      onChange: onSelectChange,
+  };
+
   return (
     <div>
       <Card
@@ -565,12 +582,13 @@ function CargaArchivo() {
           dataSource={filesRep} 
           className="table-striped-rows"          
           pagination={false}
-          rowSelection={{
+          /*rowSelection={{
             onChange: (selectedRowKeys, selectedRows) => {
               console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
               setFilesSelectedRep(selectedRows)
             },
-          }}
+          }}*/
+          rowSelection={rowSelection}
         >
         </Table>
         </Spin>
