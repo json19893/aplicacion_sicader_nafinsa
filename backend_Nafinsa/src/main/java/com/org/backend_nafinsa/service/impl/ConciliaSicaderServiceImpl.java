@@ -167,4 +167,9 @@ public class ConciliaSicaderServiceImpl implements ConciliaSicaderService {
         }
 
     }
+
+    @Override
+    public List<SicaderConciliaciones> getConciliacionDetalle(Long id) {
+        return sicaderConciliacionesRepository.findAllByEjecucionid(id);
+    }
 }

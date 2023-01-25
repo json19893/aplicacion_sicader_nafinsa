@@ -24,6 +24,9 @@ public class EstatusConciliacionDto {
     private String tipoDerivado;
     private String estatus;
 
+    private String id;
+
+
     public EstatusConciliacionDto(Object[] object) {
         this.fechaOperacion =  new SimpleDateFormat("yyyy-MM-dd").format( (Date) object[0]);
         this.fechaVencimiento = new SimpleDateFormat("yyyy-MM-dd").format((Date) object[1]);
@@ -31,6 +34,7 @@ public class EstatusConciliacionDto {
         this.tipoConciliacion = (String) object[3];
         this.tipoDerivado = (String) object[4];
         this.estatus = (String) object[5];
+        this.id=(String) object[6];
 
     }
 

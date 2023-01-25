@@ -56,6 +56,13 @@ public class ConciliaSicaderController {
         return conciliaSicaderService.getEstatusConciliacion(estatusConciliacionRequest);
     }
 
+    @GetMapping("getConciliacionDetalle")
+    public List<SicaderConciliaciones> getConciliacionDetalle(
+            @RequestParam(required = true) Long id
+    ){
+        return  conciliaSicaderService.getConciliacionDetalle(id);
+    }
+
 
 
 }

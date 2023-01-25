@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -20,8 +22,9 @@ public class SicaderConciliaciones {
     @Column(name = "ID")
     private Long id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "FECHA")
-    private Date fecha;
+    private LocalDate fecha;
 
     @Column(name = "TIPO_CONCILIACION")
     private String tipoconciliacion;

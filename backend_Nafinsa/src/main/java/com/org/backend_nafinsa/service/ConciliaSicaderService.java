@@ -17,4 +17,6 @@ public interface ConciliaSicaderService {
     List<SicaderValidacion> getValidacion();
 
     List<EstatusConciliacionDto> getEstatusConciliacion(EstatusConciliacionRequest estatusConciliacionRequest);
+
+    List<SicaderConciliaciones> getConciliacionDetalle(Long id);
 }
