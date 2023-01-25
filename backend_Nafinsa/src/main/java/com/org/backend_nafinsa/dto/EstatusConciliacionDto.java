@@ -24,7 +24,7 @@ public class EstatusConciliacionDto {
     private String tipoDerivado;
     private String estatus;
 
-    private String id;
+    private BigDecimal id;
 
 
     public EstatusConciliacionDto(Object[] object) {
@@ -34,7 +34,7 @@ public class EstatusConciliacionDto {
         this.tipoConciliacion = (String) object[3];
         this.tipoDerivado = (String) object[4];
         this.estatus = (String) object[5];
-        this.id=(String) object[6];
+        this.id=(BigDecimal) object[6];
 
     }
 
