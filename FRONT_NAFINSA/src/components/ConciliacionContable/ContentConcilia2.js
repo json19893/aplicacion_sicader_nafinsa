@@ -23,6 +23,17 @@ function ContentConcilia2() {
     const [required, setRequired] = useState(true);
 
     const [detalleConcilia, setDetalleConcilia] = useState([]);
+    const download = (data) => {
+        const header = ",id,fecha,tipoconciliacion,tipoderivadoid,oficina,moneda,cuenta,subcuenta1,subcuenta2,subcuenta3,subcuenta4,subcuenta5,subcuenta6,subcuenta7,tipoente,ente,importesif,importeop,formulacalculoid,ejecucionid";
+        const contenido= header+data.map( archivo => "\n"+archivo.id+","+archivo.fecha+","+archivo.tipoconciliacion+","+archivo.tipoderivadoid+","+archivo.oficina+","+archivo.moneda+","+archivo.cuenta+","+archivo.subcuenta1+","+archivo.subcuenta2+","+archivo.subcuenta3+","+archivo.subcuenta4+","+archivo.subcuenta5+","+archivo.subcuenta6+","+archivo.subcuenta7+","+archivo.tipoente+","+archivo.ente+","+archivo.importesif+","+archivo.importeop+","+archivo.formulacalculoid+","+archivo.ejecucionid);
+        const csvContent = `data:text/csv;charset=utf-8${contenido}`;
+        const encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "detalleConciliacion.csv");
+        document.body.appendChild(link);
+        return link.click();
+    };
 
     useEffect(() => {
 
@@ -69,8 +80,9 @@ function ContentConcilia2() {
     
           if (response.status === 200) {
             console.log(response.data)
-                setDetalleConcilia(response.data);    
-                console.log(detalleConcilia)
+              download(response.data);
+                //setDetalleConcilia(response.data);
+                //console.log(detalleConcilia)
           }
         } catch (error) {    
           console.log(error)
@@ -122,9 +134,7 @@ function ContentConcilia2() {
             align: "center",
             render: (reg) => 
             <Button type="primary" shape='circle'  size="small" onClick={e=>loadDetalleConciliacion(reg.id)}>
-                <CSVLink data={detalleConcilia} filename={"detalleConciliacion.csv"}>
                     <FileExcelOutlined />
-                </CSVLink>
             </Button>
         }        
     ];
