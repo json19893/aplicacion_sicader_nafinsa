@@ -236,7 +236,7 @@ function ContentDmat2() {
         onReset();
         setFileList([]);
         setUploading(false);
-        message.success('Archivo cargado correctamente.');
+        //message.success('Archivo cargado correctamente.');
         setLoadingBoton({
           state: false,
         });
