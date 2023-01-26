@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Table, Button, Form, Input, Card, Row, Col, Select, Icon, DatePicker,Popover, Checkbox } from 'antd';
-import { FileExcelOutlined, PlusOutlined, CloseOutlined, SearchOutlined,QuestionOutlined } from '@ant-design/icons';
-import { CSVLink } from 'react-csv';
+import { FileExcelOutlined, PlusOutlined, CloseOutlined, SearchOutlined,QuestionOutlined, DownloadOutlined } from '@ant-design/icons';
+import { CSVLink  } from 'react-csv';
 import moment from 'moment';
 const { Meta } = Card;
 import { getTipoDerivado } from '../../services/catalogosService'
-import { getEstatusConciliacion } from '../../services/conciliacionService'
+import { getEstatusConciliacion, getConciliacionDetalle } from '../../services/conciliacionService'
+
 const usu = {
     usu: "",
   }
@@ -20,6 +21,8 @@ function ContentConcilia2() {
     const [dataResumenEstatusConcilia, setDataResumenEstatusConcilia] = useState([]);
     const [checkUltimaConcilia, setCheckUltimaConcilia] = useState(false);
     const [required, setRequired] = useState(true);
+
+    const [detalleConcilia, setDetalleConcilia] = useState([]);
 
     useEffect(() => {
 
@@ -40,6 +43,7 @@ function ContentConcilia2() {
 
     async function loadEstatusConciliacion(request) {
         const response = await getEstatusConciliacion(request)
+        console.log(response)
         if (response.status === 200) {
             setDataResumenEstatusConcilia(response.data)
             setLoadingBoton({
@@ -57,6 +61,22 @@ function ContentConcilia2() {
     //useEffect(() => {
     //    loadEstatusConciliacion(null)
     //}, []);
+
+    async function loadDetalleConciliacion(id) {
+        try {
+            //setDetalleConcilia([])
+            const response = await getConciliacionDetalle(id)
+    
+          if (response.status === 200) {
+            console.log(response.data)
+                setDetalleConcilia(response.data);    
+                console.log(detalleConcilia)
+          }
+        } catch (error) {    
+          console.log(error)
+        }
+      }
+    
 
     const columns = [
         {
@@ -94,7 +114,19 @@ function ContentConcilia2() {
             dataIndex: "estatus",
             key: "estatus",
             align: "center"
-        }
+        },
+        {
+            title: 'Descargar archivo',
+            dataIndex: '',
+            key: 'x',
+            align: "center",
+            render: (reg) => 
+            <Button type="primary" shape='circle'  size="small" onClick={e=>loadDetalleConciliacion(reg.id)}>
+                <CSVLink data={detalleConcilia} filename={"detalleConciliacion.csv"}>
+                    <FileExcelOutlined />
+                </CSVLink>
+            </Button>
+        }        
     ];
 
     const data = [
@@ -169,6 +201,7 @@ function ContentConcilia2() {
            <Button type="ghost" shape="circle" icon={<QuestionOutlined />} size="small" ></Button>
          </Popover>
        );
+
     return (
         <div>
              <Card size="small" align="left" title="Estatus de la Conciliación Contable"
@@ -323,10 +356,10 @@ function ContentConcilia2() {
             </Card>
             <Card size="small" align="left" title="Resumen de Conciliación"
                 headStyle={{ backgroundColor: '#39c0c4' }}
-                extra={
+                /*extra={
                     <CSVLink data={dataResumenEstatusConcilia} filename={"resumenConciliacion.csv"}>
                         <FileExcelOutlined style={{ color: 'green', fontSize: 25 }} />
-                    </CSVLink>}
+                    </CSVLink>}*/
             >
                 <Table size="small" columns={columns} dataSource={dataResumenEstatusConcilia} className="table-striped-rows"></Table>
             </Card>

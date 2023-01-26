@@ -105,3 +105,22 @@ export async function getEstatusConciliacion (params) {
         return e.response;
     }
 }
+
+export async function getConciliacionDetalle (id) {
+    try{
+      console.log('parametros:'+id)
+        let token_insert=  sessionStorage.getItem('toke')
+        const response = await axios({
+            url: `${baseUrl}/sicader/conciliacion/getConciliacionDetalle?id=${id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `${token_insert}` }
+        })
+        console.log("response:"+response);
+        return response;
+    } catch (e) {
+        console.log(e.response)
+        return e.response;
+    }
+}
