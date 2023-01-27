@@ -173,7 +173,7 @@ function ContentConcilia2() {
                 fechaOperacionIni:values.fechaOperativa[0]==null?null: moment(values.fechaOperativa[0]).format("YYYY-MM-DD"),
                 fechaOperacionFin:values.fechaOperativa[1]==null?null: moment(values.fechaOperativa[1]).format("YYYY-MM-DD"),
                 fechaVencimientoIni:values.fechaEjecucion!=undefined?moment(values.fechaEjecucion[0]).format("YYYY-MM-DD"):null,
-                fechaVencimientoFin:values.fechaEjecucion=undefined? moment(values.fechaEjecucion[1]).format("YYYY-MM-DD"):null,
+                fechaVencimientoFin:values.fechaEjecucion!=undefined? moment(values.fechaEjecucion[1]).format("YYYY-MM-DD"):null,
                 usuario: values.usuario!=undefined?values.usuario:null,
                 tipoConciliacion: values.tipoConciliacion!=undefined?values.tipoConciliacion:null,
                 estatus: values.estatus!=undefined?values.estatus:null,
