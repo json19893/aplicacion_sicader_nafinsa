@@ -420,7 +420,7 @@ function CatCoberturas() {
                         name="cuentaActiva"
                     >
                         <Select  defaultValue={dataEdit.activo} value={dataEdit.activo} >
-                       
+                        <Select.Option value=""></Select.Option>
                             {cuentas.map(elemento => (
                                 
                                 <Select.Option  value={elemento.id} >{elemento.descripcion}</Select.Option>
@@ -431,8 +431,9 @@ function CatCoberturas() {
                     <Form.Item
                         label="Cuenta Pasiva"
                         name="cuentaPasiva"
-                    >
+                    >                        
                         <Select defaultValue={dataEdit.pasivo} value={dataEdit.pasivo}  >
+                        <Select.Option value=""></Select.Option>
                             {cuentas.map(elemento => (
                                 <Select.Option value={elemento.id}>{elemento.descripcion}</Select.Option>
                             ))}
@@ -441,8 +442,9 @@ function CatCoberturas() {
                     <Form.Item
                         label="Cuenta de Capital"
                         name="cuentaCapital"
-                    >
+                    >                       
                          <Select defaultValue={dataEdit.capital} value={dataEdit.capital}  >
+                         <Select.Option value=""></Select.Option>
                             {cuentas.map(elemento => (
                                 <Select.Option value={elemento.id}>{elemento.descripcion}</Select.Option>
                             ))}
