@@ -237,6 +237,8 @@ function CatCoberturas() {
        
         form2.resetFields();
         setIsModalOpen2(false);
+        loadCobertura()
+        
     };
 
     const handleCancel = () => {
