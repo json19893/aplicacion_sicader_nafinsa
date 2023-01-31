@@ -58,7 +58,7 @@ public interface SicaderConciliacionesRepository  extends JpaRepository<SicaderC
             "else 'Con Errores' end  as  estatus , a.id  from  sicader.sicader_con_ejecuciones a \n" +
             "inner join sicader.sicader_cat_tipo_derivados b on a.derivado_id=b.id\n" +
             "where fecha_op BETWEEN ?1 and ?2\n" +
-            "and fecha_ejecucion BETWEEN ?3 and ?4 ", nativeQuery = true)
+            "and fecha_ejecucion BETWEEN ?3 and ?4 ORDER BY a.fecha_op,a.derivado_id ", nativeQuery = true)
     List<Object[]> getEstatusConciliacionesFechaEjec(LocalDate fechaOperacionIni,
                                             LocalDate fechaOperacionFin,
                                             LocalDate fechaVencimientoIni,
@@ -69,7 +69,7 @@ public interface SicaderConciliacionesRepository  extends JpaRepository<SicaderC
             "when a.estatus ='D' then 'Con diferencias' \n" +
             "else 'Con Errores' end  as  estatus , a.id  from  sicader.sicader_con_ejecuciones a \n" +
             "inner join sicader.sicader_cat_tipo_derivados b on a.derivado_id=b.id\n" +
-            "where fecha_op BETWEEN ?1 and ?2 ", nativeQuery = true)
+            "where fecha_op BETWEEN ?1 and ?2  ORDER BY a.fecha_op,a.derivado_id ", nativeQuery = true)
     List<Object[]> getEstatusConciliacionesSinFechaEjec(LocalDate fechaOperacionIni,
                                                      LocalDate fechaOperacionFin);
 
@@ -79,7 +79,7 @@ public interface SicaderConciliacionesRepository  extends JpaRepository<SicaderC
             "else 'Con Errores' end, a.id\n" +
             "from  sicader.sicader_con_ejecuciones a \n" +
             "inner join sicader.sicader_cat_tipo_derivados b on a.derivado_id=b.id \n" +
-            "where a.id = (select max(id) from sicader.sicader_con_ejecuciones)", nativeQuery = true)
+            "where a.id = (select max(id) from sicader.sicader_con_ejecuciones) ORDER BY a.fecha_op,a.derivado_id", nativeQuery = true)
     List<Object[]> getEstatusConciliacionesUltima();
 
     List<SicaderConciliaciones> findAllByEjecucionid(Long id);
