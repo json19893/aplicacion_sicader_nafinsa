@@ -40,14 +40,16 @@ public class ejemploLogin extends HttpServlet {
             }
             response.sendRedirect("/ejemploSuccess");
         }
-        log.info("request.getContextPath():"+ request.getContextPath());
-        log.info("request.getServerName():"+ request.getServerName());
-        log.info("request.getRemoteHost():"+ request.getRemoteHost());
-        log.info("request.getPathInfo():"+ request.getPathInfo());
-        log.info("request.getServletPath():"+ request.getServletPath());
-
+        System.out.println("******************************************************************");
+        System.out.println("request.getContextPath():"+ request.getContextPath());
+        System.out.println("request.getServerName():"+ request.getServerName());
+        System.out.println("request.getRemoteHost():"+ request.getRemoteHost());
+        System.out.println("request.getPathInfo():"+ request.getPathInfo());
+        System.out.println("request.getServletPath():"+ request.getServletPath());
         System.out.println(request.getPathInfo());
         System.out.println(request.getServletPath());
+        System.out.println(request.getContextPath()+ request.getServerPort() );
+        System.out.println("******************************************************************");
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         String htmlRespone = "        <!DOCTYPE html>\r\n"
@@ -213,13 +215,13 @@ public class ejemploLogin extends HttpServlet {
         HttpSession session=  req.getSession();
         session.setAttribute("username", userName);
         //EJEMPLO DE FLUJO MANUAL---------------------------------------------------------------
-        Cookie cookie = new Cookie("SSSSSSSSS", "SS");
-        Cookie name = new Cookie("username", req.getParameter("username"));
-        resp.addCookie(cookie);
+        //Cookie cookie = new Cookie("SSSSSSSSS", "SS");
+        //Cookie name = new Cookie("username", req.getParameter("username"));
+        //resp.addCookie(cookie);
         //EJEMPLO DE FLUJO MANUAL---------------------------------------------------------------
 
         //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
-        /*
+
         String ssoUserInfo = null;
         try {
             ssoUserInfo = sso.getSSOUserInfo(req, resp);
@@ -227,8 +229,6 @@ public class ejemploLogin extends HttpServlet {
             throw new RuntimeException(e);
         }
         //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
-         */
-
 
         Cookie[] cookies = req.getCookies();
         String nombre;

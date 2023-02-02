@@ -27,20 +27,20 @@ public class ejemploLogout extends HttpServlet {
         HttpSession session=  request.getSession();
         try {
             //EJEMPLO DE FLUJO MANUAL---------------------------------------------------------------
-            session.invalidate();
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null)
-                for (Cookie cookie : cookies) {
-                    cookie.setValue("");
-                    cookie.setPath("/");
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                }
+           // session.invalidate();
+           // Cookie[] cookies = request.getCookies();
+           // if (cookies != null)
+           //     for (Cookie cookie : cookies) {
+           //         cookie.setValue("");
+           //         cookie.setPath("/");
+           //         cookie.setMaxAge(0);
+           //         response.addCookie(cookie);
+           //     }
             //EJEMPLO DE FLUJO MANUAL---------------------------------------------------------------
 
             //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
-            //sso.removeJspAppCookies(request,response);
-            //String logoutURL = sso.getSingleSignOffUrl(request);
+            sso.removeJspAppCookies(request,response);
+            String logoutURL = sso.getSingleSignOffUrl(request);
             //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
             String scheme = request.getScheme();
             String serverName = request.getServerName();

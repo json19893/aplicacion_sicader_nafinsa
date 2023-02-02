@@ -35,12 +35,12 @@ public class ejemploSuccess extends HttpServlet {
         System.out.println("************user:"+user);
         System.out.println("************pass:"+pass);
         String nombre;
-        log.info("request.getContextPath():"+ request.getContextPath());
-        log.info("request.getServerName():"+ request.getServerName());
-        log.info("request.getServerName():"+ request.getServerPort());
-        log.info("request.getRemoteHost():"+ request.getRemoteHost());
-        log.info("request.getPathInfo():"+ request.getPathInfo());
-        log.info("request.getServletPath():"+ request.getServletPath());
+        System.out.println("request.getContextPath():"+ request.getContextPath());
+        System.out.println("request.getServerName():"+ request.getServerName());
+        System.out.println("request.getServerName():"+ request.getServerPort());
+        System.out.println("request.getRemoteHost():"+ request.getRemoteHost());
+        System.out.println("request.getPathInfo():"+ request.getPathInfo());
+        System.out.println("request.getServletPath():"+ request.getServletPath());
         if (cookies!= null){
             for (int i = 0; i < cookies.length; i++){
                 System.out.println("************cookie");
@@ -49,11 +49,11 @@ public class ejemploSuccess extends HttpServlet {
                 System.out.println("************cookie");
             }
             try {
-                //sso.setPartnerAppCookie(request, response);
-                RestTemplate plantilla = new RestTemplate();
-                String resultado = plantilla.getForObject("http://localhost:8080/hola", String.class);
-                System.out.println(resultado);
-                response.sendRedirect("http://localhost:3000/sicader/Home");
+                sso.setPartnerAppCookie(request, response);
+                //RestTemplate plantilla = new RestTemplate();
+                //String resultado = plantilla.getForObject("http://localhost:8080/hola", String.class);
+                //System.out.println(resultado);
+                response.sendRedirect("http://localhost:3000/sicader/home");
             } catch(Exception e) {
                 System.out.println("************cookie errorrrrrrrrrrrr");
                 try {
