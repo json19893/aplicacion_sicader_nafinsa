@@ -23,7 +23,7 @@ import oracle.security.sso.enabler.SSOEnablerException;
 
 @Slf4j
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@WebServlet(urlPatterns = "/init")
+@WebServlet(urlPatterns = "/init2")
 public class LoginServlet extends HttpServlet {
 
 	Utilidades utl= new Utilidades();

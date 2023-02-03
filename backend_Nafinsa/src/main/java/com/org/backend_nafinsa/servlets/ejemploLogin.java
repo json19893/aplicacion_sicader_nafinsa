@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 
 @Slf4j
 //@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@WebServlet(urlPatterns = "/ejemplo")
+@WebServlet(urlPatterns = "/init")
 public class ejemploLogin extends HttpServlet {
     Utilidades utl= new Utilidades();
     Gson gson = new Gson();
@@ -29,6 +29,10 @@ public class ejemploLogin extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("************GETTTTTTTTTTTTT*");
+        System.out.println("************request.getProtocol():"+request.getProtocol());
+        System.out.println("https://"+ request.getServerName()+":"+request.getServerPort()+"/sicader-api/success");
+
+
         Cookie[] cookies = request.getCookies();
         String nombre;
         if (cookies!= null){
@@ -38,7 +42,7 @@ public class ejemploLogin extends HttpServlet {
                 System.out.println("nombre cooki:"+cookies[i].getName());
                 System.out.println("************cookie");
             }
-            response.sendRedirect("/success");
+            response.sendRedirect("https://"+ request.getServerName()+":"+request.getServerPort()+"/sicader-api/success");
         }
         System.out.println("******************************************************************");
         System.out.println("request.getContextPath():"+ request.getContextPath());

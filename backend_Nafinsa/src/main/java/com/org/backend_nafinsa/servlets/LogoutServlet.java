@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 
 @Slf4j
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@WebServlet(urlPatterns = "/logout")
+@WebServlet(urlPatterns = "/logout2")
 public class LogoutServlet extends HttpServlet {
 
     Utilidades utl= new Utilidades();

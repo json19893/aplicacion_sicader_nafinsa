@@ -53,7 +53,7 @@ public class ejemploLogout extends HttpServlet {
             String serverName = request.getServerName();
             int portNumber = request.getServerPort();
             String contextPath = request.getContextPath();
-            response.sendRedirect("/ejemplo");
+            response.sendRedirect("https://"+ request.getServerName()+":"+request.getServerPort()+"/sicader-api/ejemplo");
         } catch(Exception e) {
             e.printStackTrace();
         }

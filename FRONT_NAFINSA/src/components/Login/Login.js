@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 const Login = ({
 }) => {
-
+  var redireccion= window.location.protocol	+'//'+ window.location.host +'/sicader-api/init';
+  console.log(redireccion);
   console.log('Entra Login.js:::::');
   const querystring = window.location.search;
   console.log(querystring);

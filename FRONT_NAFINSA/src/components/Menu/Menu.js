@@ -52,7 +52,9 @@ const MenuLeft = (componente) => {
   async function logoutP() {
     const request = null;
     sessionStorage.clear();
-    window.location = "https://webdes1s.nafin.com:443/sicader-api/ejemploLogout"
+    var redireccion= window.location.protocol+'//'+window.location.host +'/sicader-api/logout';
+    console.log(redireccion);
+    window.location = redireccion
     const sucess=   await logout(request);
     let dat=sucess?.data==undefined?sucess.response.data:sucess.data;
     if (dat.status==200){
