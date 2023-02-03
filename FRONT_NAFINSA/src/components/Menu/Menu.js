@@ -51,12 +51,14 @@ const MenuLeft = (componente) => {
 
   async function logoutP() {
     const request = null;
+    sessionStorage.clear();
+    window.location = "https://webdes1s.nafin.com:443/sicader-api/ejemploLogout"
     const sucess=   await logout(request);
     let dat=sucess?.data==undefined?sucess.response.data:sucess.data;
     if (dat.status==200){
       if (dat.error=="OK"){
         sessionStorage.clear();
-        window.location.href = "/sicader/login"
+        window.location = "http://localhost:8080/ejemploLogout"
   }else{
 
     openNotification(dat.message, 2)

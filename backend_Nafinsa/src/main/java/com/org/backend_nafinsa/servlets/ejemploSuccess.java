@@ -4,20 +4,19 @@ import com.chermansolutions.oracle.sso.partnerapp.beans.SSOEnablerJspBean;
 import com.google.gson.Gson;
 import com.org.backend_nafinsa.util.Utilidades;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 @Slf4j
 //@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@WebServlet(urlPatterns = "/ejemploSuccess")
+@WebServlet(urlPatterns = "/success")
 public class ejemploSuccess extends HttpServlet {
     Utilidades utl= new Utilidades();
     Gson gson = new Gson();
@@ -29,7 +28,13 @@ public class ejemploSuccess extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("************GETTTTTTTTTTTTT* ejemploSuccess");
-        String user = request.getParameter("username");
+        HttpSession sesion= request.getSession();
+        String user = "";
+        try{
+        user =request.getSession().getAttribute("username").toString();
+        }catch (Exception e){
+            System.out.println("************errrorr:"+e);
+        }
         String pass = request.getParameter("password");
         Cookie[] cookies = request.getCookies();
         System.out.println("************user:"+user);
@@ -41,6 +46,15 @@ public class ejemploSuccess extends HttpServlet {
         System.out.println("request.getRemoteHost():"+ request.getRemoteHost());
         System.out.println("request.getPathInfo():"+ request.getPathInfo());
         System.out.println("request.getServletPath():"+ request.getServletPath());
+        System.out.println("************Sesion**************************************************");
+        Enumeration nombresSesion = sesion.getAttributeNames();
+        while (nombresSesion.hasMoreElements()) {
+            String nombreSesion = nombresSesion.nextElement().toString();
+            Object valor = sesion.getAttribute(nombreSesion);
+            System.out.println("nombre sesion:"+ nombreSesion);
+            System.out.println("valor sesion:"+ valor);
+        }
+        System.out.println("************Sesion**************************************************");
         if (cookies!= null){
             for (int i = 0; i < cookies.length; i++){
                 System.out.println("************cookie");
@@ -49,11 +63,15 @@ public class ejemploSuccess extends HttpServlet {
                 System.out.println("************cookie");
             }
             try {
+                //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
                 sso.setPartnerAppCookie(request, response);
-                //RestTemplate plantilla = new RestTemplate();
-                //String resultado = plantilla.getForObject("http://localhost:8080/hola", String.class);
-                //System.out.println(resultado);
-                response.sendRedirect("http://localhost:3000/sicader/home");
+                //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
+                String token = utl.getJWTToken(request.getParameter("usuario"));
+                String urlEnvio= "https://"+request.getServerName()+":/"+request.getServerPort()+"/sicader/login?token="+token+"&user="+user;
+                //EJEMPLO DE FLUJO MANUAL---------------------------------------------------------------
+                //response.sendRedirect("http://localhost:3000?token="+token+"&user="+user);
+                //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
+                response.sendRedirect(urlEnvio);
             } catch(Exception e) {
                 System.out.println("************cookie errorrrrrrrrrrrr");
                 try {

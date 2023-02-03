@@ -19,7 +19,7 @@ import java.io.PrintWriter;
 
 @Slf4j
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@WebServlet(urlPatterns = "/success")
+@WebServlet(urlPatterns = "/success2")
 public class SuccessServlet extends HttpServlet {
 
     Utilidades utl= new Utilidades();

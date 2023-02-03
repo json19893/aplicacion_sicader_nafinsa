@@ -27,20 +27,27 @@ public class ejemploLogout extends HttpServlet {
         HttpSession session=  request.getSession();
         try {
             //EJEMPLO DE FLUJO MANUAL---------------------------------------------------------------
-           // session.invalidate();
-           // Cookie[] cookies = request.getCookies();
-           // if (cookies != null)
-           //     for (Cookie cookie : cookies) {
-           //         cookie.setValue("");
-           //         cookie.setPath("/");
-           //         cookie.setMaxAge(0);
-           //         response.addCookie(cookie);
-           //     }
+            //System.out.println("************FLUJO MANUAL LOGOUT************************");
+            //session.invalidate();
+            //Cookie[] cookies = request.getCookies();
+            //if (cookies != null)
+            //    for (Cookie cookie : cookies) {
+            //        cookie.setValue("");
+            //        cookie.setPath("/");
+            //        cookie.setMaxAge(0);
+            //        response.addCookie(cookie);
+            //    }
+            //System.out.println("************FLUJO MANUAL LOGOUT************************");
             //EJEMPLO DE FLUJO MANUAL---------------------------------------------------------------
 
             //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
+            System.out.println("************FLUJO REAL LOGOUT************************");
             sso.removeJspAppCookies(request,response);
+            System.out.println("************FLUJO REAL LOGOUT:removeJspAppCookies************************");
             String logoutURL = sso.getSingleSignOffUrl(request);
+            System.out.println("************logoutURL:"+logoutURL);
+            System.out.println("************FLUJO REAL LOGOUT:getSingleSignOffUrl************************");
+            System.out.println("************FLUJO REAL LOGOUT************************");
             //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
             String scheme = request.getScheme();
             String serverName = request.getServerName();

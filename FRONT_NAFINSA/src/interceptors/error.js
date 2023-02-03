@@ -12,7 +12,7 @@ const errorInterceptor = () => {
             if(error.response.status === 403){
                 message.warning('La sesión ha expirado');
                 sessionStorage.clear();
-                window.location.href = "/sicader/login"
+                window.location.href = "https://webdes1s.nafin.com:443/sicader-api/ejemplo"
             }else{
                 return error;
             }

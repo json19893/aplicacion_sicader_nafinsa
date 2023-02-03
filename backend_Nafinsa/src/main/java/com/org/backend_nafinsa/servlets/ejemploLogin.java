@@ -38,7 +38,7 @@ public class ejemploLogin extends HttpServlet {
                 System.out.println("nombre cooki:"+cookies[i].getName());
                 System.out.println("************cookie");
             }
-            response.sendRedirect("/ejemploSuccess");
+            response.sendRedirect("/success");
         }
         System.out.println("******************************************************************");
         System.out.println("request.getContextPath():"+ request.getContextPath());
@@ -212,8 +212,10 @@ public class ejemploLogin extends HttpServlet {
         System.out.println("************POSTTTTTTTTTTTTTT*");
         String userName = req.getParameter("username");
         String pass = req.getParameter("password");
+        /*
         HttpSession session=  req.getSession();
         session.setAttribute("username", userName);
+         */
         //EJEMPLO DE FLUJO MANUAL---------------------------------------------------------------
         //Cookie cookie = new Cookie("SSSSSSSSS", "SS");
         //Cookie name = new Cookie("username", req.getParameter("username"));

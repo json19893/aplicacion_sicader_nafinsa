@@ -31,6 +31,10 @@ public class Seguridad  extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui/*").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/v2/**").permitAll()
+                .antMatchers("/ejemploLogout/**").permitAll()
+                .antMatchers("/ejemplo/**").permitAll()
+                .antMatchers("/ejemploSuccess/**").permitAll()
+                .antMatchers("/success/**").permitAll()
                 //.antMatchers("/**").permitAll()
                 .anyRequest().authenticated();
     }
