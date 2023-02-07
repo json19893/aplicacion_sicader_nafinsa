@@ -55,30 +55,35 @@ public class ejemploSuccess extends HttpServlet {
             System.out.println("valor sesion:"+ valor);
         }
         System.out.println("************Sesion**************************************************");
+        if (request.getParameter("urlc")== null){
+            System.out.println("************urlc:sin informacion");
+            try {
+                //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
+                sso.setPartnerAppCookie(request, response);
+                System.out.println("************urlc:sin informacion termino");
+                //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
+            } catch(Exception e) {
+                System.out.println("************cookie errorrrrrrrrrrrr");
+                System.out.println("************cookie errorrrrrrrrrrrr:"+e);
+            }
+        }else {
+            System.out.println("************urlc:con informacion");
+            String token = utl.getJWTToken(request.getParameter("usuario"));
+            System.out.println("************urlc:token:"+token);
+            String urlEnvio= "https://"+request.getServerName()+":/"+request.getServerPort()+"/sicader/login?token="+token+"&user="+user;
+            System.out.println("************urlc:urlEnvio:"+urlEnvio);
+            //EJEMPLO DE FLUJO MANUAL---------------------------------------------------------------
+            //response.sendRedirect("http://localhost:3000?token="+token+"&user="+user);
+            //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
+            response.sendRedirect(urlEnvio);
+        }
+
         if (cookies!= null){
             for (int i = 0; i < cookies.length; i++){
                 System.out.println("************cookie");
                 System.out.println("valor cooki:"+cookies[i].getValue());
                 System.out.println("nombre cooki:"+cookies[i].getName());
                 System.out.println("************cookie");
-            }
-            try {
-                //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
-                sso.setPartnerAppCookie(request, response);
-                //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
-                String token = utl.getJWTToken(request.getParameter("usuario"));
-                String urlEnvio= "https://"+request.getServerName()+":/"+request.getServerPort()+"/sicader/login?token="+token+"&user="+user;
-                //EJEMPLO DE FLUJO MANUAL---------------------------------------------------------------
-                //response.sendRedirect("http://localhost:3000?token="+token+"&user="+user);
-                //EJEMPLO DE FLUJO REAL---------------------------------------------------------------
-                response.sendRedirect(urlEnvio);
-            } catch(Exception e) {
-                System.out.println("************cookie errorrrrrrrrrrrr");
-                try {
-                    throw new Exception("El tiempo para indicar el usuario y contraseña ha sido excedido. Cierre esta ventanae intente nuevamente");
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
             }
 
         }
